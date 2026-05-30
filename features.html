@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>BasisVR – Features</title>
 
-    <meta name="description" content="Explore BasisVR’s current capabilities and roadmap: networking, avatars, SDKs, integrations, rendering, performance, devices, and more." />
+    <meta name="description" content="Explore BasisVR’s current capabilities and roadmap: networking, voice, avatars, interaction, worlds, SDKs, rendering, performance, devices, and more." />
     <meta property="og:title" content="BasisVR – Features" />
     <meta property="og:description" content="A modern overview of everything in BasisVR and what’s coming next." />
     <meta property="og:image" content="https://raw.githubusercontent.com/BasisVR/basisvr.github.io/main/Images/basisdiscord2.png" />
@@ -20,8 +20,7 @@
     <!-- Tailwind (CDN) -->
     <script src="https://cdn.tailwindcss.com/3.4.16"></script>
 
-    <!-- External config & theme -->
-    <script src="/tailwind-config.js"></script>
+    <!-- Theme (also provides the Tailwind CDN config) -->
     <script src="/theme.js" defer></script>
 
     <!-- Custom styles (no @apply so it works with CDN) -->
@@ -41,14 +40,6 @@
             background: rgba(255,255,255,0.06);
             box-shadow: 0 6px 24px rgba(0,0,0,0.25);
         }
-        /* Edge-to-edge mode (toggled) */
-        .layout-plain .section-card {
-            border: 0;
-            background: transparent;
-            box-shadow: none;
-            padding: 0;
-        }
-
         /* Chips & badges */
         .chip {
             white-space: nowrap;
@@ -334,20 +325,43 @@
             </div>
         </header>
 
+        <!-- Controls: status filter + search + layout toggle -->
+        <div class="mt-6 rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/[0.06] p-3 sm:p-4">
+            <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                <div class="flex flex-wrap items-center gap-2">
+                    <button type="button" class="chip active" data-status="all">All</button>
+                    <button type="button" class="chip" data-status="available">Available</button>
+                    <button type="button" class="chip" data-status="wip">In Progress</button>
+                    <button type="button" class="chip" data-status="planned">Planned</button>
+                    <button type="button" class="chip" data-status="addon">Add-on</button>
+                    <button type="button" class="chip" data-status="thirdparty">Third-Party</button>
+                </div>
+                <div class="flex flex-wrap items-center gap-3">
+                    <input id="search" type="search" placeholder="Search features…"
+                           class="w-full sm:w-60 rounded-xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/[0.06] px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-brand" />
+                    <span id="count" class="text-xs text-gray-500 whitespace-nowrap"></span>
+                </div>
+            </div>
+        </div>
+
         <!-- Main split layout -->
-        <div class="mt-10 grid gap-8 lg:grid-cols-[260px,1fr]">
+        <div class="mt-8 grid gap-8 lg:grid-cols-[260px,1fr]">
             <!-- Sticky Sidebar -->
             <aside class="lg:sticky lg:top-4 h-fit">
                 <nav class="rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/[0.06] p-3">
                     <p class="px-2 pb-2 text-[11px] uppercase tracking-wider text-gray-500 dark:text-gray-400">Sections</p>
                     <ol id="toc" class="space-y-1 text-sm">
-                        <li><a href="#networking" class="toc-link">Networking & Sync</a></li>
-                        <li><a href="#avatars" class="toc-link">Avatars & Animation</a></li>
-                        <li><a href="#worlds" class="toc-link">Worlds & Tools</a></li>
-                        <li><a href="#platforms" class="toc-link">Platforms & Devices</a></li>
-                        <li><a href="#rendering" class="toc-link">Rendering & Compatibility</a></li>
-                        <li><a href="#performance" class="toc-link">Performance</a></li>
-                        <li><a href="#build" class="toc-link">Build & Pipeline</a></li>
+                        <li><a href="#networking" class="toc-link">Networking &amp; Sync</a></li>
+                        <li><a href="#voice" class="toc-link">Voice &amp; Audio</a></li>
+                        <li><a href="#avatars" class="toc-link">Avatars &amp; Animation</a></li>
+                        <li><a href="#interaction" class="toc-link">Interaction &amp; Movement</a></li>
+                        <li><a href="#social" class="toc-link">Social &amp; UI</a></li>
+                        <li><a href="#worlds" class="toc-link">Worlds &amp; Creator Tools</a></li>
+                        <li><a href="#devices" class="toc-link">Devices</a></li>
+                        <li><a href="#rendering" class="toc-link">Rendering &amp; Compatibility</a></li>
+                        <li><a href="#performance" class="toc-link">Performance &amp; Safety</a></li>
+                        <li><a href="#build" class="toc-link">Build &amp; Pipeline</a></li>
+                        <li><a href="#thirdparty" class="toc-link">Third-Party &amp; Open Source</a></li>
                         <li><a href="#roadmap" class="toc-link">Roadmap</a></li>
                     </ol>
                 </nav>
@@ -374,16 +388,16 @@
                 <!-- Networking & Sync -->
                 <section id="networking" class="section-card">
                     <header class="flex items-center justify-between gap-4">
-                        <h2 class="text-2xl font-bold">Networking & Sync</h2>
+                        <h2 class="text-2xl font-bold">Networking &amp; Sync</h2>
                         <span class="badge">Core</span>
                     </header>
 
                     <ul class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                        <li class="card" data-status="available" data-tags="networking,sync,scalability,burst,multithreaded">
+                        <li class="card" data-status="available" data-tags="networking,sync,scalability,burst,multithreaded,litenetlib">
                             <div class="icn">🌐</div>
                             <h3 class="mt-3 font-semibold">Networking Layer <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                                Battle-tested to the <strong>hundreds of concurrent users</strong>, with heavy Burst + multithreaded optimizations.
+                                Proven into the <strong>thousands of concurrent users</strong>, with heavy Burst + multithreaded optimization throughout.
                             </p>
                         </li>
 
@@ -405,148 +419,467 @@
                             </p>
                         </li>
 
-                        <!-- Updated: Object Sync (In Progress) -->
-                        <li class="card" data-status="in-progress" data-tags="objects,sync,ownership,replication">
+                        <li class="card" data-status="wip" data-tags="objects,sync,ownership,replication,props,pickups,seats">
                             <div class="icn">🧱</div>
-                            <h3 class="mt-3 font-semibold">Object Sync <em class="status in-progress">In Progress</em></h3>
+                            <h3 class="mt-3 font-semibold">Object Sync <em class="status wip">In Progress</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                                Currently supports <strong>ownership replication &amp; synchronization</strong> for props and scene objects.
+                                <strong>Ownership replication &amp; transform sync</strong> for props, physics pickups, and seats, with more object types landing over time.
                             </p>
                         </li>
 
-                        <!-- Flexible Hosting (Available) -->
-                        <li class="card" data-status="available" data-tags="hosting,server,client-hosted,.net,dedicated">
+                        <li class="card" data-status="available" data-tags="p2p,peer-to-peer,nat,hole-punching,direct,latency">
+                            <div class="icn">🤝</div>
+                            <h3 class="mt-3 font-semibold">Peer-to-Peer + NAT Traversal <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Direct peer links for low-latency data and voice, with automatic NAT hole-punching (including port-prediction spray for hard/symmetric NATs).
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="security,encryption,chacha20,poly1305,transport,privacy">
+                            <div class="icn">🔐</div>
+                            <h3 class="mt-3 font-semibold">Encrypted Transport <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                ChaCha20-Poly1305 encryption on peer-to-peer / direct-connect links keeps that traffic private.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="compression,bandwidth,lz4,deflate,optimization">
+                            <div class="icn">🗜️</div>
+                            <h3 class="mt-3 font-semibold">Network Compression <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                LZ4 and Deflate compression across avatar bundles and data channels trims bandwidth at scale.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="hosting,server,client-hosted,.net,dedicated,cross-platform">
                             <div class="icn">🖥️</div>
                             <h3 class="mt-3 font-semibold">Flexible Hosting <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
                                 Host directly from the client for quick sessions, or run your own dedicated server.
-                                The dedicated server is a cross-platform <strong>.NET</strong> app.
+                                The dedicated server is a cross-platform <strong>.NET</strong> app with a first-boot setup wizard.
                             </p>
                         </li>
 
-                        <!-- QUIC Transport (Planned) -->
-                        <li class="card" data-status="planned" data-tags="quic,transport,latency,security,http3">
-                            <div class="icn">⚡</div>
-                            <h3 class="mt-3 font-semibold">QUIC Transport <em class="status planned">Planned</em></h3>
+                        <li class="card" data-status="available" data-tags="moderation,admin,permissions,kick,block,shout,server">
+                            <div class="icn">🛡️</div>
+                            <h3 class="mt-3 font-semibold">Server Admin &amp; Moderation <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                                Upcoming QUIC (HTTP/3) networking for lower latency, improved congestion control, seamless connection
-                                migration, and TLS 1.3 by default.
+                                UUID-based admin/permission groups, kick &amp; temp-block controls, and server-driven shout broadcasts.
                             </p>
                         </li>
 
-                        <!-- Open Networking Spec (Planned) -->
-                        <li class="card" data-status="planned" data-tags="open-standard,protocol,interop,community">
-                            <div class="icn">🔗</div>
-                            <h3 class="mt-3 font-semibold">Open Networking Spec <em class="status planned">Planned</em></h3>
+                        <li class="card" data-status="available" data-tags="crash,error,reporting,diagnostics,opt-in,telemetry">
+                            <div class="icn">🐞</div>
+                            <h3 class="mt-3 font-semibold">Crash &amp; Error Reporting <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                                The networking protocol will be published as an <strong>open standard</strong> to enable interoperability,
-                                community review, and third-party implementations.
+                                Opt-in client error reports relay to the server (compressed) for diagnostics — off until a server enables it.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="transport,backends,pluggable,litenetlib,modular,netcode">
+                            <div class="icn">🔌</div>
+                            <h3 class="mt-3 font-semibold">Swappable Network Backends <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                The transport layer is pluggable: the default is reliable-UDP (LiteNetLib), and alternate backends can be registered without touching game code.
                             </p>
                         </li>
                     </ul>
                 </section>
+
+                <!-- Voice & Audio -->
+                <section id="voice" class="section-card">
+                    <header class="flex items-center justify-between gap-4">
+                        <h2 class="text-2xl font-bold">Voice &amp; Audio</h2>
+                        <span class="badge">Core</span>
+                    </header>
+
+                    <ul class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                        <li class="card" data-status="available" data-tags="voice,opus,codec,fec,jitter,packet loss,microphone">
+                            <div class="icn">🎙️</div>
+                            <h3 class="mt-3 font-semibold">Opus Voice Chat <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Real-time voice over <strong>Opus</strong> (48&nbsp;kHz) with forward error correction; a jitter buffer and packet-loss concealment keep speech smooth on lossy links.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="noise suppression,rnnoise,denoise,microphone,neural">
+                            <div class="icn">🔇</div>
+                            <h3 class="mt-3 font-semibold">Noise Suppression <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                A neural <strong>RNNoise</strong> gate strips background noise from your mic before it ever leaves your machine.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="microphone,agc,noise gate,vad,limiter,processing">
+                            <div class="icn">🎚️</div>
+                            <h3 class="mt-3 font-semibold">Mic Processing Suite <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Automatic gain control, noise gate, voice-activity detection, and an input limiter — each tunable in settings, with device selection.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="spatial,3d audio,proximity,positional,falloff">
+                            <div class="icn">🧭</div>
+                            <h3 class="mt-3 font-semibold">Spatialized 3D Voice <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Each speaker's voice plays from their mouth with distance attenuation and falloff for natural proximity chat.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="talk modes,whisper,shout,private,direct,broadcast">
+                            <div class="icn">🗣️</div>
+                            <h3 class="mt-3 font-semibold">Talk Modes <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Normal proximity chat plus targeted, private-group, P2P-direct, and admin <strong>shout</strong> (non-spatial broadcast) modes.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="volume,mute,block,per-player,audio">
+                            <div class="icn">🔊</div>
+                            <h3 class="mt-3 font-semibold">Per-Player Volume &amp; Mute <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Adjust or mute any player individually; a personal block list silences someone entirely.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="audiolink,audio-reactive,shaders,visuals,integration">
+                            <div class="icn">🎵</div>
+                            <h3 class="mt-3 font-semibold">AudioLink <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Audio-reactive data for shaders (AudioLink) that survives Desktop/VR mode switches, for reactive worlds and avatars.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="addon" data-tags="steam audio,hrtf,spatial,occlusion,reflections,optional">
+                            <div class="icn">🌐</div>
+                            <h3 class="mt-3 font-semibold">Steam Audio <em class="status addon">Add-on</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Steam Audio is bundled for advanced HRTF, occlusion, and reflection spatialization when a world or avatar opts in.
+                            </p>
+                        </li>
+                    </ul>
+                </section>
+
                 <!-- Avatars & Animation -->
                 <section id="avatars" class="section-card">
                     <header class="flex items-center justify-between gap-4">
-                        <h2 class="text-2xl font-bold">Avatars & Animation</h2>
+                        <h2 class="text-2xl font-bold">Avatars &amp; Animation</h2>
                         <span class="badge">Core</span>
                     </header>
 
                     <ul class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                         <li class="card" data-status="available" data-tags="avatars,customization,sdk,upload">
                             <div class="icn">🧩</div>
-                            <h3 class="mt-3 font-semibold">
-                                Custom Avatars <em class="status available">Available</em>
-                            </h3>
+                            <h3 class="mt-3 font-semibold">Custom Avatars <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                                Bring your own avatars with streamlined <strong>build</strong> and hooks for uploading, plus a flexible avatar SDK.
+                                Bring your own avatars with a streamlined <strong>build</strong>, upload hooks, and a flexible avatar SDK.
                             </p>
                         </li>
 
                         <li class="card" data-status="available" data-tags="ik,animation,burst,full body">
                             <div class="icn">🦵</div>
-                            <h3 class="mt-3 font-semibold">
-                                Full-Body IK (Burst) <em class="status available">Available</em>
-                            </h3>
+                            <h3 class="mt-3 font-semibold">Full-Body IK (Burst) <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                                Custom fullbody IK compiled with Burst for VR grade performance.
+                                Custom full-body IK compiled with Burst for VR-grade performance.
                             </p>
                         </li>
 
-                        <li class="card" data-status="available" data-tags="animation,avatars,viseme,blink,facial">
-                            <div class="icn">🎤</div>
-                            <h3 class="mt-3 font-semibold">
-                                Visemes & Blinking <em class="status available">Available</em>
-                            </h3>
+                        <li class="card" data-status="available" data-tags="lip sync,visemes,openlipsync,onnx,neural,mpeg-4">
+                            <div class="icn">🗣️</div>
+                            <h3 class="mt-3 font-semibold">Neural Lip Sync <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                                Builtin viseme system and blinking for expressive faces.
+                                OpenLipSync runs an <strong>ONNX neural network</strong> to drive 15 MPEG-4 visemes straight from voice, with pooled inference that scales to large lobbies.
                             </p>
                         </li>
 
-                        <li class="card" data-status="available" data-tags="animation,driver,eyes">
+                        <li class="card" data-status="available" data-tags="blink,facial,simulation,eyes,expressions">
+                            <div class="icn">😉</div>
+                            <h3 class="mt-3 font-semibold">Auto Blink &amp; Facial Sim <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Automatic blinking and facial simulation for lifelike faces, with overrides when real face-tracking is present.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="eyes,gaze,saccades,social,driver,eye tracking">
                             <div class="icn">👀</div>
-                            <h3 class="mt-3 font-semibold">
-                                Avatar Eye Driver (Fake) <em class="status available">Available</em>
-                            </h3>
+                            <h3 class="mt-3 font-semibold">Eye Driver &amp; Social Gaze <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                                Simulated (fake) eye movement with saccades-style motion, targeting hints, and smooth tracking integrated with the animation stack.
+                                Procedural eye motion with saccades, smooth pursuit, and physiology-based social gaze toward others — with overrides for real eye-tracking input.
                             </p>
                         </li>
 
                         <li class="card" data-status="available" data-tags="hands,fingers,animation,driver">
                             <div class="icn">🤲</div>
-                            <h3 class="mt-3 font-semibold">
-                                Hand/Finger Driver <em class="status available">Available</em>
-                            </h3>
+                            <h3 class="mt-3 font-semibold">Hand/Finger Driver <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
                                 Per-finger poses and gestures for natural presence.
                             </p>
                         </li>
 
-                        <li class="card" data-status="available" data-tags="secondary motion,physics,jiggle">
+                        <li class="card" data-status="available" data-tags="secondary motion,physics,jiggle,jobs,burst">
                             <div class="icn">🪗</div>
-                            <h3 class="mt-3 font-semibold">
-                                Jiggle System (Interactive) <em class="status available">Available</em>
-                            </h3>
+                            <h3 class="mt-3 font-semibold">Jiggle Physics (Interactive) <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                                Jiggle physics with interactions.
+                                Jobs-based squash-and-stretch jiggle physics with interaction support.
                             </p>
                         </li>
 
-                        <li class="card" data-status="available" data-tags="animation,driver,avatars">
+                        <li class="card" data-status="available" data-tags="animation,driver,avatars,blends,state">
                             <div class="icn">🎛️</div>
-                            <h3 class="mt-3 font-semibold">
-                                Animation Driver <em class="status available">Available</em>
-                            </h3>
+                            <h3 class="mt-3 font-semibold">Animation Driver <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
                                 Centralized animation driver for consistent blends and state.
                             </p>
                         </li>
 
-                        <!-- NEW: Avatar Pedestals -->
+                        <li class="card" data-status="available" data-tags="foot,ik,locomotion,placement,terrain">
+                            <div class="icn">🦶</div>
+                            <h3 class="mt-3 font-semibold">Foot Placement IK <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Procedural foot planting on uneven ground for natural stance and stride.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="height,scale,calibration,proportions">
+                            <div class="icn">📐</div>
+                            <h3 class="mt-3 font-semibold">Height &amp; Scale Calibration <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Automatic avatar height and scale calibration to match your real-world proportions.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="full body tracking,fbt,trackers,calibration,constellation,steamvr">
+                            <div class="icn">🎯</div>
+                            <h3 class="mt-3 font-semibold">Full-Body Tracker Calibration <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Guided multi-stage calibration for SteamVR trackers and constellation setups, including tracker pairing.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="blendshapes,morphs,sync,expressions,network">
+                            <div class="icn">😶</div>
+                            <h3 class="mt-3 font-semibold">Blendshape Sync <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Networked blendshapes so custom expressions and morphs replicate to everyone, with packed encoding for bandwidth.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="motion recording,mocap,playback,capture,tooling">
+                            <div class="icn">🎥</div>
+                            <h3 class="mt-3 font-semibold">Motion Recording <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Record full-body motion (pose, muscles, scale) to file for playback and analysis.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="face tracking,eye tracking,comms,arkit,unified expressions,osc,hvr">
+                            <div class="icn">😀</div>
+                            <h3 class="mt-3 font-semibold">Face &amp; Eye Tracking Comms <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                HVR Comms relays eye and face-tracking data (ARKit / Unified Expressions) to remote players over the avatar protocol.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="webcam,mediapipe,tracking,face,body,hands,gaze,blendshapes">
+                            <div class="icn">📷</div>
+                            <h3 class="mt-3 font-semibold">Webcam Face &amp; Body Tracking <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                MediaPipe-driven webcam tracking feeds head/face, hand/finger pose, gaze, and ARKit-style blendshapes as synthetic trackers (requires the MediaPipe plugin). Arm tracking is still in progress.
+                            </p>
+                        </li>
+
                         <li class="card" data-status="available" data-tags="avatars,ui,pedestals,selector,showcase">
                             <div class="icn">🗿</div>
-                            <h3 class="mt-3 font-semibold">
-                                Avatar Pedestals <em class="status available">Available</em>
-                            </h3>
+                            <h3 class="mt-3 font-semibold">Avatar Pedestals <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                                Interactive pedestals for showcasing and selecting avatars supports spawn/preview
+                                Interactive pedestals for showcasing and selecting avatars, with spawn/preview support.
                             </p>
                         </li>
                     </ul>
                 </section>
 
+                <!-- Interaction & Movement -->
+                <section id="interaction" class="section-card">
+                    <header class="flex items-center justify-between gap-4">
+                        <h2 class="text-2xl font-bold">Interaction &amp; Movement</h2>
+                        <span class="badge">Gameplay</span>
+                    </header>
 
-                <!-- Worlds & Tools -->
+                    <ul class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                        <li class="card" data-status="wip" data-tags="locomotion,walk,fly,no-clip,movement,crouch">
+                            <div class="icn">🚶</div>
+                            <h3 class="mt-3 font-semibold">Locomotion Modes <em class="status wip">In Progress</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Walk, fly, and no-clip movement with smooth transitions, plus crouch/stance blending.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="controller,character,movement,responsive">
+                            <div class="icn">🏃</div>
+                            <h3 class="mt-3 font-semibold">Fast Character Controller <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Responsive movement tuned for social VR and dense sessions.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="pickup,grab,physics,joints,constraints,interactables">
+                            <div class="icn">✋</div>
+                            <h3 class="mt-3 font-semibold">Physics Pickups &amp; Grabbing <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Grab, throw, and manipulate props with physics joints, parent constraints, and highlight feedback.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="seat,sitting,networked,pose">
+                            <div class="icn">🪑</div>
+                            <h3 class="mt-3 font-semibold">Seating &amp; Sitting <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Sit on interactive seats with networked, synchronized pose.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="addon" data-tags="snap,knob,lever,switch,detent,interactables,controls">
+                            <div class="icn">🎚️</div>
+                            <h3 class="mt-3 font-semibold">Snap Controls <em class="status addon">Add-on</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Rotary knobs, levers, and switches that snap to detents and fire per-position events — grab, laser, or desktop input.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="vehicles,physics,driving,seats,wheels,thrusters,networked">
+                            <div class="icn">🚗</div>
+                            <h3 class="mt-3 font-semibold">Vehicles <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                A general-purpose, physics-based vehicle system with seats, wheels/thrusters, engine audio, and networked replication.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="camera,photo,depth of field,360,stereo,pip,streaming">
+                            <div class="icn">📸</div>
+                            <h3 class="mt-3 font-semibold">Hand-Held Camera <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                A grabbable in-world camera with photo capture, depth-of-field, 360° stereo capture, and picture-in-picture network streaming.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="addon" data-tags="prop,game,pool,billiards">
+                            <div class="icn">🎱</div>
+                            <h3 class="mt-3 font-semibold">Pool Table (Ported) <em class="status addon">Add-on</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                A full multiplayer billiards table — great for social hubs and demos.
+                            </p>
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- Social & UI -->
+                <section id="social" class="section-card">
+                    <header class="flex items-center justify-between gap-4">
+                        <h2 class="text-2xl font-bold">Social &amp; UI</h2>
+                        <span class="badge">Social</span>
+                    </header>
+
+                    <ul class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                        <li class="card" data-status="available" data-tags="nameplates,chat bubble,typing,speaking,ui">
+                            <div class="icn">🏷️</div>
+                            <h3 class="mt-3 font-semibold">Nameplates <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                3D nameplates with speaking indicator, chat bubbles, and typing status above each avatar — baked and amortized for big lobbies.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="text chat,messages,typing,history,communication">
+                            <div class="icn">💬</div>
+                            <h3 class="mt-3 font-semibold">Text Chat <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Networked text chat with typing indicators and history.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="keyboard,virtual,text input,vr,layouts,mobile">
+                            <div class="icn">⌨️</div>
+                            <h3 class="mt-3 font-semibold">Virtual Keyboard <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                An in-world keyboard for VR text entry with customizable layouts; desktop and mobile hardware keyboards are supported too.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="player list,users,roster,mute,interact">
+                            <div class="icn">👥</div>
+                            <h3 class="mt-3 font-semibold">Player List <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                See everyone in the instance and act on them — mute, set volume, or block.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="mute,block,moderation,temp-block,safety">
+                            <div class="icn">🔕</div>
+                            <h3 class="mt-3 font-semibold">Mute, Block &amp; Moderation <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Per-player mute/volume, a personal block list, and moderator temp-block controls.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="notifications,toast,alerts,join,leave">
+                            <div class="icn">🔔</div>
+                            <h3 class="mt-3 font-semibold">Notifications <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                An in-app notification center for joins, leaves, and system events.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="settings,ux,players,live-apply">
+                            <div class="icn">⚙️</div>
+                            <h3 class="mt-3 font-semibold">Easy Settings System <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Player-friendly settings with sensible defaults that apply live as you change them.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="localization,language,cjk,font fallback,i18n,accessibility">
+                            <div class="icn">🌍</div>
+                            <h3 class="mt-3 font-semibold">Localization &amp; Font Fallback <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Built-in UI localization with automatic CJK font fallback for Japanese, Chinese, and Korean text.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="url,deep link,prompt,safety,web">
+                            <div class="icn">🔗</div>
+                            <h3 class="mt-3 font-semibold">Deep Link / URL Prompts <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Safe in-world prompts before opening external URLs and deep links.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="ui,programmatic,code,api,panels">
+                            <div class="icn">🔧</div>
+                            <h3 class="mt-3 font-semibold">Programmatic UI <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Build and drive in-world UI from code for fully custom interfaces.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="wip" data-tags="ui,panel,spawner,system">
+                            <div class="icn">🪟</div>
+                            <h3 class="mt-3 font-semibold">Panel UI System <em class="status wip">In Progress</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Spawn panels and manage in-world UI workflows.
+                            </p>
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- Worlds & Creator Tools -->
                 <section id="worlds" class="section-card">
                     <header class="flex items-center justify-between gap-4">
-                        <h2 class="text-2xl font-bold">Worlds & Tools</h2>
+                        <h2 class="text-2xl font-bold">Worlds &amp; Creator Tools</h2>
                         <span class="badge">Creator</span>
                     </header>
                     <ul class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                        <li class="card" data-status="available" data-tags="sdk,worlds,props,developers">
+                        <li class="card" data-status="available" data-tags="sdk,worlds,props,avatars,developers">
                             <div class="icn">🧰</div>
-                            <h3 class="mt-3 font-semibold">SDK for Avatars, Worlds & Props <em class="status available">Available</em></h3>
+                            <h3 class="mt-3 font-semibold">SDK for Avatars, Worlds &amp; Props <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Extend BasisVR with samples, components, and hooks.</p>
                         </li>
                         <li class="card" data-status="available" data-tags="mirrors,debug,avatars">
@@ -554,125 +887,121 @@
                             <h3 class="mt-3 font-semibold">Mirrors <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Configurable mirrors for setup, debugging, and social spaces.</p>
                         </li>
-                        <li class="card" data-status="available" data-tags="gizmos,scene,tools">
+                        <li class="card" data-status="available" data-tags="gizmos,scene,tools,debug">
                             <div class="icn">🧭</div>
                             <h3 class="mt-3 font-semibold">World-Space Gizmos <em class="status available">Available</em></h3>
-                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Direct transform gizmos in world space for fast iteration.</p>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Direct transform gizmos and debug primitives in world space for fast iteration.</p>
                         </li>
-                        <li class="card" data-status="available" data-tags="bundles,build,content">
+                        <li class="card" data-status="available" data-tags="bundles,build,content,loading">
                             <div class="icn">📦</div>
                             <h3 class="mt-3 font-semibold">Bundle Management <em class="status available">Available</em></h3>
-                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Organize, package, and load content bundles.</p>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Organize, package, and load/unload content bundles.</p>
                         </li>
-                        <li class="card" data-status="available" data-tags="console,debug,tools">
+                        <li class="card" data-status="available" data-tags="video,media player,rtsp,rtmp,hardware decode,streaming">
+                            <div class="icn">🎬</div>
+                            <h3 class="mt-3 font-semibold">Live Video Player <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Hardware-decoded live video (RTSP/RTMP/MPEG-TS/fMP4) straight into a zero-copy GPU texture via OS codecs — no transcode server. Windows, Android, and Linux backends today.
+                            </p>
+                        </li>
+                        <li class="card" data-status="available" data-tags="cilbox,sandbox,scripting,security,cil,untrusted">
+                            <div class="icn">🧪</div>
+                            <h3 class="mt-3 font-semibold">Sandboxed Scripting (CILBox) <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                A CIL (C#) interpreter sandbox runs untrusted world/avatar/prop scripts behind a whitelisted API, so community content can ship logic safely.
+                            </p>
+                        </li>
+                        <li class="card" data-status="available" data-tags="console,debug,tools,diagnostics">
                             <div class="icn">🖥️</div>
                             <h3 class="mt-3 font-semibold">Custom Console Display <em class="status available">Available</em></h3>
-                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">In-app diagnostics & developer tooling.</p>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">In-app diagnostics &amp; developer tooling.</p>
                         </li>
-                        <li class="card" data-status="wip" data-tags="ui,panel,spawner,system">
-                            <div class="icn">🪟</div>
-                            <h3 class="mt-3 font-semibold">Panel-Based UI System <em class="status wip">WIP</em></h3>
-                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Spawn panels and manage UI workflows.</p>
-                        </li>
-                        <li class="card" data-status="available" data-tags="settings,ux,players">
-                            <div class="icn">⚙️</div>
-                            <h3 class="mt-3 font-semibold">Easy Settings System <em class="status available">Available</em></h3>
-                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Player-friendly settings with sensible defaults.</p>
-                        </li>
-                        <li class="card" data-status="addon" data-tags="prop,game,pool">
-                            <div class="icn">🎱</div>
-                            <h3 class="mt-3 font-semibold">Pool Table (Ported) <em class="status addon">Add-on</em></h3>
-                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Great for social hubs and demos.</p>
+                        <li class="card" data-status="available" data-tags="audiolink,audio-reactive,worlds,shaders">
+                            <div class="icn">🎆</div>
+                            <h3 class="mt-3 font-semibold">Audio-Reactive Worlds <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">AudioLink integration lets world and avatar shaders react to music and voice.</p>
                         </li>
                     </ul>
                 </section>
-                <!-- Platforms & Devices -->
-                <section id="platforms" class="section-card">
+
+                <!-- Devices -->
+                <section id="devices" class="section-card">
                     <header class="flex items-center justify-between gap-4">
-                        <h2 class="text-2xl font-bold">Platforms &amp; Devices</h2>
+                        <h2 class="text-2xl font-bold">Devices</h2>
                         <span class="badge">Runtime</span>
                     </header>
 
                     <ul class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                        <!-- Runtime / Mode Hot-Switching -->
                         <li class="card" data-status="available" data-tags="runtime,vr,desktop,hot swap,mode switch,on-the-fly">
                             <div class="icn">🔥</div>
-                            <h3 class="mt-3 font-semibold">
-                                Runtime Hot-Switching
-                                <em class="status available">Available</em>
-                            </h3>
+                            <h3 class="mt-3 font-semibold">Runtime Hot-Switching <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                                Instantly hot-switch between Desktop and VR without needing to restart.
+                                Instantly hot-switch between Desktop and VR without restarting.
                             </p>
                         </li>
 
-                        <!-- SteamVR -->
-                        <li class="card" data-status="available" data-tags="steamvr,pcvr,integration">
+                        <li class="card" data-status="available" data-tags="steamvr,openvr,pcvr,integration">
                             <div class="icn">🕹️</div>
-                            <h3 class="mt-3 font-semibold">
-                                SteamVR Integration
-                                <em class="status available">Available</em>
-                            </h3>
+                            <h3 class="mt-3 font-semibold">SteamVR / OpenVR <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
                                 PCVR devices and runtimes supported.
                             </p>
                         </li>
 
-                        <!-- OpenXR -->
                         <li class="card" data-status="available" data-tags="openxr,standard,integration">
                             <div class="icn">🧩</div>
-                            <h3 class="mt-3 font-semibold">
-                                OpenXR Integration
-                                <em class="status available">Available</em>
-                            </h3>
+                            <h3 class="mt-3 font-semibold">OpenXR <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                                Modern XR standard for broad device compatibility.
+                                The modern XR standard for broad device compatibility.
                             </p>
                         </li>
 
-                        <!-- Android Builds -->
-                        <li class="card" data-status="available" data-tags="android,standalone,builds">
+                        <li class="card" data-status="available" data-tags="android,standalone,builds,quest">
                             <div class="icn">🤖</div>
-                            <h3 class="mt-3 font-semibold">
-                                Android Builds
-                                <em class="status available">Available</em>
-                            </h3>
+                            <h3 class="mt-3 font-semibold">Android / Standalone <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                                Standalone build pipeline for mobile/standalone headsets.
+                                A standalone build pipeline for mobile/standalone headsets such as Quest.
                             </p>
                         </li>
 
-                        <!-- Device Management System -->
+                        <li class="card" data-status="available" data-tags="windows,linux,desktop,cross-platform">
+                            <div class="icn">🐧</div>
+                            <h3 class="mt-3 font-semibold">Windows &amp; Linux Desktop <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Desktop clients build for both Windows and Linux.
+                            </p>
+                        </li>
+
                         <li class="card" data-status="available" data-tags="devices,management,enumeration,status,drivers,controls">
-                            <div class="icn">🧩</div>
-                            <h3 class="mt-3 font-semibold">
-                                Device Management System
-                                <em class="status available">Available</em>
-                            </h3>
+                            <div class="icn">🧰</div>
+                            <h3 class="mt-3 font-semibold">Device Management System <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
                                 OS-style device management: enumerate hardware, enable/disable, and apply per-device control mappings.
                             </p>
                         </li>
 
-                        <!-- Face & Eye Tracking (3rd-Party) -->
-                        <li class="card" data-status="addon" data-tags="facetracking,eye tracking,addons">
-                            <div class="icn">👁️</div>
-                            <h3 class="mt-3 font-semibold">
-                                Face &amp; Eye Tracking (3rd-Party)
-                                <em class="status addon">Add-on</em>
-                            </h3>
+                        <li class="card" data-status="available" data-tags="trackers,steamvr,full body,pucks,visual,models">
+                            <div class="icn">🎯</div>
+                            <h3 class="mt-3 font-semibold">Full-Body Trackers <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                                Integrations supported by the avatar driver stack.
+                                SteamVR tracker support with visual tracker models and a fallback display when pucks aren't present.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="addon" data-tags="facetracking,eye tracking,addons,hardware">
+                            <div class="icn">👁️</div>
+                            <h3 class="mt-3 font-semibold">Face &amp; Eye Tracking (3rd-Party) <em class="status addon">Add-on</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Hardware face/eye-tracking integrations supported by the avatar driver stack.
                             </p>
                         </li>
                     </ul>
                 </section>
 
-
                 <!-- Rendering & Compatibility -->
                 <section id="rendering" class="section-card">
                     <header class="flex items-center justify-between gap-4">
-                        <h2 class="text-2xl font-bold">Rendering & Compatibility</h2>
+                        <h2 class="text-2xl font-bold">Rendering &amp; Compatibility</h2>
                         <span class="badge">Graphics</span>
                     </header>
                     <ul class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -685,30 +1014,36 @@
                             <div class="icn">🔀</div>
                             <h3 class="mt-3 font-semibold">Swappable Render Pipeline <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                                Almost some work involved, but it should all work once APIs are converted over to HDRP or Built-in RP.
+                                Some work involved, but it should all come together once APIs are converted over to HDRP or the Built-in RP.
                             </p>
+                        </li>
+                        <li class="card" data-status="available" data-tags="fog,volumetric,urp,lighting,shadows,cookies">
+                            <div class="icn">🌫️</div>
+                            <h3 class="mt-3 font-semibold">Volumetric Fog <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">URP volumetric fog with per-light scattering, shadows, and cookies; render-graph ready on Unity 6.</p>
+                        </li>
+                        <li class="card" data-status="available" data-tags="shaders,prewarm,fallback,hitches,materials">
+                            <div class="icn">🎛️</div>
+                            <h3 class="mt-3 font-semibold">Shader Prewarm &amp; Fallback <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Optional shader prewarming reduces in-world hitches; fallback correction keeps materials valid across render-API swaps.</p>
                         </li>
                         <li class="card" data-status="available" data-tags="unity,versions,compatibility,bleeding edge,lts">
                             <div class="icn">🧪</div>
                             <h3 class="mt-3 font-semibold">Bleeding-Edge Ready <em class="status available">Available</em></h3>
-                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Designed to track the latest Unity releases while <strong>mostly supporting older versions</strong> (focus on unity 6.2).</p>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Designed to track the latest Unity releases while <strong>mostly supporting older versions</strong> (focused on Unity 6.4).</p>
                         </li>
-                        <li class="card" data-status="available" data-tags="performance,efficiency,burst,ecs,optimization">
+                        <li class="card" data-status="available" data-tags="performance,efficiency,burst,jobs,optimization">
                             <div class="icn">🧠</div>
                             <h3 class="mt-3 font-semibold">Efficiency-First Systems <em class="status available">Available</em></h3>
-                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">We prioritize extremely efficient systems everywhere, profiling-driven, Burst-enabled, concurrency aware.</p>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">We prioritize extremely efficient systems everywhere — profiling-driven, Burst-enabled, and concurrency-aware.</p>
                         </li>
-
-                        <!-- NEW: Planned VR-optimized URP renderer -->
-                        <li class="card" data-status="planned" data-tags="urp,vr,renderer,performance,bug fixes,custom pipeline">
+                        <li class="card" data-status="available" data-tags="urp,vr,renderer,performance,bug fixes,custom pipeline">
                             <div class="icn">🥽</div>
-                            <h3 class="mt-3 font-semibold">VR-Optimized URP Renderer <em class="status planned">Planned</em></h3>
+                            <h3 class="mt-3 font-semibold">VR-Optimized URP Renderer <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                                A customized URP tailored for VR that tackles long-standing URP issues and major perf hotspots
-                                (render passes, culling, SRP Batcher, async upload, FFR paths) for stable high FPS.
+                                We've optimized the renderer for VR.
                             </p>
                         </li>
-
                         <li class="card" data-status="planned" data-tags="validation,upgrade guides,compatibility docs">
                             <div class="icn">📚</div>
                             <h3 class="mt-3 font-semibold">Version Compatibility Guides <em class="status planned">Planned</em></h3>
@@ -717,27 +1052,42 @@
                     </ul>
                 </section>
 
-                <!-- Performance -->
+                <!-- Performance & Safety -->
                 <section id="performance" class="section-card">
                     <header class="flex items-center justify-between gap-4">
-                        <h2 class="text-2xl font-bold">Performance</h2>
+                        <h2 class="text-2xl font-bold">Performance &amp; Safety</h2>
                         <span class="badge">Speed</span>
                     </header>
                     <ul class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                        <li class="card" data-status="available" data-tags="controller,character,movement">
-                            <div class="icn">🏃</div>
-                            <h3 class="mt-3 font-semibold">Fast Character Controller <em class="status available">Available</em></h3>
-                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Responsive movement tuned for social VR and dense sessions.</p>
-                        </li>
-                        <li class="card" data-status="available" data-tags="performance,burst,multithreaded,optimizations">
+                        <li class="card" data-status="available" data-tags="performance,burst,multithreaded,optimizations,jobs">
                             <div class="icn">⚡</div>
                             <h3 class="mt-3 font-semibold">Engine Optimizations <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Hot paths rewritten with Burst and parallel patterns for high player counts.</p>
                         </li>
-                        <li class="card" data-status="available" data-tags="tests,ci,automation,performance">
+                        <li class="card" data-status="available" data-tags="safety,performance limits,polys,bones,materials,content police">
+                            <div class="icn">🛡️</div>
+                            <h3 class="mt-3 font-semibold">Avatar Performance Limits <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Client-side hard-block (pre-load) and soft-trim (post-load) caps on polys, bones, materials, lights, particles, colliders, and jiggle rigs.</p>
+                        </li>
+                        <li class="card" data-status="available" data-tags="lod,distance,reduction,optimization,scaling">
+                            <div class="icn">📉</div>
+                            <h3 class="mt-3 font-semibold">Distance-Based Reductions <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Automatic quality and update-rate reductions for distant avatars and objects.</p>
+                        </li>
+                        <li class="card" data-status="available" data-tags="compression,quantization,blendshape packing,bandwidth">
+                            <div class="icn">🗜️</div>
+                            <h3 class="mt-3 font-semibold">Avatar State Compression <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Quantized transforms and packed blendshapes shrink per-avatar bandwidth at scale.</p>
+                        </li>
+                        <li class="card" data-status="available" data-tags="profiler,monitoring,network,diagnostics,in-app">
+                            <div class="icn">📈</div>
+                            <h3 class="mt-3 font-semibold">In-App Profiler <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Built-in profiler modules (network, event driver, direct connections) for live performance insight.</p>
+                        </li>
+                        <li class="card" data-status="available" data-tags="tests,ci,automation,performance,regressions">
                             <div class="icn">🧪</div>
                             <h3 class="mt-3 font-semibold">Weekly Tests <em class="status available">Available</em></h3>
-                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Weekly tests allow us to verify new features and validate performance to catch regressions before they hit LTS.</p>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Weekly tests verify new features and validate performance to catch regressions before they hit LTS.</p>
                         </li>
                     </ul>
                 </section>
@@ -745,57 +1095,178 @@
                 <!-- Build & Pipeline -->
                 <section id="build" class="section-card">
                     <header class="flex items-center justify-between gap-4">
-                        <h2 class="text-2xl font-bold">Build & Pipeline</h2>
+                        <h2 class="text-2xl font-bold">Build &amp; Pipeline</h2>
                         <span class="badge">Creator</span>
                     </header>
 
                     <ul class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                        <!-- Existing -->
                         <li class="card" data-status="available" data-tags="upload,build,pipeline">
                             <div class="icn">🚀</div>
-                            <h3 class="mt-3 font-semibold">
-                                Upload &amp; Build Process
-                                <em class="status available">Available</em>
-                            </h3>
+                            <h3 class="mt-3 font-semibold">Upload &amp; Build Process <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
                                 Straightforward content builds for creators.
                             </p>
                         </li>
 
-                        <!-- NEW: Build Size & Asset Stats -->
-                        <li class="card" data-status="available" data-tags="build,stats,analysis,assets">
+                        <li class="card" data-status="available" data-tags="build,stats,analysis,assets,size">
                             <div class="icn">📊</div>
-                            <h3 class="mt-3 font-semibold">
-                                Build Size &amp; Asset Stats
-                                <em class="status available">Available</em>
-                            </h3>
+                            <h3 class="mt-3 font-semibold">Build Size &amp; Asset Stats <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
                                 Inspect built file sizes with per-asset breakdowns to spot heavy files and trim your bundle.
                             </p>
                         </li>
 
-                        <!-- NEW: Password-Protected Bundles -->
-                        <li class="card" data-status="available" data-tags="security,password,bundles,encryption">
-                            <div class="icn">🔒</div>
-                            <h3 class="mt-3 font-semibold">
-                                Password-Protected Bundles
-                                <em class="status available">Available</em>
-                            </h3>
+                        <li class="card" data-status="available" data-tags="validation,avatars,scenes,props,errors,pre-build">
+                            <div class="icn">✅</div>
+                            <h3 class="mt-3 font-semibold">Content Validators <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                                Gate access to builds with bundle-level passwords to protect pre-release content.
+                                Pre-build validation for avatars, scenes, and props catches errors before you upload.
                             </p>
                         </li>
 
-                        <!-- NEW: BEE (Basis Encrypted Extension) -->
-                        <li class="card" data-status="available" data-tags="bee,basis,encryption,textures,assets">
-                            <div class="icn">🐝</div>
-                            <h3 class="mt-3 font-semibold">
-                                BEE File Support (.bee)
-                                <em class="status available">Available</em>
-                            </h3>
+                        <li class="card" data-status="available" data-tags="addressables,dependencies,groups,bundles,memory">
+                            <div class="icn">🗂️</div>
+                            <h3 class="mt-3 font-semibold">Addressable Dependency Tools <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                                Basis Encrypted Extension for range requests.
+                                Editor tools to organize asset groups and report dependencies for smaller, isolated bundles.
                             </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="ndmf,non-destructive,avatar,build hook,interop">
+                            <div class="icn">🧱</div>
+                            <h3 class="mt-3 font-semibold">NDMF Avatar Pipeline <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                A non-destructive avatar build hook (NDMF) with automatic viseme/eye mapping for low-friction interop — active when NDMF is installed.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="security,password,bundles,encryption">
+                            <div class="icn">🔒</div>
+                            <h3 class="mt-3 font-semibold">Password-Protected Bundles <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Gate access to builds with bundle-level passwords (cache is keyed per password) to protect pre-release content.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="bee,basis,encryption,range requests,assets">
+                            <div class="icn">🐝</div>
+                            <h3 class="mt-3 font-semibold">BEE File Support (.bee) <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Basis Encrypted Extension with support for range requests.
+                            </p>
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- Third-Party & Open Source -->
+                <section id="thirdparty" class="section-card">
+                    <header class="flex items-center justify-between gap-4">
+                        <h2 class="text-2xl font-bold">Third-Party &amp; Open Source</h2>
+                        <span class="badge">Credits</span>
+                    </header>
+                    <p class="mt-3 text-sm text-gray-600 dark:text-gray-300">
+                        Basis stands on the shoulders of excellent open-source work. These are the third-party packages we bundle and build on — each under a permissive license (MIT, Apache-2.0, or BSD). Unity's own packages (URP, OpenXR) are used too, and the in-app <strong>Third-Party Licenses</strong> panel carries the full texts.
+                    </p>
+                    <ul class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                        <li class="card" data-status="thirdparty" data-tags="opus,voice,codec,audio,avionblock,bsd,mit">
+                            <div class="icn">🎙️</div>
+                            <h3 class="mt-3 font-semibold"><a href="https://github.com/AvionBlock/OpusSharp" target="_blank" rel="noopener" class="hover:text-brand">OpusSharp</a> <span class="badge">BSD / MIT</span></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Opus voice codec bindings behind real-time voice chat. <span class="text-gray-400 dark:text-gray-500">by AvionBlock</span></p>
+                        </li>
+                        <li class="card" data-status="thirdparty" data-tags="rnnoise,noise suppression,denoise,audio,mit">
+                            <div class="icn">🔇</div>
+                            <h3 class="mt-3 font-semibold"><a href="https://github.com/Yellow-Dog-Man/RNNoise.Net" target="_blank" rel="noopener" class="hover:text-brand">RNNoise.Net</a> <span class="badge">MIT</span></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Neural microphone noise suppression. <span class="text-gray-400 dark:text-gray-500">Yellow-Dog-Man · xiph</span></p>
+                        </li>
+                        <li class="card" data-status="thirdparty" data-tags="steam audio,spatial,hrtf,audio,valve,apache">
+                            <div class="icn">🔊</div>
+                            <h3 class="mt-3 font-semibold"><a href="https://github.com/ValveSoftware/steam-audio" target="_blank" rel="noopener" class="hover:text-brand">Steam Audio</a> <span class="badge">Apache-2.0</span></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">HRTF spatial audio with occlusion and reflections. <span class="text-gray-400 dark:text-gray-500">by Valve</span></p>
+                        </li>
+                        <li class="card" data-status="thirdparty" data-tags="audiolink,audio-reactive,shaders,mit,llealloo">
+                            <div class="icn">🎵</div>
+                            <h3 class="mt-3 font-semibold"><a href="https://audiolink.dev/" target="_blank" rel="noopener" class="hover:text-brand">AudioLink</a> <span class="badge">MIT</span></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Audio-reactive data for shaders and effects. <span class="text-gray-400 dark:text-gray-500">by llealloo</span></p>
+                        </li>
+                        <li class="card" data-status="thirdparty" data-tags="steamvr,pcvr,xr,valve,bsd">
+                            <div class="icn">🕹️</div>
+                            <h3 class="mt-3 font-semibold"><a href="https://github.com/ValveSoftware/steamvr_unity_plugin" target="_blank" rel="noopener" class="hover:text-brand">SteamVR</a> <span class="badge">BSD-3-Clause</span></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">SteamVR runtime &amp; input (trimmed for Basis). <span class="text-gray-400 dark:text-gray-500">by Valve</span></p>
+                        </li>
+                        <li class="card" data-status="thirdparty" data-tags="openvr,xr,plugin,rendering,valve,bsd">
+                            <div class="icn">🥽</div>
+                            <h3 class="mt-3 font-semibold"><a href="https://github.com/ValveSoftware/unity-xr-plugin" target="_blank" rel="noopener" class="hover:text-brand">OpenVR XR Plugin</a> <span class="badge">BSD-3-Clause</span></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Rendering support for OpenVR devices in Unity XR. <span class="text-gray-400 dark:text-gray-500">by Valve</span></p>
+                        </li>
+                        <li class="card" data-status="thirdparty" data-tags="jiggle,physics,secondary motion,jobs,mit,naelstrof">
+                            <div class="icn">🪗</div>
+                            <h3 class="mt-3 font-semibold"><a href="https://github.com/naelstrof/UnityJigglePhysics" target="_blank" rel="noopener" class="hover:text-brand">Jiggle Physics</a> <span class="badge">MIT</span></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Jobs-based squash-and-stretch secondary motion. <span class="text-gray-400 dark:text-gray-500">by naelstrof</span></p>
+                        </li>
+                        <li class="card" data-status="thirdparty" data-tags="face tracking,eye tracking,comms,hai,mit">
+                            <div class="icn">😀</div>
+                            <h3 class="mt-3 font-semibold"><a href="https://docs.hai-vr.dev/docs/basis" target="_blank" rel="noopener" class="hover:text-brand">HVR Basis Comms</a> <span class="badge">MIT</span></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Face/eye-tracking comms &amp; blendshape actuation. <span class="text-gray-400 dark:text-gray-500">by Haï~</span></p>
+                        </li>
+                        <li class="card" data-status="thirdparty" data-tags="ndmf,non-destructive,avatar,build,hai,mit">
+                            <div class="icn">🧱</div>
+                            <h3 class="mt-3 font-semibold"><a href="https://docs.hai-vr.dev/docs/basis" target="_blank" rel="noopener" class="hover:text-brand">HVR Basis NDMF Hook</a> <span class="badge">MIT</span></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Non-destructive avatar build pipeline hook. <span class="text-gray-400 dark:text-gray-500">by Haï~</span></p>
+                        </li>
+                        <li class="card" data-status="thirdparty" data-tags="mediapipe,webcam,tracking,homuler,mit">
+                            <div class="icn">📷</div>
+                            <h3 class="mt-3 font-semibold"><a href="https://github.com/homuler/MediaPipeUnityPlugin" target="_blank" rel="noopener" class="hover:text-brand">MediaPipe Unity Plugin</a> <span class="badge">MIT</span></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Backs optional webcam face/body tracking. <span class="text-gray-400 dark:text-gray-500">by homuler</span></p>
+                        </li>
+                        <li class="card" data-status="thirdparty" data-tags="fog,volumetric,urp,rendering,mit,cristian qiu">
+                            <div class="icn">🌫️</div>
+                            <h3 class="mt-3 font-semibold"><a href="https://cristianqiu.github.io/web" target="_blank" rel="noopener" class="hover:text-brand">URP Volumetric Fog</a> <span class="badge">MIT</span></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Volumetric fog integrated into URP's volume system. <span class="text-gray-400 dark:text-gray-500">by Cristian Qiu Félez</span></p>
+                        </li>
+                        <li class="card" data-status="thirdparty" data-tags="cilbox,sandbox,cil,scripting,cnlohr,mit">
+                            <div class="icn">🧪</div>
+                            <h3 class="mt-3 font-semibold"><a href="https://github.com/cnlohr" target="_blank" rel="noopener" class="hover:text-brand">Cilbox</a> <span class="badge">MIT</span></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Sandboxed C# CIL interpreter for untrusted scripts. <span class="text-gray-400 dark:text-gray-500">by cnlohr</span></p>
+                        </li>
+                        <li class="card" data-status="thirdparty" data-tags="litenetlib,udp,networking,transport,revenantx,mit">
+                            <div class="icn">📡</div>
+                            <h3 class="mt-3 font-semibold"><a href="https://github.com/RevenantX/LiteNetLib" target="_blank" rel="noopener" class="hover:text-brand">LiteNetLib</a> <span class="badge">MIT</span></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Lite reliable UDP — the default network backend. <span class="text-gray-400 dark:text-gray-500">by RevenantX</span></p>
+                        </li>
+                        <li class="card" data-status="thirdparty" data-tags="dns,mdns,discovery,networking,meamod,mit">
+                            <div class="icn">🌐</div>
+                            <h3 class="mt-3 font-semibold"><a href="https://github.com/meamod/MeaMod.DNS" target="_blank" rel="noopener" class="hover:text-brand">MeaMod.DNS</a> <span class="badge">MIT</span></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">DNS / mDNS library for discovery. <span class="text-gray-400 dark:text-gray-500">by MeaMod</span></p>
+                        </li>
+                        <li class="card" data-status="thirdparty" data-tags="json,serialization,newtonsoft,jamesnk,mit">
+                            <div class="icn">🧾</div>
+                            <h3 class="mt-3 font-semibold"><a href="https://github.com/JamesNK/Newtonsoft.Json" target="_blank" rel="noopener" class="hover:text-brand">Newtonsoft.Json</a> <span class="badge">MIT</span></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">High-performance JSON serialization. <span class="text-gray-400 dark:text-gray-500">by James Newton-King</span></p>
+                        </li>
+                        <li class="card" data-status="thirdparty" data-tags="lz4,compression,bandwidth,k4os,mit">
+                            <div class="icn">🗜️</div>
+                            <h3 class="mt-3 font-semibold"><a href="https://github.com/MiloszKrajewski/K4os.Compression.LZ4" target="_blank" rel="noopener" class="hover:text-brand">K4os.Compression.LZ4</a> <span class="badge">MIT</span></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">LZ4 compression for bundles and data. <span class="text-gray-400 dark:text-gray-500">by Milosz Krajewski</span></p>
+                        </li>
+                        <li class="card" data-status="thirdparty" data-tags="base128,varint,serialization,wojmik,mit">
+                            <div class="icn">🔢</div>
+                            <h3 class="mt-3 font-semibold"><a href="https://github.com/Wojmik/Base128" target="_blank" rel="noopener" class="hover:text-brand">Base128</a> <span class="badge">MIT</span></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Variable-length integer (varint) serialization. <span class="text-gray-400 dark:text-gray-500">by Wojmik</span></p>
+                        </li>
+                        <li class="card" data-status="thirdparty" data-tags="simplebase,base32,base58,encoding,ssg,mit">
+                            <div class="icn">🔡</div>
+                            <h3 class="mt-3 font-semibold"><a href="https://github.com/ssg/SimpleBase" target="_blank" rel="noopener" class="hover:text-brand">SimpleBase</a> <span class="badge">MIT</span></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Base16/32/58/85 encoding &amp; decoding. <span class="text-gray-400 dark:text-gray-500">by Sedat Kapanoğlu</span></p>
+                        </li>
+                        <li class="card" data-status="thirdparty" data-tags="generator.equals,source generator,equality,diegofrata,mit">
+                            <div class="icn">🟰</div>
+                            <h3 class="mt-3 font-semibold"><a href="https://github.com/diegofrata/Generator.Equals" target="_blank" rel="noopener" class="hover:text-brand">Generator.Equals</a> <span class="badge">MIT</span></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Source-generated equality from attributes. <span class="text-gray-400 dark:text-gray-500">by Diego Frata</span></p>
+                        </li>
+                        <li class="card" data-status="thirdparty" data-tags="bouncycastle,crypto,cryptography,bcgit,mit">
+                            <div class="icn">🔐</div>
+                            <h3 class="mt-3 font-semibold"><a href="https://github.com/bcgit/bc-csharp" target="_blank" rel="noopener" class="hover:text-brand">BouncyCastle</a> <span class="badge">MIT</span></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Cryptography primitives library. <span class="text-gray-400 dark:text-gray-500">by Legion of the Bouncy Castle</span></p>
                         </li>
                     </ul>
                 </section>
@@ -808,12 +1279,27 @@
                     </header>
 
                     <div class="mt-5 space-y-3">
-                        <!-- In Progress: new IK only -->
+                        <!-- In Progress -->
                         <details class="accordion" open>
                             <summary>In Progress</summary>
                             <ul class="mt-3 grid gap-3 sm:grid-cols-2">
-                                <li class="mini-card" data-status="wip" data-tags="ik,animation,tracking">
-                                    New IK system <em class="status wip">WIP</em>
+                                <li class="mini-card" data-status="wip" data-tags="mediapipe,webcam,arm,tracking">
+                                    Webcam arm tracking <em class="status wip">WIP</em>
+                                </li>
+                                <li class="mini-card" data-status="wip" data-tags="objects,sync,ownership">
+                                    Expanded object sync <em class="status wip">WIP</em>
+                                </li>
+                                <li class="mini-card" data-status="wip" data-tags="locomotion,movement,walk,fly">
+                                    Locomotion modes <em class="status wip">WIP</em>
+                                </li>
+                                <li class="mini-card" data-status="wip" data-tags="ui,panel,system">
+                                    Panel UI system <em class="status wip">WIP</em>
+                                </li>
+                                <li class="mini-card" data-status="wip" data-tags="steam frame,android,target,platform">
+                                    Steam Frame target profile <em class="status wip">WIP</em>
+                                </li>
+                                <li class="mini-card" data-status="wip" data-tags="modules,packages,architecture">
+                                    Modular packages <em class="status wip">WIP</em>
                                 </li>
                             </ul>
                         </details>
@@ -822,8 +1308,8 @@
                         <details class="accordion" open>
                             <summary>Planned</summary>
                             <ul class="mt-3 grid gap-3 sm:grid-cols-2">
-                                <li class="mini-card" data-status="planned" data-tags="ui">
-                                    Programmatic UI <em class="status planned">Planned</em>
+                                <li class="mini-card" data-status="planned" data-tags="ik,animation,improvements">
+                                    Further IK improvements <em class="status planned">Planned</em>
                                 </li>
                                 <li class="mini-card" data-status="planned" data-tags="docs,compatibility">
                                     Version compatibility docs <em class="status planned">Planned</em>
@@ -834,32 +1320,14 @@
                                 <li class="mini-card" data-status="planned" data-tags="samples,templates">
                                     Expanded avatar/world samples <em class="status planned">Planned</em>
                                 </li>
-                                <li class="mini-card" data-status="planned" data-tags="networking,transport,quic">
-                                    QUIC integration <em class="status planned">Planned</em>
-                                </li>
-                                <li class="mini-card" data-status="planned" data-tags="ik,animation">
-                                    Better IK (post-new-IK improvements) <em class="status planned">Planned</em>
-                                </li>
-                                <li class="mini-card" data-status="planned" data-tags="netcode,scalability,servers">
-                                    Thousands of players support <em class="status planned">Planned</em>
-                                </li>
                                 <li class="mini-card" data-status="planned" data-tags="demo,scene,showcase">
-                                    Showroom (Example Demo) <em class="status planned">Planned</em>
+                                    Showroom (example demo) <em class="status planned">Planned</em>
                                 </li>
                                 <li class="mini-card" data-status="planned" data-tags="testing,community">
-                                    Community Testbed <em class="status planned">Planned</em>
-                                </li>
-                                <li class="mini-card" data-status="planned" data-tags="examples,samples,templates">
-                                    Examples of stuff <em class="status planned">Planned</em>
+                                    Community testbed <em class="status planned">Planned</em>
                                 </li>
                                 <li class="mini-card" data-status="planned" data-tags="docs,getting-started">
                                     5-minute start guide <em class="status planned">Planned</em>
-                                </li>
-                                <li class="mini-card" data-status="planned" data-tags="modules,packages,architecture">
-                                    Modular packages (underway) <em class="status planned">Planned</em>
-                                </li>
-                                <li class="mini-card" data-status="planned" data-tags="localization">
-                                    Localization <em class="status planned">Planned</em>
                                 </li>
                             </ul>
                         </details>
@@ -889,14 +1357,13 @@
             const cards = Array.from(document.querySelectorAll('.card, .mini-card'));
             const tocLinks = Array.from(document.querySelectorAll('.toc-link'));
             const sections = tocLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
-            const toggleBoxed = document.getElementById('toggleBoxed');
             const contentRoot = document.getElementById('contentRoot');
 
             const norm = s => (s || '').toLowerCase().trim();
 
             function applyFilters() {
                 const status = document.querySelector('.chip.active')?.dataset.status || 'all';
-                const q = norm(search.value);
+                const q = norm(search ? search.value : '');
                 let visible = 0;
 
                 cards.forEach(el => {
@@ -910,7 +1377,7 @@
                     if (show) visible++;
                 });
 
-                count.textContent = visible + ' item' + (visible === 1 ? '' : 's') + ' shown';
+                if (count) count.textContent = visible + ' item' + (visible === 1 ? '' : 's') + ' shown';
             }
 
             chips.forEach(chip => chip.addEventListener('click', () => {
@@ -922,14 +1389,7 @@
                 applyFilters();
             }));
 
-            search.addEventListener('input', applyFilters);
-
-            // layout toggle
-            function applyLayoutToggle() {
-                document.body.classList.toggle('layout-plain', !toggleBoxed.checked);
-            }
-            toggleBoxed.addEventListener('change', applyLayoutToggle);
-            applyLayoutToggle();
+            if (search) search.addEventListener('input', applyFilters);
 
             // Initialize from ?status=
             const initial = new URLSearchParams(location.search).get('status');
@@ -943,5 +1403,16 @@
             const opts = { rootMargin: '-40% 0px -55% 0px', threshold: [0, 1] };
             const obs = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
                     const id = entry.target.id;
-                    const link =
+                    const link = tocLinks.find(a => a.getAttribute('href') === '#' + id);
+                    if (!link) return;
+                    tocLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                });
+            }, opts);
+            sections.forEach(s => obs.observe(s));
+        })();
+    </script>
+</body>
+</html>
