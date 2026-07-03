@@ -324,68 +324,106 @@ function openDetail(id){
   m.querySelectorAll('.copy').forEach(b=>b.onclick=e=>{e.stopPropagation();copy(b.dataset.copy,b);});
 }
 
+const SUB_field = 'block text-sm text-gray-600 dark:text-gray-300 mb-3';
+const SUB_label = 'mb-1 block text-gray-500 dark:text-gray-400';
+const SUB_input = 'w-full rounded-xl border border-gray-200 bg-white/70 px-3 py-2 text-sm outline-none focus:border-brand dark:border-white/10 dark:bg-white/5';
+const submitState = { git:'', repo:'', pkg:null };
+
 function openSubmit(){
   const m = document.getElementById('submitModal');
-  const field = 'block text-sm text-gray-600 dark:text-gray-300 mb-3';
-  const label = 'mb-1 block text-gray-500 dark:text-gray-400';
-  const input = 'w-full rounded-xl border border-gray-200 bg-white/70 px-3 py-2 text-sm outline-none focus:border-brand dark:border-white/10 dark:bg-white/5';
+  submitState.git=''; submitState.repo=''; submitState.pkg=null;
   m.innerHTML = `<div class="w-full max-w-2xl max-h-[85vh] overflow-auto rounded-2xl border border-gray-200 bg-white shadow-2xl dark:border-white/10 dark:bg-basisbg" onclick="event.stopPropagation()">
     <div class="flex items-start gap-4 border-b border-gray-200 p-6 dark:border-white/10">
       <div class="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gray-100 text-3xl ring-1 ring-gray-200 dark:bg-white/5 dark:ring-white/10">➕</div>
-      <div class="flex-1"><h2 class="text-xl font-bold">Submit a package</h2><p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Share a Basis-compatible git (UPM) package from GitHub or GitLab. Paste a Git URL and we'll auto-fill the rest from its <code>package.json</code>.</p></div>
+      <div class="flex-1"><h2 class="text-xl font-bold">Submit a package</h2><p id="submitSub" class="mt-1 text-sm text-gray-500 dark:text-gray-400"></p></div>
       <button onclick="closeModals()" class="text-2xl leading-none text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">&times;</button>
     </div>
-    <form id="submitForm" class="p-6">
-      <div class="grid gap-4 sm:grid-cols-2">
-        <label class="${field}"><span class="${label}">Package id *</span><input name="id" required class="${input}" placeholder="com.you.mypackage"></label>
-        <label class="${field}"><span class="${label}">Display name *</span><input name="name" required class="${input}" placeholder="My Package"></label>
-      </div>
-      <label class="${field}"><span class="${label}">Description</span><textarea name="description" rows="2" class="${input}" placeholder="What does it do?"></textarea></label>
-      <div class="grid gap-4 sm:grid-cols-2">
-        <label class="${field}"><span class="${label}">Author</span><input name="author" class="${input}" placeholder="Your name"></label>
-        <label class="${field}"><span class="${label}">Category</span><input name="category" class="${input}" placeholder="Tools"></label>
-      </div>
-      <div class="grid gap-4 sm:grid-cols-2">
-        <label class="${field}"><span class="${label}">Source (auto)</span>
-          <div class="${input} flex items-center justify-between"><span id="srcAuto" class="font-semibold">community</span><span id="srcHint" class="text-xs text-gray-400">hosted elsewhere</span></div></label>
-        <label class="${field}"><span class="${label}">Version <span id="verHint" class="text-xs text-gray-400"></span></span><input name="version" class="${input}" placeholder="auto-detected from releases"></label>
-      </div>
-      <label class="${field}"><span class="${label}">Git URL (UPM) *</span><input name="gitUrl" required class="${input}" placeholder="https://github.com/you/repo.git?path=Packages/com.you.x  or  https://gitlab.com/…"></label>
-      <label class="${field}"><span class="${label}">Repository URL</span><input name="repoUrl" class="${input}" placeholder="https://github.com/you/repo  or  https://gitlab.com/you/repo"></label>
-      <label class="${field}"><span class="${label}">Tags (comma-separated)</span><input name="tags" class="${input}" placeholder="tools, editor"></label>
-      <button type="submit" class="w-full rounded-2xl bg-gradient-to-r from-brand to-purple-600 px-4 py-2.5 text-sm font-semibold text-white shadow hover:shadow-lg">Submit package</button>
-    </form>
+    <div id="submitBody"></div>
   </div>`;
   m.classList.remove('hidden');
+  submitStep1();
+}
+
+// Step 1 — just the URL: we read package.json from it and pre-fill the rest.
+function submitStep1(){
+  document.getElementById('submitSub').textContent =
+    "Step 1 of 2 — paste your package's Git URL (UPM), or its repository URL. We'll read its package.json next.";
+  document.getElementById('submitBody').innerHTML = `<div class="p-6 space-y-4">
+    <label class="${SUB_field}"><span class="${SUB_label}">Git URL (UPM)</span>
+      <input id="s_git" class="${SUB_input}" placeholder="https://github.com/you/repo.git?path=Packages/com.you.x"></label>
+    <label class="${SUB_field}"><span class="${SUB_label}">Repository URL</span>
+      <input id="s_repo" class="${SUB_input}" placeholder="https://github.com/you/repo  or  https://gitlab.com/you/repo"></label>
+    <p class="text-xs text-gray-400">Enter at least one. We read <code>package.json</code> from it and pre-fill the id, name, version and more.</p>
+    <div id="s_status" class="min-h-[1.25rem] text-sm text-gray-500 dark:text-gray-400"></div>
+    <button id="s_next" class="w-full rounded-2xl bg-gradient-to-r from-brand to-purple-600 px-4 py-2.5 text-sm font-semibold text-white shadow hover:shadow-lg">Next →</button>
+  </div>`;
+  const git = document.getElementById('s_git'), repo = document.getElementById('s_repo'), next = document.getElementById('s_next');
+  git.value = submitState.git; repo.value = submitState.repo;
+  const go = async () => {
+    submitState.git = git.value.trim(); submitState.repo = repo.value.trim();
+    if(!submitState.git && !submitState.repo){
+      document.getElementById('s_status').innerHTML = '<span class="text-brand">Enter a Git URL or repository URL to continue.</span>'; return;
+    }
+    document.getElementById('s_status').textContent = 'Reading package.json…';
+    next.disabled = true; next.classList.add('opacity-60');
+    submitState.pkg = await fetchPackageJson(submitState.repo, submitState.git);
+    submitStep2();
+  };
+  next.onclick = go;
+  [git,repo].forEach(el => el.onkeydown = e => { if(e.key==='Enter'){ e.preventDefault(); go(); } });
+  git.focus();
+}
+
+// Step 2 — review the details we read, plus how to add a self-hosted image.
+function submitStep2(){
+  const p = submitState.pkg || {};
+  const found = !!submitState.pkg;
+  const author = typeof p.author === 'string' ? p.author : (p.author && p.author.name) || '';
+  const tags = Array.isArray(p.keywords) ? p.keywords.join(', ') : '';
+  const id = p.name || '';
+  const src = deriveSource(submitState.repo, submitState.git);
+  document.getElementById('submitSub').textContent = 'Step 2 of 2 — check the details, then submit.';
+  document.getElementById('submitBody').innerHTML = `<form id="submitForm" class="p-6">
+    <div class="mb-4 rounded-xl border px-3 py-2 text-xs ${found ? 'border-emerald-400/40 bg-emerald-400/10 text-emerald-700 dark:text-emerald-300' : 'border-amber-400/40 bg-amber-400/10 text-amber-700 dark:text-amber-300'}">${found ? '✓ Filled in from package.json — edit anything that looks off.' : "Couldn't read a package.json at that URL — fill the details in by hand."}</div>
+    <div class="grid gap-4 sm:grid-cols-2">
+      <label class="${SUB_field}"><span class="${SUB_label}">Package id *</span><input name="id" required class="${SUB_input}" value="${esc(id)}" placeholder="com.you.mypackage"></label>
+      <label class="${SUB_field}"><span class="${SUB_label}">Display name *</span><input name="name" required class="${SUB_input}" value="${esc(p.displayName||'')}" placeholder="My Package"></label>
+    </div>
+    <label class="${SUB_field}"><span class="${SUB_label}">Description</span><textarea name="description" rows="2" class="${SUB_input}" placeholder="What does it do?">${esc(p.description||'')}</textarea></label>
+    <div class="grid gap-4 sm:grid-cols-2">
+      <label class="${SUB_field}"><span class="${SUB_label}">Author</span><input name="author" class="${SUB_input}" value="${esc(author)}" placeholder="Your name"></label>
+      <label class="${SUB_field}"><span class="${SUB_label}">Category</span><input name="category" class="${SUB_input}" placeholder="Tools"></label>
+    </div>
+    <div class="grid gap-4 sm:grid-cols-2">
+      <label class="${SUB_field}"><span class="${SUB_label}">Source (auto)</span>
+        <div class="${SUB_input} flex items-center justify-between"><span id="srcAuto" class="font-semibold">${src}</span><span id="srcHint" class="text-xs text-gray-400">${src==='curated'?'under github.com/BasisVR':'hosted elsewhere'}</span></div></label>
+      <label class="${SUB_field}"><span class="${SUB_label}">Version</span><input name="version" class="${SUB_input}" value="${esc(p.version||'')}" placeholder="1.0.0"></label>
+    </div>
+    <label class="${SUB_field}"><span class="${SUB_label}">Git URL (UPM) *</span><input name="gitUrl" required class="${SUB_input}" value="${esc(submitState.git)}"></label>
+    <label class="${SUB_field}"><span class="${SUB_label}">Repository URL</span><input name="repoUrl" class="${SUB_input}" value="${esc(submitState.repo)}"></label>
+    <label class="${SUB_field}"><span class="${SUB_label}">Tags (comma-separated)</span><input name="tags" class="${SUB_input}" value="${esc(tags)}" placeholder="tools, editor"></label>
+
+    <div class="mb-4 rounded-xl border border-gray-200 bg-gray-50 p-4 dark:border-white/10 dark:bg-white/5">
+      <div class="flex items-center gap-2 text-sm font-semibold">🖼️ Package image <span class="text-xs font-normal text-gray-400">optional</span></div>
+      <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Images are self-hosted — there's no upload here. To add one, commit an image <b>named after your package id</b> to the registry's icons folder and it's matched automatically:</p>
+      <pre class="mt-2 overflow-x-auto rounded-lg bg-gray-900 px-3 py-2 text-xs text-gray-100"><code>src/BasisPM.Server/wwwroot/icons/${esc(id||'com.you.mypackage')}.png</code></pre>
+      <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">PNG, WebP, JPG or GIF. Without one, the ${esc(p.icon||'📦')} emoji icon is used.</p>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <button type="button" id="s_back" class="rounded-2xl border border-gray-200 px-4 py-2.5 text-sm font-semibold hover:border-brand hover:text-brand dark:border-white/10 dark:text-gray-200">← Back</button>
+      <button type="submit" class="flex-1 rounded-2xl bg-gradient-to-r from-brand to-purple-600 px-4 py-2.5 text-sm font-semibold text-white shadow hover:shadow-lg">Submit package</button>
+    </div>
+  </form>`;
   const f = document.getElementById('submitForm');
   f.onsubmit = submitPackage;
-  let verTimer;
-  const updateAuto = () => {
-    const repo = f.elements.repoUrl.value, git = f.elements.gitUrl.value;
-    const s = deriveSource(repo, git);
+  document.getElementById('s_back').onclick = submitStep1;
+  const upd = () => {
+    const s = deriveSource(f.elements.repoUrl.value, f.elements.gitUrl.value);
     document.getElementById('srcAuto').textContent = s;
     document.getElementById('srcHint').textContent = s==='curated' ? 'under github.com/BasisVR' : 'hosted elsewhere';
-    clearTimeout(verTimer);
-    verTimer = setTimeout(async () => {
-      if (!repo && !git) { document.getElementById('verHint').textContent=''; return; }
-      document.getElementById('verHint').textContent = '(reading package.json…)';
-      const pkg = await fetchPackageJson(repo, git);
-      document.getElementById('verHint').textContent = pkg ? '(from package.json)' : '(not detected)';
-      if (!pkg) return;
-      const author = typeof pkg.author === 'string' ? pkg.author : (pkg.author && pkg.author.name) || '';
-      const tags = Array.isArray(pkg.keywords) ? pkg.keywords.join(', ') : '';
-      // Fill only fields the user hasn't typed into.
-      const fill = (n, v) => { const el = f.elements[n]; if (v && el && !el.dataset.touched) el.value = v; };
-      fill('id', pkg.name); fill('name', pkg.displayName); fill('description', pkg.description);
-      fill('author', author); fill('version', pkg.version); fill('tags', tags);
-    }, 500);
   };
-  f.elements.gitUrl.oninput = updateAuto;
-  f.elements.repoUrl.oninput = updateAuto;
-  ['id','name','description','author','version','tags'].forEach(n => {
-    f.elements[n].oninput = () => { f.elements[n].dataset.touched = '1'; };
-  });
-  updateAuto();
+  f.elements.gitUrl.oninput = upd; f.elements.repoUrl.oninput = upd;
 }
 
 function submitPackage(e){
