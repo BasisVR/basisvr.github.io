@@ -144,18 +144,21 @@ const esc = s => (s??"").toString().replace(/[&<>"']/g, c => ({'&':'&amp;','<':'
 const hostOf = p => { const u=(p.repoUrl||p.gitUrl||'').toLowerCase(); return u.includes('gitlab')?'GitLab':u.includes('github')?'GitHub':''; };
 // curated = hosted under the Basis org (github.com/BasisVR/…); anything else is community.
 const deriveSource = (repoUrl, gitUrl) => { const m=(repoUrl||gitUrl||'').toLowerCase().match(/github\.com[/:]+([^/?#]+)/); return (m && m[1]==='basisvr') ? 'curated' : 'community'; };
-async function fetchLatestVersion(repoUrl, gitUrl){
-  const src = gitUrl || repoUrl || '';
-  const m = src.match(/github\.com[/:]+([^/?#]+)\/([^/?#.]+)/i);
-  if(!m) return null;
+// Fetches a package's package.json from GitHub or GitLab (honouring ?path=Sub/Folder).
+async function fetchPackageJson(repoUrl, gitUrl){
+  const src = (gitUrl || repoUrl || '').trim();
+  if(!src) return null;
+  const base = src.split(/[?#]/)[0].replace(/\.git$/i,'').replace(/\/+$/,'');
   const pm = src.match(/[?&]path=([^&#]+)/);
-  const path = pm ? decodeURIComponent(pm[1]).replace(/^\/+|\/+$/g,'') + '/' : '';
-  try{
-    const res = await fetch(`https://raw.githubusercontent.com/${m[1]}/${m[2]}/HEAD/${path}package.json`);
-    if(!res.ok) return null;
-    const j = await res.json();
-    return j.version || null;
-  }catch{ return null; }
+  const sub = pm ? decodeURIComponent(pm[1]).replace(/^\/+|\/+$/g,'') + '/' : '';
+  let url = null, m;
+  if((m = base.match(/github\.com[/:]+([^/]+)\/([^/]+)/i)))
+    url = `https://raw.githubusercontent.com/${m[1]}/${m[2]}/HEAD/${sub}package.json`;
+  else if((m = base.match(/gitlab\.com[/:]+(.+)$/i)))
+    url = `https://gitlab.com/${m[1]}/-/raw/HEAD/${sub}package.json`;
+  if(!url) return null;
+  try{ const res = await fetch(url); return res.ok ? await res.json() : null; }
+  catch{ return null; }
 }
 const fmtNum = n => n>=1e9?(n/1e9).toFixed(1).replace(/\.0$/,'')+'B':n>=1e6?(n/1e6).toFixed(1).replace(/\.0$/,'')+'M':n>=1e3?(n/1e3).toFixed(1).replace(/\.0$/,'')+'K':''+n;
 const badgeCls = s => s==='curated' ? 'bg-brand/15 text-brand ring-1 ring-brand/30'
@@ -268,7 +271,7 @@ function installMethods(p){
   return `
     <div class="${method}">
       <h5 class="mb-2 flex items-center gap-2 font-semibold"><span class="${num}">1</span> In the Basis Package Manager</h5>
-      <p class="mb-2 text-sm text-gray-600 dark:text-gray-300">Open <b>Packages → Add from Git URL</b> (GitHub or GitLab) and paste:</p>
+      <p class="mb-2 text-sm text-gray-600 dark:text-gray-300">Open <b>Packages → Add from Git URL</b> and paste:</p>
       <div class="${code}"><pre class="${pre}">${esc(p.repoUrl||p.gitUrl||'')}</pre><button class="${cbtn} copy" data-copy="${esc(p.repoUrl||p.gitUrl||'')}">Copy</button></div>
     </div>
     <div class="${method}">
@@ -329,7 +332,7 @@ function openSubmit(){
   m.innerHTML = `<div class="w-full max-w-2xl max-h-[85vh] overflow-auto rounded-2xl border border-gray-200 bg-white shadow-2xl dark:border-white/10 dark:bg-basisbg" onclick="event.stopPropagation()">
     <div class="flex items-start gap-4 border-b border-gray-200 p-6 dark:border-white/10">
       <div class="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gray-100 text-3xl ring-1 ring-gray-200 dark:bg-white/5 dark:ring-white/10">➕</div>
-      <div class="flex-1"><h2 class="text-xl font-bold">Submit a package</h2><p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Share a Basis-compatible git (UPM) package from GitHub or GitLab.</p></div>
+      <div class="flex-1"><h2 class="text-xl font-bold">Submit a package</h2><p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Share a Basis-compatible git (UPM) package from GitHub or GitLab. Paste a Git URL and we'll auto-fill the rest from its <code>package.json</code>.</p></div>
       <button onclick="closeModals()" class="text-2xl leading-none text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">&times;</button>
     </div>
     <form id="submitForm" class="p-6">
@@ -365,15 +368,23 @@ function openSubmit(){
     clearTimeout(verTimer);
     verTimer = setTimeout(async () => {
       if (!repo && !git) { document.getElementById('verHint').textContent=''; return; }
-      document.getElementById('verHint').textContent = '(checking package.json…)';
-      const v = await fetchLatestVersion(repo, git);
-      document.getElementById('verHint').textContent = v ? '(from package.json)' : '(not detected)';
-      if (v && !f.elements.version.dataset.touched) f.elements.version.value = v;
+      document.getElementById('verHint').textContent = '(reading package.json…)';
+      const pkg = await fetchPackageJson(repo, git);
+      document.getElementById('verHint').textContent = pkg ? '(from package.json)' : '(not detected)';
+      if (!pkg) return;
+      const author = typeof pkg.author === 'string' ? pkg.author : (pkg.author && pkg.author.name) || '';
+      const tags = Array.isArray(pkg.keywords) ? pkg.keywords.join(', ') : '';
+      // Fill only fields the user hasn't typed into.
+      const fill = (n, v) => { const el = f.elements[n]; if (v && el && !el.dataset.touched) el.value = v; };
+      fill('id', pkg.name); fill('name', pkg.displayName); fill('description', pkg.description);
+      fill('author', author); fill('version', pkg.version); fill('tags', tags);
     }, 500);
   };
   f.elements.gitUrl.oninput = updateAuto;
   f.elements.repoUrl.oninput = updateAuto;
-  f.elements.version.oninput = () => { f.elements.version.dataset.touched = '1'; };
+  ['id','name','description','author','version','tags'].forEach(n => {
+    f.elements[n].oninput = () => { f.elements[n].dataset.touched = '1'; };
+  });
   updateAuto();
 }
 
