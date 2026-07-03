@@ -9,7 +9,7 @@
   <meta name="theme-color" content="#100f27" media="(prefers-color-scheme: dark)">
   <meta name="color-scheme" content="light dark" />
   <!-- Package images are self-hosted; restrict where any image can load from. -->
-  <meta http-equiv="Content-Security-Policy" content="img-src 'self' https://raw.githubusercontent.com data:;">
+  <meta http-equiv="Content-Security-Policy" content="img-src 'self' https://raw.githubusercontent.com https://gitlab.com data:;">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.bunny.net" />
@@ -159,6 +159,20 @@ async function fetchPackageJson(repoUrl, gitUrl){
   if(!url) return null;
   try{ const res = await fetch(url); return res.ok ? await res.json() : null; }
   catch{ return null; }
+}
+// Resolves an image the submitter hosts in their own repo: a full raw URL is kept; a
+// path is turned into a raw URL against the repo they gave us (same host as package.json).
+function resolveImageUrl(val, repoUrl, gitUrl){
+  val = (val||'').trim();
+  if(!val) return '';
+  if(/^https?:\/\//i.test(val)) return val;
+  const src = (gitUrl || repoUrl || '').trim();
+  const base = src.split(/[?#]/)[0].replace(/\.git$/i,'').replace(/\/+$/,'');
+  const path = val.replace(/^\/+/,'');
+  let m;
+  if((m = base.match(/github\.com[/:]+([^/]+)\/([^/]+)/i))) return `https://raw.githubusercontent.com/${m[1]}/${m[2]}/HEAD/${path}`;
+  if((m = base.match(/gitlab\.com[/:]+(.+)$/i))) return `https://gitlab.com/${m[1]}/-/raw/HEAD/${path}`;
+  return val;
 }
 const fmtNum = n => n>=1e9?(n/1e9).toFixed(1).replace(/\.0$/,'')+'B':n>=1e6?(n/1e6).toFixed(1).replace(/\.0$/,'')+'M':n>=1e3?(n/1e3).toFixed(1).replace(/\.0$/,'')+'K':''+n;
 const badgeCls = s => s==='curated' ? 'bg-brand/15 text-brand ring-1 ring-brand/30'
@@ -405,9 +419,12 @@ function submitStep2(){
 
     <div class="mb-4 rounded-xl border border-gray-200 bg-gray-50 p-4 dark:border-white/10 dark:bg-white/5">
       <div class="flex items-center gap-2 text-sm font-semibold">🖼️ Package image <span class="text-xs font-normal text-gray-400">optional</span></div>
-      <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Images are self-hosted — there's no upload here. To add one, commit an image <b>named after your package id</b> to the registry's icons folder and it's matched automatically:</p>
-      <pre class="mt-2 overflow-x-auto rounded-lg bg-gray-900 px-3 py-2 text-xs text-gray-100"><code>src/BasisPM.Server/wwwroot/icons/${esc(id||'com.you.mypackage')}.png</code></pre>
-      <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">PNG, WebP, JPG or GIF. Without one, the ${esc(p.icon||'📦')} emoji icon is used.</p>
+      <p class="mt-1 mb-3 text-xs text-gray-500 dark:text-gray-400">Host a square icon <b>in your own repo</b> and point us at it — a path resolved against your repo (e.g. <code>icon.png</code>) or a full raw URL. PNG or WebP, 256×256+; the ${esc(p.icon||'📦')} emoji is used otherwise.</p>
+      <div class="flex items-center gap-3">
+        <div id="imgPreview" class="grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-lg bg-gray-200 text-2xl dark:bg-white/10">${esc(p.icon||'📦')}</div>
+        <input name="image" class="${SUB_input}" placeholder="icon.png   or   https://raw.githubusercontent.com/you/repo/HEAD/icon.png">
+      </div>
+      <p id="imgHint" class="mt-1 min-h-[1rem] break-all text-xs text-gray-400"></p>
     </div>
 
     <div class="flex items-center gap-3">
@@ -418,12 +435,19 @@ function submitStep2(){
   const f = document.getElementById('submitForm');
   f.onsubmit = submitPackage;
   document.getElementById('s_back').onclick = submitStep1;
+  const imgPrev = document.getElementById('imgPreview'), imgHint = document.getElementById('imgHint');
+  const updImg = () => {
+    const url = resolveImageUrl(f.elements.image.value, f.elements.repoUrl.value, f.elements.gitUrl.value);
+    imgHint.textContent = url || '';
+    imgPrev.innerHTML = url ? `<img src="${esc(url)}" alt="" referrerpolicy="no-referrer" class="h-full w-full object-cover" onerror="this.parentElement.textContent='⚠️'">` : (p.icon||'📦');
+  };
   const upd = () => {
     const s = deriveSource(f.elements.repoUrl.value, f.elements.gitUrl.value);
     document.getElementById('srcAuto').textContent = s;
     document.getElementById('srcHint').textContent = s==='curated' ? 'under github.com/BasisVR' : 'hosted elsewhere';
+    updImg();
   };
-  f.elements.gitUrl.oninput = upd; f.elements.repoUrl.oninput = upd;
+  f.elements.gitUrl.oninput = upd; f.elements.repoUrl.oninput = upd; f.elements.image.oninput = updImg;
 }
 
 function submitPackage(e){
@@ -434,6 +458,7 @@ function submitPackage(e){
     author:g('author')||'Community', category:g('category')||'Misc',
     tags: g('tags') ? g('tags').split(',').map(t=>t.trim()).filter(Boolean) : [],
     source:deriveSource(g('repoUrl'), g('gitUrl')), gitUrl:g('gitUrl')||null, repoUrl:g('repoUrl')||null,
+    image:resolveImageUrl(g('image'), g('repoUrl'), g('gitUrl'))||null,
     unity:g('unity')||null, version:g('version')||'1.0.0'
   };
   if(!pkg.id||!pkg.name){ toast('Package id and name are required','err'); return; }
