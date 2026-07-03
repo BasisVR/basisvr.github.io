@@ -24,6 +24,13 @@
   <script src="https://cdn.tailwindcss.com/3.4.16"></script>
   <script src="/theme.js" defer></script>
   <link rel="stylesheet" href="/styles.css" />
+  <style>
+    /* Native form controls (the sort dropdown + its popup) follow the site theme */
+    html.dark { color-scheme: dark; }
+    html:not(.dark) { color-scheme: light; }
+    html.dark select option { background-color: #15142e; color: #f4f2ff; }
+    html:not(.dark) select option { background-color: #ffffff; color: #1f2937; }
+  </style>
 </head>
 <body class="bg-white text-gray-800 dark:bg-basisbg dark:text-gray-100 antialiased">
 
@@ -98,7 +105,7 @@
       <section class="rounded-2xl border border-gray-200 bg-white/40 p-4 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/[0.03] sm:p-5">
         <div class="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-gray-200 pb-4 dark:border-white/10">
           <div id="count" class="text-sm text-gray-600 dark:text-gray-300"></div>
-          <select id="sort" class="rounded-xl border border-gray-200 bg-white/70 px-3 py-2 text-sm outline-none dark:border-white/10 dark:bg-white/5">
+          <select id="sort" class="rounded-xl border border-gray-200 bg-white/70 px-3 py-2 text-sm text-gray-800 outline-none focus:border-brand dark:border-white/10 dark:bg-white/10 dark:text-gray-100">
             <option value="popular">Sort: Popular</option>
             <option value="stars">Most stars</option>
             <option value="forks">Most forks</option>
@@ -229,7 +236,7 @@ function installMethods(p){
   const method = 'rounded-2xl border border-gray-200 bg-white/60 p-4 dark:border-white/10 dark:bg-white/5';
   const num = 'inline-grid h-5 w-5 place-items-center rounded-md bg-gradient-to-r from-brand to-purple-600 text-[11px] font-bold text-white';
   const code = 'relative';
-  const pre = 'overflow-auto rounded-xl border border-gray-200 bg-gray-50 p-3 pr-16 font-mono text-xs text-gray-800 dark:border-white/10 dark:bg-black/30 dark:text-gray-200';
+  const pre = 'whitespace-pre-wrap break-all rounded-xl border border-gray-200 bg-gray-50 p-3 pr-16 font-mono text-xs text-gray-800 dark:border-white/10 dark:bg-black/30 dark:text-gray-200';
   const cbtn = 'absolute right-2 top-2 rounded-lg border border-gray-200 px-2 py-1 text-xs hover:border-brand hover:text-brand dark:border-white/10';
   return `
     <div class="${method}">
@@ -267,7 +274,19 @@ function openDetail(id){
         ${p.updated?`<span>Updated <b class="text-gray-900 dark:text-white">${esc(p.updated)}</b></span>`:''}
       </div>
       ${p.dependencies?`<div><p class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-400">Dependencies</p><div class="flex flex-wrap gap-1.5">${Object.entries(p.dependencies).map(([k,v])=>`<span class="rounded-full bg-gray-100 px-2 py-0.5 text-[11px] text-gray-600 dark:bg-white/5 dark:text-gray-300">${esc(k)} ${esc(v)}</span>`).join('')}</div></div>`:''}
-      <div><p class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-400">How to install</p><div class="space-y-3">${installMethods(p)}</div></div>
+      <div>
+        <div class="mb-3 flex items-center justify-between gap-3">
+          <p class="text-xs font-semibold uppercase tracking-wide text-gray-400">How to install</p>
+          <a href="basispm://install?id=${encodeURIComponent(p.id)}&name=${encodeURIComponent(p.name)}&git=${encodeURIComponent(p.gitUrl||'')}&repo=${encodeURIComponent(p.repoUrl||'')}"
+             class="inline-flex shrink-0 items-center gap-1.5 rounded-xl bg-gradient-to-r from-brand to-purple-600 px-3.5 py-1.5 text-xs font-semibold text-white shadow hover:shadow-lg"
+             title="Opens the Basis Package Manager app and adds this package. Requires the app installed.">
+            <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+            Install in app
+          </a>
+        </div>
+        <p class="mb-2 text-xs text-gray-400">Have the desktop app? <b>Install in app</b> adds it to your active project. Otherwise use one of the methods below.</p>
+        <div class="space-y-3">${installMethods(p)}</div>
+      </div>
       <div class="flex flex-wrap gap-2">
         ${p.repoUrl?`<a href="${esc(p.repoUrl)}" target="_blank" class="rounded-xl border border-gray-200 px-3 py-1.5 text-sm hover:border-brand hover:text-brand dark:border-white/10">${hostOf(p)?'View on '+hostOf(p):'Repository'} ↗</a>`:''}
       </div>
