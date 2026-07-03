@@ -443,6 +443,7 @@ function submitStep2(){
     <label class="${SUB_field}"><span class="${SUB_label}">Git URL (UPM) *</span><input name="gitUrl" required class="${SUB_input}" value="${esc(submitState.git)}"></label>
     <label class="${SUB_field}"><span class="${SUB_label}">Repository URL</span><input name="repoUrl" class="${SUB_input}" value="${esc(submitState.repo)}"></label>
     <label class="${SUB_field}"><span class="${SUB_label}">Tags (comma-separated)</span><input name="tags" class="${SUB_input}" value="${esc(tags)}" placeholder="tools, editor"></label>
+    ${(p.dependencies && Object.keys(p.dependencies).length) ? `<div class="${SUB_field}"><span class="${SUB_label}">Dependencies <span class="text-xs text-gray-400">from package.json — recorded automatically</span></span><div class="flex flex-wrap gap-1.5">${Object.entries(p.dependencies).map(([k,v])=>`<span class="rounded-full bg-gray-100 px-2 py-0.5 text-[11px] text-gray-600 dark:bg-white/5 dark:text-gray-300">${esc(k)} ${esc(v)}</span>`).join('')}</div></div>` : ''}
 
     <div class="mb-4 rounded-xl border border-gray-200 bg-gray-50 p-4 dark:border-white/10 dark:bg-white/5">
       <div class="flex items-center gap-2 text-sm font-semibold">🖼️ Package image <span class="text-xs font-normal text-gray-400">optional</span></div>
@@ -490,6 +491,8 @@ function submitPackage(e){
     image:resolveImageUrl(g('image'), g('repoUrl'), g('gitUrl'))||null,
     unity:g('unity')||null, version:g('version')||'1.0.0'
   };
+  const deps = submitState.pkg && submitState.pkg.dependencies;
+  if(deps && Object.keys(deps).length) pkg.dependencies = deps;
   if(!pkg.id||!pkg.name){ toast('Package id and name are required','err'); return; }
   if(!pkg.gitUrl){ toast('A Git URL (GitHub or GitLab) is required','err'); return; }
   const body = "### Package submission\n\nAdd this entry to `src/BasisPM.Server/seed/packages.json`:\n\n```json\n" + JSON.stringify(pkg,null,2) + "\n```\n";
