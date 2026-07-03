@@ -144,18 +144,21 @@ const esc = s => (s??"").toString().replace(/[&<>"']/g, c => ({'&':'&amp;','<':'
 const hostOf = p => { const u=(p.repoUrl||p.gitUrl||'').toLowerCase(); return u.includes('gitlab')?'GitLab':u.includes('github')?'GitHub':''; };
 // curated = hosted under the Basis org (github.com/BasisVR/…); anything else is community.
 const deriveSource = (repoUrl, gitUrl) => { const m=(repoUrl||gitUrl||'').toLowerCase().match(/github\.com[/:]+([^/?#]+)/); return (m && m[1]==='basisvr') ? 'curated' : 'community'; };
-// Fetches a package's package.json from GitHub or GitLab (honouring ?path=Sub/Folder).
+// The Unity UPM revision from a git URL (#tag / #commit / #branch); HEAD when none.
+const refOf = u => { const m=(u||'').match(/#(.+)$/); return m ? m[1].trim() : 'HEAD'; };
+// A repo-relative sub-path from ?path= (Unity allows a leading slash), normalised with a trailing /.
+const subOf = u => { const m=(u||'').match(/[?&]path=([^&#]+)/); return m ? decodeURIComponent(m[1]).replace(/^\/+|\/+$/g,'') + '/' : ''; };
+// Fetches a package's package.json from GitHub or GitLab, honouring ?path=Sub/Folder and #revision.
 async function fetchPackageJson(repoUrl, gitUrl){
   const src = (gitUrl || repoUrl || '').trim();
   if(!src) return null;
   const base = src.split(/[?#]/)[0].replace(/\.git$/i,'').replace(/\/+$/,'');
-  const pm = src.match(/[?&]path=([^&#]+)/);
-  const sub = pm ? decodeURIComponent(pm[1]).replace(/^\/+|\/+$/g,'') + '/' : '';
+  const sub = subOf(src), ref = refOf(src);
   let url = null, m;
   if((m = base.match(/github\.com[/:]+([^/]+)\/([^/]+)/i)))
-    url = `https://raw.githubusercontent.com/${m[1]}/${m[2]}/HEAD/${sub}package.json`;
+    url = `https://raw.githubusercontent.com/${m[1]}/${m[2]}/${ref}/${sub}package.json`;
   else if((m = base.match(/gitlab\.com[/:]+(.+)$/i)))
-    url = `https://gitlab.com/${m[1]}/-/raw/HEAD/${sub}package.json`;
+    url = `https://gitlab.com/${m[1]}/-/raw/${ref}/${sub}package.json`;
   if(!url) return null;
   try{ const res = await fetch(url); return res.ok ? await res.json() : null; }
   catch{ return null; }
@@ -175,19 +178,28 @@ function imgRepoSlug(u){
   if((m=u.match(/^https:\/\/gitlab\.com\/(.+?)\/-\/raw\//i))) return `gitlab|${m[1]}`.toLowerCase();
   return null;
 }
+// Original-case "owner/repo" (GitHub) or "group/.../repo" (GitLab) for BUILDING raw URLs — repoSlug
+// lower-cases for comparison only; GitLab paths are case-sensitive, so building must keep the case.
+function repoParts(u){
+  u=(u||'').split(/[?#]/)[0].replace(/\.git$/i,'').replace(/\/+$/,''); let m;
+  if((m=u.match(/github\.com[/:]+([^/]+)\/([^/]+)/i))) return {host:'github', path:`${m[1]}/${m[2]}`};
+  if((m=u.match(/gitlab\.com[/:]+(.+)$/i))) return {host:'gitlab', path:m[1]};
+  return null;
+}
 // Resolve to a raw URL only when it's an image file in the submitter's OWN repo; else '' (rejected).
-// A full URL must already be a raw file in that same repo; a path is built against it.
+// A full URL must already be a raw file in that same repo; a path is built against it, honouring #ref.
 function resolveImageUrl(val, repoUrl, gitUrl){
   val=(val||'').trim(); if(!val) return '';
-  const slug = repoSlug(gitUrl || repoUrl);
+  const src = gitUrl || repoUrl;
+  const slug = repoSlug(src);
   if(!slug) return '';
   if(/^https?:\/\//i.test(val)) return (imgRepoSlug(val)===slug && IMG_EXT.test(val)) ? val : '';
   const path = val.replace(/^\/+/,'');
   if(!IMG_EXT.test(path)) return '';
-  const rp = slug.split('|').slice(1).join('/');
-  return slug.startsWith('github|')
-    ? `https://raw.githubusercontent.com/${rp}/HEAD/${path}`
-    : `https://gitlab.com/${rp}/-/raw/HEAD/${path}`;
+  const rp = repoParts(src), ref = refOf(src);
+  return rp.host==='github'
+    ? `https://raw.githubusercontent.com/${rp.path}/${ref}/${path}`
+    : `https://gitlab.com/${rp.path}/-/raw/${ref}/${path}`;
 }
 const fmtNum = n => n>=1e9?(n/1e9).toFixed(1).replace(/\.0$/,'')+'B':n>=1e6?(n/1e6).toFixed(1).replace(/\.0$/,'')+'M':n>=1e3?(n/1e3).toFixed(1).replace(/\.0$/,'')+'K':''+n;
 const badgeCls = s => s==='curated' ? 'bg-brand/15 text-brand ring-1 ring-brand/30'
