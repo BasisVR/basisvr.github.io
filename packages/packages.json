@@ -1,0 +1,120 @@
+[
+  {
+    "id": "com.basis.framework",
+    "name": "Basis Framework",
+    "description": "Core BasisVR networked social framework \u2014 avatars, networking, and the runtime that everything else builds on.",
+    "author": "BasisVR",
+    "authorUrl": "https://basisvr.org",
+    "category": "Framework",
+    "tags": [
+      "core",
+      "networking",
+      "avatars"
+    ],
+    "source": "curated",
+    "gitUrl": "https://github.com/BasisVR/Basis.git?path=Basis/Packages/com.basis.framework",
+    "repoUrl": "https://github.com/BasisVR/Basis",
+    "unity": "6000.0",
+    "version": "0.1.0",
+    "stars": 454,
+    "forks": 143,
+    "icon": "\uD83E\uDDE9",
+    "updated": "2026-07-03",
+    "dependencies": {
+      "com.basis.networking": "^0.1.0"
+    }
+  },
+  {
+    "id": "com.basis.networking",
+    "name": "Basis Networking",
+    "description": "LiteNetLib-based networking layer for BasisVR \u2014 transport, sync codecs, and the reduction pipeline.",
+    "author": "BasisVR",
+    "authorUrl": "https://basisvr.org",
+    "category": "Networking",
+    "tags": [
+      "networking",
+      "litenetlib",
+      "sync"
+    ],
+    "source": "curated",
+    "gitUrl": "https://github.com/BasisVR/Basis.git?path=Basis/Packages/com.basis.networking",
+    "repoUrl": "https://github.com/BasisVR/Basis",
+    "unity": "6000.0",
+    "version": "0.1.0",
+    "stars": 454,
+    "forks": 143,
+    "icon": "\uD83C\uDF10",
+    "updated": "2026-07-03"
+  },
+  {
+    "id": "com.basis.sdk",
+    "name": "Basis SDK",
+    "description": "Authoring SDK for creating BasisVR avatars and worlds, including the editor tooling and build pipeline.",
+    "author": "BasisVR",
+    "authorUrl": "https://basisvr.org",
+    "category": "SDK",
+    "tags": [
+      "sdk",
+      "editor",
+      "authoring"
+    ],
+    "source": "curated",
+    "gitUrl": "https://github.com/BasisVR/Basis.git?path=Basis/Packages/com.basis.sdk",
+    "repoUrl": "https://github.com/BasisVR/Basis",
+    "unity": "6000.0",
+    "version": "0.1.0",
+    "stars": 454,
+    "forks": 143,
+    "icon": "\uD83D\uDEE0\uFE0F",
+    "updated": "2026-07-03",
+    "dependencies": {
+      "com.basis.framework": "^0.1.0"
+    }
+  },
+  {
+    "id": "com.basis.mediapipe",
+    "name": "Basis MediaPipe",
+    "description": "Webcam face and hand tracking for desktop avatars via Google MediaPipe.",
+    "author": "BasisVR",
+    "authorUrl": "https://basisvr.org",
+    "category": "Tracking",
+    "tags": [
+      "tracking",
+      "mediapipe",
+      "face",
+      "webcam"
+    ],
+    "source": "curated",
+    "gitUrl": "https://github.com/BasisVR/Basis.git?path=Basis/Packages/com.basis.mediapipe",
+    "repoUrl": "https://github.com/BasisVR/Basis",
+    "unity": "6000.0",
+    "version": "0.1.0",
+    "stars": 454,
+    "forks": 143,
+    "icon": "\uD83D\uDC41\uFE0F",
+    "updated": "2026-07-03"
+  },
+  {
+    "id": "com.basis.pooltable",
+    "name": "Basis Ported Pooltable",
+    "description": "A working pool / billiards table you can drop into a Basis world \u2014 a community port.",
+    "author": "MS-BASISSA",
+    "authorUrl": "https://github.com/BasisVR/MS-BASISSA-Billiards",
+    "category": "Worlds",
+    "tags": [
+      "worlds",
+      "game",
+      "billiards",
+      "pool"
+    ],
+    "source": "community",
+    "gitUrl": "https://github.com/BasisVR/MS-BASISSA-Billiards.git",
+    "repoUrl": "https://github.com/BasisVR/MS-BASISSA-Billiards",
+    "unity": "6000.0",
+    "version": "0.0.1",
+    "stars": 0,
+    "forks": 1,
+    "icon": "\uD83C\uDFB1",
+    "updated": "2025-11-25"
+  }
+]
