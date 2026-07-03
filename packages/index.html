@@ -139,6 +139,21 @@ let RAW = [], ALL = [];
 
 const esc = s => (s??"").toString().replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const hostOf = p => { const u=(p.repoUrl||p.gitUrl||'').toLowerCase(); return u.includes('gitlab')?'GitLab':u.includes('github')?'GitHub':''; };
+// curated = hosted under the Basis org (github.com/BasisVR/…); anything else is community.
+const deriveSource = (repoUrl, gitUrl) => { const m=(repoUrl||gitUrl||'').toLowerCase().match(/github\.com[/:]+([^/?#]+)/); return (m && m[1]==='basisvr') ? 'curated' : 'community'; };
+async function fetchLatestVersion(repoUrl, gitUrl){
+  const src = gitUrl || repoUrl || '';
+  const m = src.match(/github\.com[/:]+([^/?#]+)\/([^/?#.]+)/i);
+  if(!m) return null;
+  const pm = src.match(/[?&]path=([^&#]+)/);
+  const path = pm ? decodeURIComponent(pm[1]).replace(/^\/+|\/+$/g,'') + '/' : '';
+  try{
+    const res = await fetch(`https://raw.githubusercontent.com/${m[1]}/${m[2]}/HEAD/${path}package.json`);
+    if(!res.ok) return null;
+    const j = await res.json();
+    return j.version || null;
+  }catch{ return null; }
+}
 const fmtNum = n => n>=1e9?(n/1e9).toFixed(1).replace(/\.0$/,'')+'B':n>=1e6?(n/1e6).toFixed(1).replace(/\.0$/,'')+'M':n>=1e3?(n/1e3).toFixed(1).replace(/\.0$/,'')+'K':''+n;
 const badgeCls = s => s==='curated' ? 'bg-brand/15 text-brand ring-1 ring-brand/30'
   : s==='community' ? 'bg-purple-500/15 text-purple-600 dark:text-purple-400 ring-1 ring-purple-500/30'
@@ -323,8 +338,9 @@ function openSubmit(){
         <label class="${field}"><span class="${label}">Category</span><input name="category" class="${input}" placeholder="Tools"></label>
       </div>
       <div class="grid gap-4 sm:grid-cols-2">
-        <label class="${field}"><span class="${label}">Source</span><select name="source" class="${input}"><option value="community">community</option><option value="curated">curated</option></select></label>
-        <label class="${field}"><span class="${label}">Version</span><input name="version" class="${input}" placeholder="1.0.0"></label>
+        <label class="${field}"><span class="${label}">Source (auto)</span>
+          <div class="${input} flex items-center justify-between"><span id="srcAuto" class="font-semibold">community</span><span id="srcHint" class="text-xs text-gray-400">hosted elsewhere</span></div></label>
+        <label class="${field}"><span class="${label}">Version <span id="verHint" class="text-xs text-gray-400"></span></span><input name="version" class="${input}" placeholder="auto-detected from releases"></label>
       </div>
       <label class="${field}"><span class="${label}">Git URL (UPM) *</span><input name="gitUrl" required class="${input}" placeholder="https://github.com/you/repo.git?path=Packages/com.you.x  or  https://gitlab.com/…"></label>
       <label class="${field}"><span class="${label}">Repository URL</span><input name="repoUrl" class="${input}" placeholder="https://github.com/you/repo  or  https://gitlab.com/you/repo"></label>
@@ -333,7 +349,27 @@ function openSubmit(){
     </form>
   </div>`;
   m.classList.remove('hidden');
-  document.getElementById('submitForm').onsubmit = submitPackage;
+  const f = document.getElementById('submitForm');
+  f.onsubmit = submitPackage;
+  let verTimer;
+  const updateAuto = () => {
+    const repo = f.elements.repoUrl.value, git = f.elements.gitUrl.value;
+    const s = deriveSource(repo, git);
+    document.getElementById('srcAuto').textContent = s;
+    document.getElementById('srcHint').textContent = s==='curated' ? 'under github.com/BasisVR' : 'hosted elsewhere';
+    clearTimeout(verTimer);
+    verTimer = setTimeout(async () => {
+      if (!repo && !git) { document.getElementById('verHint').textContent=''; return; }
+      document.getElementById('verHint').textContent = '(checking package.json…)';
+      const v = await fetchLatestVersion(repo, git);
+      document.getElementById('verHint').textContent = v ? '(from package.json)' : '(not detected)';
+      if (v && !f.elements.version.dataset.touched) f.elements.version.value = v;
+    }, 500);
+  };
+  f.elements.gitUrl.oninput = updateAuto;
+  f.elements.repoUrl.oninput = updateAuto;
+  f.elements.version.oninput = () => { f.elements.version.dataset.touched = '1'; };
+  updateAuto();
 }
 
 function submitPackage(e){
@@ -343,7 +379,7 @@ function submitPackage(e){
     id:g('id'), name:g('name'), description:g('description'),
     author:g('author')||'Community', category:g('category')||'Misc',
     tags: g('tags') ? g('tags').split(',').map(t=>t.trim()).filter(Boolean) : [],
-    source:g('source')||'community', gitUrl:g('gitUrl')||null, repoUrl:g('repoUrl')||null,
+    source:deriveSource(g('repoUrl'), g('gitUrl')), gitUrl:g('gitUrl')||null, repoUrl:g('repoUrl')||null,
     unity:g('unity')||null, version:g('version')||'1.0.0'
   };
   if(!pkg.id||!pkg.name){ toast('Package id and name are required','err'); return; }

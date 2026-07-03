@@ -4,10 +4,10 @@
   "packages": {
     "com.basis.framework": {
       "versions": {
-        "0.1.0": {
+        "0.0.1": {
           "name": "com.basis.framework",
           "displayName": "Basis Framework",
-          "version": "0.1.0",
+          "version": "0.0.1",
           "description": "Core BasisVR networked social framework \u2014 avatars, networking, and the runtime that everything else builds on.",
           "unity": "6000.0",
           "dependencies": {
@@ -39,10 +39,10 @@
     },
     "com.basis.sdk": {
       "versions": {
-        "0.1.0": {
+        "0.0.1": {
           "name": "com.basis.sdk",
           "displayName": "Basis SDK",
-          "version": "0.1.0",
+          "version": "0.0.1",
           "description": "Authoring SDK for creating BasisVR avatars and worlds, including the editor tooling and build pipeline.",
           "unity": "6000.0",
           "dependencies": {
@@ -58,10 +58,10 @@
     },
     "com.basis.mediapipe": {
       "versions": {
-        "0.1.0": {
+        "0.0.1": {
           "name": "com.basis.mediapipe",
           "displayName": "Basis MediaPipe",
-          "version": "0.1.0",
+          "version": "0.0.1",
           "description": "Webcam face and hand tracking for desktop avatars via Google MediaPipe.",
           "unity": "6000.0",
           "url": "https://github.com/BasisVR/Basis.git?path=Basis/Packages/com.basis.mediapipe",
