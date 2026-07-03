@@ -95,17 +95,29 @@
       </div>
     </header>
 
+    <!-- Packages / Bundles toggle -->
+    <div class="mt-6 inline-flex rounded-2xl border border-gray-200 bg-white/70 p-1 shadow-sm dark:border-white/10 dark:bg-white/5">
+      <button id="tabPackages" type="button" class="rounded-xl px-4 py-2 text-sm font-semibold">Packages</button>
+      <button id="tabBundles" type="button" class="rounded-xl px-4 py-2 text-sm font-semibold">Bundles</button>
+    </div>
+
     <!-- Registry -->
     <div class="mt-10 grid gap-8 lg:grid-cols-[240px_1fr]">
       <!-- Filters -->
       <aside class="space-y-4 lg:sticky lg:top-8 self-start">
-        <div class="rounded-2xl border border-gray-200 bg-white/70 p-4 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5">
-          <h4 class="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-400">Source</h4>
-          <div id="sourceChips" class="space-y-1"></div>
+        <div id="pkgFilters" class="space-y-4">
+          <div class="rounded-2xl border border-gray-200 bg-white/70 p-4 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5">
+            <h4 class="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-400">Source</h4>
+            <div id="sourceChips" class="space-y-1"></div>
+          </div>
+          <div class="rounded-2xl border border-gray-200 bg-white/70 p-4 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5">
+            <h4 class="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-400">Category</h4>
+            <div id="categoryChips" class="space-y-1"></div>
+          </div>
         </div>
-        <div class="rounded-2xl border border-gray-200 bg-white/70 p-4 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5">
-          <h4 class="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-400">Category</h4>
-          <div id="categoryChips" class="space-y-1"></div>
+        <div id="bundleInfo" class="hidden rounded-2xl border border-gray-200 bg-white/70 p-4 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5">
+          <h4 class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-400">Bundles</h4>
+          <p class="text-sm text-gray-600 dark:text-gray-300">Modpacks — a Basis version plus a set of packages. Build your own in the <a href="https://github.com/BasisVR/BasisPackageManager" target="_blank" class="text-brand hover:underline">Basis Package Manager</a> and submit it.</p>
         </div>
       </aside>
 
@@ -136,9 +148,9 @@
   <div id="toast" class="pointer-events-none fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-2xl border border-gray-200 bg-white px-5 py-3 text-sm opacity-0 shadow-lg transition dark:border-white/10 dark:bg-basisbg"></div>
 
 <script>
-const state = { search:"", source:"all", category:"all", sort:"popular" };
+const state = { search:"", source:"all", category:"all", sort:"popular", view:"packages" };
 const REPO = "BasisVR/BasisPackageManager";
-let RAW = [], ALL = [];
+let RAW = [], ALL = [], RAWB = [], bundlesLoaded = false;
 
 const esc = s => (s??"").toString().replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const hostOf = p => { const u=(p.repoUrl||p.gitUrl||'').toLowerCase(); return u.includes('gitlab')?'GitLab':u.includes('github')?'GitHub':''; };
@@ -228,7 +240,35 @@ async function fetchAll(){
   RAW = await res.json();
 }
 
+async function fetchBundles(){
+  if(bundlesLoaded) return;
+  try{ const res = await fetch('bundles.json', { cache:'no-cache' }); RAWB = res.ok ? await res.json() : []; }
+  catch{ RAWB = []; }
+  bundlesLoaded = true;
+}
+
+function tabStyle(){
+  const on  = 'rounded-xl px-4 py-2 text-sm font-semibold bg-gradient-to-r from-brand to-purple-600 text-white shadow';
+  const off = 'rounded-xl px-4 py-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-brand';
+  document.getElementById('tabPackages').className = state.view==='packages' ? on : off;
+  document.getElementById('tabBundles').className  = state.view==='bundles'  ? on : off;
+}
+
+async function switchView(view){
+  if(state.view===view) return;
+  state.view = view;
+  const isB = view==='bundles';
+  document.getElementById('pkgFilters').classList.toggle('hidden', isB);
+  document.getElementById('bundleInfo').classList.toggle('hidden', !isB);
+  document.getElementById('sort').classList.toggle('hidden', isB);
+  document.getElementById('search').placeholder = isB ? 'Search bundles, authors, packages…' : 'Search packages, authors, tags…';
+  tabStyle();
+  if(isB) await fetchBundles();
+  load();
+}
+
 function load(){
+  if(state.view==='bundles') return loadBundles();
   let q = RAW.slice();
   const s = state.search.trim().toLowerCase();
   if(s) q = q.filter(p =>
@@ -244,6 +284,19 @@ function load(){
     popular:(a,b)=>(b.stars-a.stars)||(b.forks-a.forks),
   };
   q.sort(by[state.sort]||by.popular);
+  ALL = q;
+  renderGrid();
+}
+
+function loadBundles(){
+  let q = RAWB.slice();
+  const s = state.search.trim().toLowerCase();
+  if(s) q = q.filter(b =>
+    (b.name||'').toLowerCase().includes(s) || (b.id||'').toLowerCase().includes(s) ||
+    (b.description||'').toLowerCase().includes(s) || (b.author||'').toLowerCase().includes(s) ||
+    (b.tags||[]).some(t=>t.toLowerCase().includes(s)) ||
+    (b.packages||[]).some(p=>(p.id||'').toLowerCase().includes(s)));
+  q.sort((a,b)=>(a.name||'').localeCompare(b.name||''));
   ALL = q;
   renderGrid();
 }
@@ -277,6 +330,7 @@ function buildFilters(){
 }
 
 function renderGrid(){
+  if(state.view==='bundles') return renderBundles();
   const grid = document.getElementById('grid');
   document.getElementById('count').innerHTML = `<b class="text-gray-900 dark:text-white">${ALL.length}</b> package${ALL.length===1?'':'s'}`;
   if(!ALL.length){ grid.innerHTML = `<div class="sm:col-span-2 py-20 text-center text-gray-500 dark:text-gray-400"><p class="text-lg font-semibold text-gray-900 dark:text-white">No packages found</p><p class="mt-1">Try a different search or filter.</p></div>`; return; }
@@ -363,6 +417,71 @@ function openDetail(id){
   </div>`;
   m.classList.remove('hidden');
   m.querySelectorAll('.copy').forEach(b=>b.onclick=e=>{e.stopPropagation();copy(b.dataset.copy,b);});
+}
+
+function renderBundles(){
+  const grid = document.getElementById('grid');
+  document.getElementById('count').innerHTML = `<b class="text-gray-900 dark:text-white">${ALL.length}</b> bundle${ALL.length===1?'':'s'}`;
+  if(!ALL.length){ grid.innerHTML = `<div class="sm:col-span-2 py-20 text-center text-gray-500 dark:text-gray-400"><p class="text-lg font-semibold text-gray-900 dark:text-white">No bundles yet</p><p class="mt-1">Build one from the Basis Package Manager and submit it.</p></div>`; return; }
+  grid.innerHTML = ALL.map(b=>{
+    const n = (b.packages||[]).length;
+    const basis = b.basisBranch ? `${esc(b.basisBranch)}${b.basisCommit?'@'+esc(b.basisCommit):''}` : '';
+    return `
+    <div data-bundle="${esc(b.id)}" class="group flex cursor-pointer flex-col rounded-2xl border border-gray-200 bg-white/70 p-5 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand/20 dark:border-white/10 dark:bg-white/5">
+      <div class="flex items-start gap-3">
+        <div class="inline-flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gray-100 text-xl ring-1 ring-gray-200 dark:bg-white/5 dark:ring-white/10">${imgOrIcon({image:b.image,icon:b.icon||'🧩'})}</div>
+        <div class="min-w-0">
+          <h3 class="flex flex-wrap items-center gap-2 font-semibold">${esc(b.name)}
+            <span class="rounded-full bg-brand/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-brand ring-1 ring-brand/30">${n} pkg${n===1?'':'s'}</span></h3>
+          <p class="text-xs text-gray-500 dark:text-gray-400">by ${esc(b.author||'—')}${basis?' · Basis '+basis:''}</p>
+        </div>
+      </div>
+      <p class="mt-3 line-clamp-2 text-sm text-gray-600 dark:text-gray-300">${esc(b.description||'')}</p>
+      <div class="mt-3 flex flex-wrap gap-1.5">${(b.tags||[]).slice(0,4).map(t=>`<span class="rounded-full bg-gray-100 px-2 py-0.5 text-[11px] text-gray-600 dark:bg-white/5 dark:text-gray-300">${esc(t)}</span>`).join('')}</div>
+    </div>`;
+  }).join('');
+  grid.querySelectorAll('[data-bundle]').forEach(c=>c.onclick=()=>openBundle(c.dataset.bundle));
+}
+
+function openBundle(id){
+  const b = RAWB.find(x=>x.id===id); if(!b) return;
+  const m = document.getElementById('modal');
+  const n = (b.packages||[]).length;
+  const deep = `basispm://bundle?id=${encodeURIComponent(b.id)}`;
+  const manifest = JSON.stringify(Object.fromEntries((b.packages||[]).filter(p=>p.gitUrl||p.version).map(p=>[p.id, p.gitUrl||p.version])), null, 2);
+  const basis = b.basisBranch ? `${esc(b.basisBranch)}${b.basisCommit?'@'+esc(b.basisCommit):''}` : 'unknown';
+  m.innerHTML = `<div class="w-full max-w-2xl max-h-[85vh] overflow-auto rounded-2xl border border-gray-200 bg-white shadow-2xl dark:border-white/10 dark:bg-basisbg" onclick="event.stopPropagation()">
+    <div class="flex items-start gap-4 border-b border-gray-200 p-6 dark:border-white/10">
+      <div class="inline-flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-gray-100 text-3xl ring-1 ring-gray-200 dark:bg-white/5 dark:ring-white/10">${imgOrIcon({image:b.image,icon:b.icon||'🧩'})}</div>
+      <div class="min-w-0 flex-1">
+        <h2 class="text-xl font-bold">${esc(b.name)}</h2>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">by ${b.authorUrl?`<a href="${esc(b.authorUrl)}" target="_blank" class="underline hover:text-brand">${esc(b.author||'—')}</a>`:esc(b.author||'—')} · Basis ${basis}${b.unity?' · Unity '+esc(b.unity):''}</p>
+      </div>
+      <button onclick="closeModals()" class="text-2xl leading-none text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">&times;</button>
+    </div>
+    <div class="space-y-5 p-6">
+      <p class="text-gray-600 dark:text-gray-300">${esc(b.description||'')}</p>
+      <div>
+        <p class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-400">${n} package${n===1?'':'s'}</p>
+        <div class="space-y-1.5">${(b.packages||[]).map(p=>`<div class="flex items-center justify-between gap-3 rounded-xl border border-gray-200 px-3 py-2 text-sm dark:border-white/10"><span class="font-medium">${esc(p.name||p.id)}</span><span class="truncate text-xs text-gray-400">${esc(p.id)}</span></div>`).join('')}</div>
+      </div>
+      <div>
+        <p class="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-400">Install this bundle</p>
+        <a href="${esc(deep)}" class="mb-2 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-brand to-purple-600 px-5 py-4 text-base font-semibold text-white shadow hover:shadow-lg"
+           title="Opens the Basis Package Manager and adds every package to a project you pick.">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+          Install bundle in the app
+        </a>
+        <p class="text-center text-xs text-gray-400">Adds all ${n} package${n===1?'':'s'} to a project you choose. Don't have it? <a href="https://github.com/${REPO}/releases/latest" target="_blank" class="text-brand hover:underline">Get the Package Manager</a>.</p>
+      </div>
+      <div>
+        <div class="mb-2 flex items-center justify-between"><span class="text-xs font-semibold uppercase tracking-wide text-gray-400">Or add to Packages/manifest.json</span><button class="copy rounded-lg border border-gray-200 px-2 py-1 text-xs hover:border-brand hover:text-brand dark:border-white/10" data-copy="${esc(manifest)}">Copy</button></div>
+        <pre class="overflow-x-auto whitespace-pre-wrap break-all rounded-xl border border-gray-200 bg-gray-50 p-3 font-mono text-xs text-gray-800 dark:border-white/10 dark:bg-black/30 dark:text-gray-200">${esc(manifest)}</pre>
+      </div>
+    </div>
+  </div>`;
+  m.classList.remove('hidden');
+  m.querySelectorAll('.copy').forEach(btn=>btn.onclick=e=>{e.stopPropagation();copy(btn.dataset.copy,btn);});
 }
 
 const SUB_field = 'block text-sm text-gray-600 dark:text-gray-300 mb-3';
@@ -507,12 +626,15 @@ document.getElementById('modal').onclick = closeModals;
 document.getElementById('submitModal').onclick = closeModals;
 document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModals(); });
 document.getElementById('submitBtn').onclick = openSubmit;
+document.getElementById('tabPackages').onclick = ()=>switchView('packages');
+document.getElementById('tabBundles').onclick = ()=>switchView('bundles');
 
 let searchTimer;
 document.getElementById('search').oninput = e=>{ clearTimeout(searchTimer); state.search=e.target.value; searchTimer=setTimeout(load,160); };
 document.getElementById('sort').onchange = e=>{ state.sort=e.target.value; load(); };
 
-(async function init(){ await fetchAll(); buildFilters(); load(); })();
+(async function init(){ tabStyle(); await fetchAll(); buildFilters(); load(); if(location.hash==='#bundles') switchView('bundles'); })();
+window.addEventListener('hashchange', ()=>switchView(location.hash==='#bundles'?'bundles':'packages'));
 </script>
 
 <script src="/footer.js" defer></script>
