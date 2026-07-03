@@ -98,8 +98,8 @@
     "id": "com.basis.pooltable",
     "name": "Basis Ported Pooltable",
     "description": "A working pool / billiards table you can drop into a Basis world \u2014 a community port.",
-    "author": "MS-BASISSA",
-    "authorUrl": "https://github.com/BasisVR/MS-BASISSA-Billiards",
+    "author": "dooly123",
+    "authorUrl": "https://github.com/dooly123",
     "category": "Worlds",
     "tags": [
       "worlds",
@@ -107,9 +107,9 @@
       "billiards",
       "pool"
     ],
-    "source": "curated",
-    "gitUrl": "https://github.com/BasisVR/MS-BASISSA-Billiards.git",
-    "repoUrl": "https://github.com/BasisVR/MS-BASISSA-Billiards",
+    "source": "community",
+    "gitUrl": "https://github.com/dooly123/MS-BASISSA-Billiards.git",
+    "repoUrl": "https://github.com/dooly123/MS-BASISSA-Billiards",
     "unity": "6000.0",
     "version": "0.0.1",
     "stars": 0,
