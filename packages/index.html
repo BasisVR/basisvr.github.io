@@ -160,19 +160,34 @@ async function fetchPackageJson(repoUrl, gitUrl){
   try{ const res = await fetch(url); return res.ok ? await res.json() : null; }
   catch{ return null; }
 }
-// Resolves an image the submitter hosts in their own repo: a full raw URL is kept; a
-// path is turned into a raw URL against the repo they gave us (same host as package.json).
-function resolveImageUrl(val, repoUrl, gitUrl){
-  val = (val||'').trim();
-  if(!val) return '';
-  if(/^https?:\/\//i.test(val)) return val;
-  const src = (gitUrl || repoUrl || '').trim();
-  const base = src.split(/[?#]/)[0].replace(/\.git$/i,'').replace(/\/+$/,'');
-  const path = val.replace(/^\/+/,'');
+const IMG_EXT = /\.(png|webp|jpe?g|gif)(?:$|\?|#)/i;
+// Repo the submitter gave us, as "github|owner|repo" or "gitlab|group/.../repo".
+function repoSlug(u){
+  u=(u||'').split(/[?#]/)[0].replace(/\.git$/i,'').replace(/\/+$/,''); let m;
+  if((m=u.match(/github\.com[/:]+([^/]+)\/([^/]+)/i))) return `github|${m[1]}|${m[2]}`.toLowerCase();
+  if((m=u.match(/gitlab\.com[/:]+(.+)$/i))) return `gitlab|${m[1]}`.toLowerCase();
+  return null;
+}
+// Same slug from a strict raw image URL (one of the two hosts the CSP allows), else null.
+function imgRepoSlug(u){
   let m;
-  if((m = base.match(/github\.com[/:]+([^/]+)\/([^/]+)/i))) return `https://raw.githubusercontent.com/${m[1]}/${m[2]}/HEAD/${path}`;
-  if((m = base.match(/gitlab\.com[/:]+(.+)$/i))) return `https://gitlab.com/${m[1]}/-/raw/HEAD/${path}`;
-  return val;
+  if((m=u.match(/^https:\/\/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\//i))) return `github|${m[1]}|${m[2]}`.toLowerCase();
+  if((m=u.match(/^https:\/\/gitlab\.com\/(.+?)\/-\/raw\//i))) return `gitlab|${m[1]}`.toLowerCase();
+  return null;
+}
+// Resolve to a raw URL only when it's an image file in the submitter's OWN repo; else '' (rejected).
+// A full URL must already be a raw file in that same repo; a path is built against it.
+function resolveImageUrl(val, repoUrl, gitUrl){
+  val=(val||'').trim(); if(!val) return '';
+  const slug = repoSlug(gitUrl || repoUrl);
+  if(!slug) return '';
+  if(/^https?:\/\//i.test(val)) return (imgRepoSlug(val)===slug && IMG_EXT.test(val)) ? val : '';
+  const path = val.replace(/^\/+/,'');
+  if(!IMG_EXT.test(path)) return '';
+  const rp = slug.split('|').slice(1).join('/');
+  return slug.startsWith('github|')
+    ? `https://raw.githubusercontent.com/${rp}/HEAD/${path}`
+    : `https://gitlab.com/${rp}/-/raw/HEAD/${path}`;
 }
 const fmtNum = n => n>=1e9?(n/1e9).toFixed(1).replace(/\.0$/,'')+'B':n>=1e6?(n/1e6).toFixed(1).replace(/\.0$/,'')+'M':n>=1e3?(n/1e3).toFixed(1).replace(/\.0$/,'')+'K':''+n;
 const badgeCls = s => s==='curated' ? 'bg-brand/15 text-brand ring-1 ring-brand/30'
@@ -437,7 +452,9 @@ function submitStep2(){
   document.getElementById('s_back').onclick = submitStep1;
   const imgPrev = document.getElementById('imgPreview'), imgHint = document.getElementById('imgHint');
   const updImg = () => {
-    const url = resolveImageUrl(f.elements.image.value, f.elements.repoUrl.value, f.elements.gitUrl.value);
+    const raw = f.elements.image.value.trim();
+    const url = resolveImageUrl(raw, f.elements.repoUrl.value, f.elements.gitUrl.value);
+    if(raw && !url){ imgHint.innerHTML = '<span class="text-brand">Point to a PNG/WebP/JPG/GIF hosted in your own repo.</span>'; imgPrev.textContent = p.icon||'📦'; return; }
     imgHint.textContent = url || '';
     imgPrev.innerHTML = url ? `<img src="${esc(url)}" alt="" referrerpolicy="no-referrer" class="h-full w-full object-cover" onerror="this.parentElement.textContent='⚠️'">` : (p.icon||'📦');
   };
