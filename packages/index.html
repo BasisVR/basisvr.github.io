@@ -8,6 +8,8 @@
   <meta name="theme-color" content="#ef1237" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#100f27" media="(prefers-color-scheme: dark)">
   <meta name="color-scheme" content="light dark" />
+  <!-- Package images are self-hosted; restrict where any image can load from. -->
+  <meta http-equiv="Content-Security-Policy" content="img-src 'self' https://raw.githubusercontent.com data:;">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.bunny.net" />
@@ -69,7 +71,7 @@
           <a href="https://github.com/BasisVR/BasisPackageManager/releases" target="_blank"
              class="ml-6 inline-flex items-center gap-2 rounded-2xl border border-gray-200 bg-white/70 px-4 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:border-brand hover:text-brand dark:border-white/10 dark:bg-white/10 dark:text-white">
             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
-            Get the app
+            Get the Package Manager
           </a>
           <button id="submitBtn" class="ml-3 inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-brand to-purple-600 px-4 py-2 text-sm font-semibold text-white shadow hover:shadow-lg">Submit a package</button>
         </div>
@@ -160,6 +162,10 @@ const badgeCls = s => s==='curated' ? 'bg-brand/15 text-brand ring-1 ring-brand/
   : s==='community' ? 'bg-purple-500/15 text-purple-600 dark:text-purple-400 ring-1 ring-purple-500/30'
   : 'bg-gray-500/15 text-gray-500 ring-1 ring-gray-500/20';
 const dotCls = k => k==='curated'?'bg-brand':k==='community'?'bg-purple-500':'bg-gray-400';
+// Package image is a self-hosted path (icons/<id>.png) or null → fall back to the emoji icon.
+const imgOrIcon = p => p.image
+  ? `<img src="${esc(p.image)}" alt="" loading="lazy" referrerpolicy="no-referrer" class="h-full w-full object-cover" onerror="this.replaceWith(document.createTextNode('📦'))">`
+  : esc(p.icon||'📦');
 
 function toast(msg, kind){
   const t=document.getElementById('toast');
@@ -233,7 +239,7 @@ function renderGrid(){
   grid.innerHTML = ALL.map(p=>`
     <div data-id="${esc(p.id)}" class="group flex cursor-pointer flex-col rounded-2xl border border-gray-200 bg-white/70 p-5 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand/20 dark:border-white/10 dark:bg-white/5">
       <div class="flex items-start gap-3">
-        <div class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gray-100 text-xl ring-1 ring-gray-200 dark:bg-white/5 dark:ring-white/10">${esc(p.icon||'📦')}</div>
+        <div class="inline-flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gray-100 text-xl ring-1 ring-gray-200 dark:bg-white/5 dark:ring-white/10">${imgOrIcon(p)}</div>
         <div class="min-w-0">
           <h3 class="flex flex-wrap items-center gap-2 font-semibold">${esc(p.name)}
             <span class="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${badgeCls(p.source)}">${esc(p.source)}</span></h3>
@@ -278,7 +284,7 @@ function openDetail(id){
   const stat = 'text-gray-600 dark:text-gray-300';
   m.innerHTML = `<div class="w-full max-w-2xl max-h-[85vh] overflow-auto rounded-2xl border border-gray-200 bg-white shadow-2xl dark:border-white/10 dark:bg-basisbg" onclick="event.stopPropagation()">
     <div class="flex items-start gap-4 border-b border-gray-200 p-6 dark:border-white/10">
-      <div class="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gray-100 text-3xl ring-1 ring-gray-200 dark:bg-white/5 dark:ring-white/10">${esc(p.icon||'📦')}</div>
+      <div class="inline-flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-gray-100 text-3xl ring-1 ring-gray-200 dark:bg-white/5 dark:ring-white/10">${imgOrIcon(p)}</div>
       <div class="min-w-0 flex-1">
         <h2 class="flex flex-wrap items-center gap-2 text-xl font-bold">${esc(p.name)} <span class="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${badgeCls(p.source)}">${esc(p.source)}</span></h2>
         <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">by ${p.authorUrl?`<a href="${esc(p.authorUrl)}" target="_blank" class="underline hover:text-brand">${esc(p.author)}</a>`:esc(p.author)} · ${esc(p.category)}${hostOf(p)?' · '+hostOf(p):''}</p>
