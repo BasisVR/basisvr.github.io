@@ -153,6 +153,8 @@ const REPO = "BasisVR/BasisPackageManager";
 let RAW = [], ALL = [], RAWB = [], bundlesLoaded = false;
 
 const esc = s => (s??"").toString().replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+// Only ever put http/https links in an href — an escaped "javascript:…" is still a clickable script.
+const safeUrl = u => { try { const x = new URL(u, location.href); return (x.protocol==='http:'||x.protocol==='https:') ? x.href : '#'; } catch { return '#'; } };
 const hostOf = p => { const u=(p.repoUrl||p.gitUrl||'').toLowerCase(); return u.includes('gitlab')?'GitLab':u.includes('github')?'GitHub':''; };
 // curated = hosted under the Basis org (github.com/BasisVR/…); anything else is community.
 const deriveSource = (repoUrl, gitUrl) => { const m=(repoUrl||gitUrl||'').toLowerCase().match(/github\.com[/:]+([^/?#]+)/); return (m && m[1]==='basisvr') ? 'curated' : 'community'; };
@@ -341,7 +343,7 @@ function renderGrid(){
         <div class="min-w-0">
           <h3 class="flex flex-wrap items-center gap-2 font-semibold">${esc(p.name)}
             <span class="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${badgeCls(p.source)}">${esc(p.source)}</span></h3>
-          <p class="text-xs text-gray-500 dark:text-gray-400">by ${esc(p.author)}${hostOf(p)?' · '+hostOf(p):''}</p>
+          <p class="text-xs text-gray-500 dark:text-gray-400">by ${esc(p.author)}${hostOf(p)?' · '+hostOf(p):''}${p.basisVersion?' · Basis '+esc(p.basisVersion):''}</p>
         </div>
       </div>
       <p class="mt-3 line-clamp-2 text-sm text-gray-600 dark:text-gray-300">${esc(p.description)}</p>
@@ -385,7 +387,7 @@ function openDetail(id){
       <div class="inline-flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-gray-100 text-3xl ring-1 ring-gray-200 dark:bg-white/5 dark:ring-white/10">${imgOrIcon(p)}</div>
       <div class="min-w-0 flex-1">
         <h2 class="flex flex-wrap items-center gap-2 text-xl font-bold">${esc(p.name)} <span class="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${badgeCls(p.source)}">${esc(p.source)}</span></h2>
-        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">by ${p.authorUrl?`<a href="${esc(p.authorUrl)}" target="_blank" class="underline hover:text-brand">${esc(p.author)}</a>`:esc(p.author)} · ${esc(p.category)}${hostOf(p)?' · '+hostOf(p):''}</p>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">by ${p.authorUrl?`<a href="${esc(safeUrl(p.authorUrl))}" target="_blank" rel="noopener noreferrer" class="underline hover:text-brand">${esc(p.author)}</a>`:esc(p.author)} · ${esc(p.category)}${hostOf(p)?' · '+hostOf(p):''}</p>
       </div>
       <button onclick="closeModals()" class="text-2xl leading-none text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">&times;</button>
     </div>
@@ -395,6 +397,7 @@ function openDetail(id){
         <span>⭐ <b class="text-gray-900 dark:text-white">${fmtNum(p.stars)}</b> stars</span>
         <span>⑂ <b class="text-gray-900 dark:text-white">${fmtNum(p.forks)}</b> forks</span>
         <span><b class="text-gray-900 dark:text-white">v${esc(p.version)}</b></span>
+        ${p.basisVersion?`<span title="The Basis version this package was built and tested against">Built for Basis <b class="text-gray-900 dark:text-white">${esc(p.basisVersion)}</b></span>`:''}
         ${p.unity?`<span>Unity <b class="text-gray-900 dark:text-white">${esc(p.unity)}</b></span>`:''}
         ${p.updated?`<span>Updated <b class="text-gray-900 dark:text-white">${esc(p.updated)}</b></span>`:''}
       </div>
@@ -411,7 +414,9 @@ function openDetail(id){
         <div class="space-y-3">${installMethods(p)}</div>
       </div>
       <div class="flex flex-wrap gap-2">
-        ${p.repoUrl?`<a href="${esc(p.repoUrl)}" target="_blank" class="rounded-xl border border-gray-200 px-3 py-1.5 text-sm hover:border-brand hover:text-brand dark:border-white/10">${hostOf(p)?'View on '+hostOf(p):'Repository'} ↗</a>`:''}
+        ${p.repoUrl?`<a href="${esc(safeUrl(p.repoUrl))}" target="_blank" rel="noopener noreferrer" class="rounded-xl border border-gray-200 px-3 py-1.5 text-sm hover:border-brand hover:text-brand dark:border-white/10">${hostOf(p)?'View on '+hostOf(p):'Repository'} ↗</a>`:''}
+        ${p.discord?`<a href="${esc(safeUrl(p.discord))}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 rounded-xl border border-gray-200 px-3 py-1.5 text-sm hover:border-brand hover:text-brand dark:border-white/10"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.32 4.37A19.8 19.8 0 0 0 15.45 3c-.2.36-.43.83-.6 1.22a18.3 18.3 0 0 0-5.7 0A12.6 12.6 0 0 0 8.54 3a19.7 19.7 0 0 0-4.89 1.37C.53 9.05-.32 13.58.1 18.06a19.9 19.9 0 0 0 6.02 3.04c.49-.66.92-1.36 1.29-2.1-.71-.27-1.38-.6-2.01-.99.17-.12.34-.25.5-.38a14.2 14.2 0 0 0 12.2 0c.16.13.33.26.5.38-.63.39-1.31.72-2.02.99.37.74.8 1.44 1.29 2.1a19.8 19.8 0 0 0 6.02-3.04c.5-5.18-.85-9.67-3.56-13.69ZM8.02 15.33c-1.18 0-2.16-1.08-2.16-2.42 0-1.33.95-2.42 2.16-2.42 1.21 0 2.18 1.09 2.16 2.42 0 1.34-.95 2.42-2.16 2.42Zm7.97 0c-1.18 0-2.16-1.08-2.16-2.42 0-1.33.96-2.42 2.16-2.42 1.21 0 2.18 1.09 2.16 2.42 0 1.34-.95 2.42-2.16 2.42Z"/></svg>Discord ↗</a>`:''}
+        ${p.donate?`<a href="${esc(safeUrl(p.donate))}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 rounded-xl border border-brand/30 bg-brand/5 px-3 py-1.5 text-sm text-brand hover:bg-brand/10 dark:border-brand/40">♥ Donate ↗</a>`:''}
       </div>
     </div>
   </div>`;
@@ -455,7 +460,7 @@ function openBundle(id){
       <div class="inline-flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-gray-100 text-3xl ring-1 ring-gray-200 dark:bg-white/5 dark:ring-white/10">${imgOrIcon({image:b.image,icon:b.icon||'🧩'})}</div>
       <div class="min-w-0 flex-1">
         <h2 class="text-xl font-bold">${esc(b.name)}</h2>
-        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">by ${b.authorUrl?`<a href="${esc(b.authorUrl)}" target="_blank" class="underline hover:text-brand">${esc(b.author||'—')}</a>`:esc(b.author||'—')} · Basis ${basis}${b.unity?' · Unity '+esc(b.unity):''}</p>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">by ${b.authorUrl?`<a href="${esc(safeUrl(b.authorUrl))}" target="_blank" rel="noopener noreferrer" class="underline hover:text-brand">${esc(b.author||'—')}</a>`:esc(b.author||'—')} · Basis ${basis}${b.unity?' · Unity '+esc(b.unity):''}</p>
       </div>
       <button onclick="closeModals()" class="text-2xl leading-none text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">&times;</button>
     </div>
@@ -562,6 +567,14 @@ function submitStep2(){
     <label class="${SUB_field}"><span class="${SUB_label}">Git URL (UPM) *</span><input name="gitUrl" required class="${SUB_input}" value="${esc(submitState.git)}"></label>
     <label class="${SUB_field}"><span class="${SUB_label}">Repository URL</span><input name="repoUrl" class="${SUB_input}" value="${esc(submitState.repo)}"></label>
     <label class="${SUB_field}"><span class="${SUB_label}">Tags (comma-separated)</span><input name="tags" class="${SUB_input}" value="${esc(tags)}" placeholder="tools, editor"></label>
+    <div class="grid gap-4 sm:grid-cols-2">
+      <label class="${SUB_field}"><span class="${SUB_label}">Built against Basis version</span><input name="basisVersion" class="${SUB_input}" placeholder="main   or   1.2.0"></label>
+      <label class="${SUB_field}"><span class="${SUB_label}">Unity version</span><input name="unity" class="${SUB_input}" value="${esc(p.unity||'')}" placeholder="6000.0"></label>
+    </div>
+    <div class="grid gap-4 sm:grid-cols-2">
+      <label class="${SUB_field}"><span class="${SUB_label}">Discord invite <span class="text-xs text-gray-400">optional</span></span><input name="discord" class="${SUB_input}" placeholder="https://discord.gg/…"></label>
+      <label class="${SUB_field}"><span class="${SUB_label}">Donation link <span class="text-xs text-gray-400">optional</span></span><input name="donate" class="${SUB_input}" placeholder="https://ko-fi.com/…"></label>
+    </div>
     ${(p.dependencies && Object.keys(p.dependencies).length) ? `<div class="${SUB_field}"><span class="${SUB_label}">Dependencies <span class="text-xs text-gray-400">from package.json — recorded automatically</span></span><div class="flex flex-wrap gap-1.5">${Object.entries(p.dependencies).map(([k,v])=>`<span class="rounded-full bg-gray-100 px-2 py-0.5 text-[11px] text-gray-600 dark:bg-white/5 dark:text-gray-300">${esc(k)} ${esc(v)}</span>`).join('')}</div></div>` : ''}
 
     <div class="mb-4 rounded-xl border border-gray-200 bg-gray-50 p-4 dark:border-white/10 dark:bg-white/5">
@@ -608,7 +621,8 @@ function submitPackage(e){
     tags: g('tags') ? g('tags').split(',').map(t=>t.trim()).filter(Boolean) : [],
     source:deriveSource(g('repoUrl'), g('gitUrl')), gitUrl:g('gitUrl')||null, repoUrl:g('repoUrl')||null,
     image:resolveImageUrl(g('image'), g('repoUrl'), g('gitUrl'))||null,
-    unity:g('unity')||null, version:g('version')||'1.0.0'
+    unity:g('unity')||null, version:g('version')||'1.0.0',
+    basisVersion:g('basisVersion')||null, discord:g('discord')||null, donate:g('donate')||null
   };
   const deps = submitState.pkg && submitState.pkg.dependencies;
   if(deps && Object.keys(deps).length) pkg.dependencies = deps;

@@ -18,6 +18,22 @@
           "image": "icons/com.basis.pooltable.png"
         }
       }
+    },
+    "com.basis.addon.snapcontrols": {
+      "versions": {
+        "0.0.1": {
+          "name": "com.basis.addon.snapcontrols",
+          "displayName": "Basis Snap Controls",
+          "version": "0.0.1",
+          "description": "Add-on snap-detent controls for Basis worlds: rotary knobs, levers, switches, and per-detent activation targets driven by snap-point markers.",
+          "unity": "6000.0",
+          "url": "https://github.com/BasisVR/BasisSnapControls.git",
+          "author": {
+            "name": "BasisVR",
+            "url": "https://github.com/BasisVR"
+          }
+        }
+      }
     }
   }
 }

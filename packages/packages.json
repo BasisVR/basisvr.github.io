@@ -16,11 +16,39 @@
     "gitUrl": "https://github.com/dooly123/MS-BASISSA-Billiards.git",
     "repoUrl": "https://github.com/dooly123/MS-BASISSA-Billiards",
     "unity": "6000.0",
+    "basisVersion": "main",
     "version": "0.0.1",
     "stars": 0,
     "forks": 1,
     "icon": "\uD83C\uDFB1",
     "image": "icons/com.basis.pooltable.png",
-    "updated": "2025-11-25"
+    "updated": "2025-11-25",
+    "discord": "https://discord.gg/v6ve6WT562",
+    "donate": "https://opencollective.com/basis"
+  },
+  {
+    "id": "com.basis.addon.snapcontrols",
+    "name": "Basis Snap Controls",
+    "description": "Add-on snap-detent controls for Basis worlds: rotary knobs, levers, switches, and per-detent activation targets driven by snap-point markers.",
+    "author": "BasisVR",
+    "authorUrl": "https://github.com/BasisVR",
+    "category": "Interactions",
+    "tags": [
+      "worlds",
+      "interaction",
+      "controls",
+      "knobs",
+      "levers"
+    ],
+    "source": "curated",
+    "gitUrl": "https://github.com/BasisVR/BasisSnapControls.git",
+    "repoUrl": "https://github.com/BasisVR/BasisSnapControls",
+    "unity": "6000.0",
+    "basisVersion": "main",
+    "version": "0.0.1",
+    "stars": 0,
+    "forks": 0,
+    "icon": "\uD83C\uDF9B\uFE0F",
+    "updated": "2026-07-04"
   }
 ]
