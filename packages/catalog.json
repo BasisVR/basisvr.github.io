@@ -50,6 +50,22 @@
           }
         }
       }
+    },
+    "com.basis.developer.exceptions": {
+      "versions": {
+        "0.0.1": {
+          "name": "com.basis.developer.exceptions",
+          "displayName": "Basis Exception Reporting",
+          "version": "0.0.1",
+          "description": "Captures exceptions and errors, stores crash reports across sessions and replays them on reconnect, uploads them to the server, and hosts the in-app bug-report form. Split out of the framework.",
+          "unity": "6000.0",
+          "url": "https://github.com/BasisVR/BasisExceptionReporting.git",
+          "author": {
+            "name": "BasisVR",
+            "url": "https://github.com/BasisVR"
+          }
+        }
+      }
     }
   }
 }
