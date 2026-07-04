@@ -1,0 +1,12 @@
+[
+  {
+    "id": "2026-07-04-early-preview",
+    "level": "info",
+    "pinned": true,
+    "date": "2026-07-04",
+    "title": "This is a preview — and still very early",
+    "body": "Thanks for trying the Basis Package Manager! It's an early preview and very much a work in progress, so expect rough edges, missing features, and the occasional breaking change. Your feedback genuinely shapes where it goes next.",
+    "url": "https://discord.gg/v6ve6WT562",
+    "linkText": "Share feedback on Discord"
+  }
+]
