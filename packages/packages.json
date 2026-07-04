@@ -50,5 +50,30 @@
     "forks": 0,
     "icon": "\uD83C\uDF9B\uFE0F",
     "updated": "2026-07-04"
+  },
+  {
+    "id": "com.basis.developer.recorder",
+    "name": "Basis Avatar Recorder",
+    "description": "Records the local humanoid avatar\u0027s pose to disk every frame and converts recordings into Unity humanoid AnimationClips. Split out of the Basis framework Developer tab.",
+    "author": "BasisVR",
+    "authorUrl": "https://github.com/BasisVR",
+    "category": "Developer Tools",
+    "tags": [
+      "developer",
+      "animation",
+      "recording",
+      "avatar",
+      "tools"
+    ],
+    "source": "curated",
+    "gitUrl": "https://github.com/BasisVR/BasisAvatarRecorder.git",
+    "repoUrl": "https://github.com/BasisVR/BasisAvatarRecorder",
+    "unity": "6000.0",
+    "basisVersion": "main",
+    "version": "0.0.1",
+    "stars": 0,
+    "forks": 0,
+    "icon": "\uD83C\uDFA5",
+    "updated": "2026-07-04"
   }
 ]
