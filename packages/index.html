@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Package Registry — BasisVR</title>
-  <meta name="description" content="Community and curated packages for BasisVR — install them straight from the Basis Package Manager." />
+  <meta name="description" content="Built-in, curated, and community packages for BasisVR — install them straight from the Basis Package Manager." />
   <meta name="theme-color" content="#ef1237" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#100f27" media="(prefers-color-scheme: dark)">
   <meta name="color-scheme" content="light dark" />
@@ -85,7 +85,7 @@
         <span class="bg-gradient-to-r from-brand to-purple-600 bg-clip-text text-transparent">Find packages for Basis</span>
       </h1>
       <p class="mt-4 text-base text-gray-600 dark:text-gray-300">
-        Community and curated add-ons for Basis. Clone the Basis project with the
+        Built-in, curated, and community add-ons for Basis. Clone the Basis project with the
         <a href="https://github.com/BasisVR/BasisPackageManager" target="_blank" class="text-brand hover:underline">Basis Package Manager</a>,
         then install these — hosted on GitHub or GitLab.
       </p>
@@ -216,10 +216,11 @@ function resolveImageUrl(val, repoUrl, gitUrl){
     : `https://gitlab.com/${rp.path}/-/raw/${ref}/${path}`;
 }
 const fmtNum = n => n>=1e9?(n/1e9).toFixed(1).replace(/\.0$/,'')+'B':n>=1e6?(n/1e6).toFixed(1).replace(/\.0$/,'')+'M':n>=1e3?(n/1e3).toFixed(1).replace(/\.0$/,'')+'K':''+n;
-const badgeCls = s => s==='curated' ? 'bg-brand/15 text-brand ring-1 ring-brand/30'
+const badgeCls = s => s==='built-in' ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 ring-1 ring-emerald-500/30'
+  : s==='curated' ? 'bg-brand/15 text-brand ring-1 ring-brand/30'
   : s==='community' ? 'bg-purple-500/15 text-purple-600 dark:text-purple-400 ring-1 ring-purple-500/30'
   : 'bg-gray-500/15 text-gray-500 ring-1 ring-gray-500/20';
-const dotCls = k => k==='curated'?'bg-brand':k==='community'?'bg-purple-500':'bg-gray-400';
+const dotCls = k => k==='built-in'?'bg-emerald-500':k==='curated'?'bg-brand':k==='community'?'bg-purple-500':'bg-gray-400';
 // Package image is a self-hosted path (icons/<id>.png) or null → fall back to the emoji icon.
 const imgOrIcon = p => p.image
   ? `<img src="${esc(p.image)}" alt="" loading="lazy" referrerpolicy="no-referrer" class="h-full w-full object-cover" onerror="this.replaceWith(document.createTextNode('📦'))">`
@@ -308,6 +309,7 @@ function buildFilters(){
   const bySource = s => all.filter(p=>p.source===s).length;
   const sources = [
     {key:'all',label:'All packages',count:all.length},
+    {key:'built-in',label:'Built-in',count:bySource('built-in')},
     {key:'curated',label:'Curated',count:bySource('curated')},
     {key:'community',label:'Community',count:bySource('community')},
   ];

@@ -23,7 +23,7 @@
     "forks": 1,
     "icon": "\uD83C\uDFB1",
     "image": "icons/com.basis.pooltable.png",
-    "updated": "2025-11-25",
+    "updated": "2026-07-05",
     "discord": "https://discord.gg/v6ve6WT562",
     "donate": "https://opencollective.com/basis"
   },
@@ -396,7 +396,7 @@
       "openvr",
       "dependency"
     ],
-    "source": "curated",
+    "source": "built-in",
     "gitUrl": "https://github.com/BasisVR/BasisOpenVRPlugin.git",
     "repoUrl": "https://github.com/BasisVR/BasisOpenVRPlugin",
     "unity": "6000.0",
