@@ -352,6 +352,7 @@ function renderGrid(){
         <span>⭐ ${fmtNum(p.stars)}</span>
         <span>⑂ ${fmtNum(p.forks)}</span>
         <span>v${esc(p.version)}</span>
+        ${p.license?`<span title="License">⚖ ${esc(p.license)}</span>`:''}
         <button class="ml-auto rounded-xl bg-gradient-to-r from-brand to-purple-600 px-3 py-1.5 text-xs font-semibold text-white">Install</button>
       </div>
     </div>`).join('');
@@ -397,6 +398,7 @@ function openDetail(id){
         <span>⭐ <b class="text-gray-900 dark:text-white">${fmtNum(p.stars)}</b> stars</span>
         <span>⑂ <b class="text-gray-900 dark:text-white">${fmtNum(p.forks)}</b> forks</span>
         <span><b class="text-gray-900 dark:text-white">v${esc(p.version)}</b></span>
+        ${p.license?`<span title="License (SPDX)">License <b class="text-gray-900 dark:text-white">${esc(p.license)}</b></span>`:''}
         ${p.basisVersion?`<span title="The Basis version this package was built and tested against">Built for Basis <b class="text-gray-900 dark:text-white">${esc(p.basisVersion)}</b></span>`:''}
         ${p.unity?`<span>Unity <b class="text-gray-900 dark:text-white">${esc(p.unity)}</b></span>`:''}
         ${p.updated?`<span>Updated <b class="text-gray-900 dark:text-white">${esc(p.updated)}</b></span>`:''}
@@ -571,6 +573,7 @@ function submitStep2(){
       <label class="${SUB_field}"><span class="${SUB_label}">Built against Basis version</span><input name="basisVersion" class="${SUB_input}" placeholder="main   or   1.2.0"></label>
       <label class="${SUB_field}"><span class="${SUB_label}">Unity version</span><input name="unity" class="${SUB_input}" value="${esc(p.unity||'')}" placeholder="6000.0"></label>
     </div>
+    <label class="${SUB_field}"><span class="${SUB_label}">License <span class="text-xs text-gray-400">SPDX identifier — e.g. MIT</span></span><input name="license" class="${SUB_input}" value="${esc(p.license||'')}" placeholder="MIT"></label>
     <div class="grid gap-4 sm:grid-cols-2">
       <label class="${SUB_field}"><span class="${SUB_label}">Discord invite <span class="text-xs text-gray-400">optional</span></span><input name="discord" class="${SUB_input}" placeholder="https://discord.gg/…"></label>
       <label class="${SUB_field}"><span class="${SUB_label}">Donation link <span class="text-xs text-gray-400">optional</span></span><input name="donate" class="${SUB_input}" placeholder="https://ko-fi.com/…"></label>
@@ -622,7 +625,7 @@ function submitPackage(e){
     source:deriveSource(g('repoUrl'), g('gitUrl')), gitUrl:g('gitUrl')||null, repoUrl:g('repoUrl')||null,
     image:resolveImageUrl(g('image'), g('repoUrl'), g('gitUrl'))||null,
     unity:g('unity')||null, version:g('version')||'1.0.0',
-    basisVersion:g('basisVersion')||null, discord:g('discord')||null, donate:g('donate')||null
+    basisVersion:g('basisVersion')||null, license:g('license')||null, discord:g('discord')||null, donate:g('donate')||null
   };
   const deps = submitState.pkg && submitState.pkg.dependencies;
   if(deps && Object.keys(deps).length) pkg.dependencies = deps;
