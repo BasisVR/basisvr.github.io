@@ -23,9 +23,7 @@
     "forks": 1,
     "icon": "\uD83C\uDFB1",
     "image": "icons/com.basis.pooltable.png",
-    "updated": "2026-07-05",
-    "discord": "https://discord.gg/v6ve6WT562",
-    "donate": "https://opencollective.com/basis"
+    "updated": "2026-07-05"
   },
   {
     "id": "com.basis.addon.snapcontrols",
