@@ -66,6 +66,38 @@
           }
         }
       }
+    },
+    "com.basis.provider.servers": {
+      "versions": {
+        "0.0.1": {
+          "name": "com.basis.provider.servers",
+          "displayName": "Basis Servers Panel",
+          "version": "0.0.1",
+          "description": "Optional Servers menu panel for Basis: the server directory, connect, and host UI built on the framework\u0027s BasisConnectionService. Remove to ship a Basis app without a Servers panel.",
+          "unity": "6000.0",
+          "url": "https://github.com/BasisVR/BasisServersProvider.git",
+          "author": {
+            "name": "BasisVR",
+            "url": "https://github.com/BasisVR"
+          }
+        }
+      }
+    },
+    "com.basis.imagepickup": {
+      "versions": {
+        "0.0.1": {
+          "name": "com.basis.imagepickup",
+          "displayName": "Basis Image Pickup",
+          "version": "0.0.1",
+          "description": "Drag and drop a PNG onto the window to spawn a networked, grabbable image pickup. Bytes are relayed peer-to-peer (or via the server as a pure relay) and never stored server-side.",
+          "unity": "6000.0",
+          "url": "https://github.com/BasisVR/BasisImagePickup.git",
+          "author": {
+            "name": "BasisVR",
+            "url": "https://github.com/BasisVR"
+          }
+        }
+      }
     }
   }
 }
