@@ -404,5 +404,55 @@
     "forks": 0,
     "icon": "\uD83D\uDDA5\uFE0F",
     "updated": "2026-07-05"
+  },
+  {
+    "id": "com.cnlohr.cilbox",
+    "name": "Cilbox",
+    "description": "Sandbox C# CIL code with an interpreter, by cnlohr. Vendored for Basis (used by the shim/sandbox layer).",
+    "author": "cnlohr",
+    "authorUrl": "https://github.com/cnlohr",
+    "category": "Dependencies",
+    "tags": [
+      "sandbox",
+      "cil",
+      "interpreter",
+      "dependency"
+    ],
+    "source": "curated",
+    "gitUrl": "https://github.com/BasisVR/BasisCilbox.git",
+    "repoUrl": "https://github.com/BasisVR/BasisCilbox",
+    "unity": "6000.0",
+    "basisVersion": "main",
+    "license": "MIT",
+    "version": "0.1.0",
+    "stars": 0,
+    "forks": 0,
+    "icon": "\uD83D\uDCE6",
+    "updated": "2026-07-05"
+  },
+  {
+    "id": "com.cqf.urpvolumetricfog",
+    "name": "URP Volumetric Fog",
+    "description": "Volumetric fog integrated into URP\u0027s volume system (additional lights, shadows, cookies; render graph on Unity 6). By Cristian Qiu F\u00E9lez. A dependency of the Basis framework.",
+    "author": "Cristian Qiu F\u00E9lez",
+    "authorUrl": "http://cristianqiu.github.io/web",
+    "category": "Rendering",
+    "tags": [
+      "rendering",
+      "fog",
+      "urp",
+      "dependency"
+    ],
+    "source": "curated",
+    "gitUrl": "https://github.com/BasisVR/BasisVolumetricFog.git",
+    "repoUrl": "https://github.com/BasisVR/BasisVolumetricFog",
+    "unity": "6000.0",
+    "basisVersion": "main",
+    "license": "MIT",
+    "version": "0.5.6",
+    "stars": 0,
+    "forks": 0,
+    "icon": "\uD83C\uDF2B\uFE0F",
+    "updated": "2026-07-05"
   }
 ]
