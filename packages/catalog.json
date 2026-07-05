@@ -130,6 +130,54 @@
           }
         }
       }
+    },
+    "com.basis.mediaplayer": {
+      "versions": {
+        "0.0.1": {
+          "name": "com.basis.mediaplayer",
+          "displayName": "Basis Media Player",
+          "version": "0.0.1",
+          "description": "Permissively-licensed live/on-demand video for Basis: decodes RTSP/RTMP/RIST/HLS/MPEG-TS/fMP4 with OS hardware codecs (Media Foundation / MediaCodec) zero-copy into a Unity texture. No transcode server.",
+          "unity": "6000.0",
+          "url": "https://github.com/BasisVR/BasisMediaPlayer.git",
+          "author": {
+            "name": "BasisVR",
+            "url": "https://github.com/BasisVR"
+          }
+        }
+      }
+    },
+    "com.basis.integration.ytdlp": {
+      "versions": {
+        "0.0.1": {
+          "name": "com.basis.integration.ytdlp",
+          "displayName": "Basis yt-dlp Integration",
+          "version": "0.0.1",
+          "description": "Resolves page URLs (YouTube, Twitch, \u2026) to playable streams via the in-process yt-dlp plugin and hands them to Basis Media Player. Optional bolt-on.",
+          "unity": "6000.0",
+          "url": "https://github.com/BasisVR/BasisYtDlpIntegration.git",
+          "author": {
+            "name": "BasisVR",
+            "url": "https://github.com/BasisVR"
+          }
+        }
+      }
+    },
+    "com.basis.integration.audiolink": {
+      "versions": {
+        "0.0.1": {
+          "name": "com.basis.integration.audiolink",
+          "displayName": "Basis AudioLink Integration",
+          "version": "0.0.1",
+          "description": "Reactive components that drive lights and materials from AudioLink audio bands, plus a republisher that keeps AudioLink globals resolving across Desktop/VR mode switches. Optional bolt-on.",
+          "unity": "6000.0",
+          "url": "https://github.com/BasisVR/BasisAudioLinkIntegration.git",
+          "author": {
+            "name": "BasisVR",
+            "url": "https://github.com/BasisVR"
+          }
+        }
+      }
     }
   }
 }
