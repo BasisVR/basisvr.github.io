@@ -254,7 +254,8 @@
     "stars": 0,
     "forks": 0,
     "icon": "\uD83D\uDCFA",
-    "updated": "2026-07-05"
+    "updated": "2026-07-05",
+    "link": "https://github.com/yt-dlp/yt-dlp"
   },
   {
     "id": "com.basis.integration.audiolink",
@@ -279,7 +280,8 @@
     "stars": 0,
     "forks": 0,
     "icon": "\uD83C\uDFB5",
-    "updated": "2026-07-05"
+    "updated": "2026-07-05",
+    "link": "https://github.com/llealloo/AudioLink"
   },
   {
     "id": "com.basis.openxr",
@@ -378,7 +380,8 @@
     "stars": 0,
     "forks": 0,
     "icon": "\uD83D\uDD79\uFE0F",
-    "updated": "2026-07-05"
+    "updated": "2026-07-05",
+    "link": "https://github.com/ValveSoftware/steamvr_unity_plugin"
   },
   {
     "id": "com.valvesoftware.unity.openvr",
@@ -403,7 +406,8 @@
     "stars": 0,
     "forks": 0,
     "icon": "\uD83D\uDDA5\uFE0F",
-    "updated": "2026-07-05"
+    "updated": "2026-07-05",
+    "link": "https://github.com/ValveSoftware/unity-xr-plugin"
   },
   {
     "id": "com.cnlohr.cilbox",
@@ -428,7 +432,8 @@
     "stars": 0,
     "forks": 0,
     "icon": "\uD83D\uDCE6",
-    "updated": "2026-07-05"
+    "updated": "2026-07-05",
+    "link": "https://github.com/cnlohr/cilbox"
   },
   {
     "id": "com.cqf.urpvolumetricfog",
@@ -453,6 +458,7 @@
     "stars": 0,
     "forks": 0,
     "icon": "\uD83C\uDF2B\uFE0F",
-    "updated": "2026-07-05"
+    "updated": "2026-07-05",
+    "link": "https://cristianqiu.github.io/web/"
   }
 ]

@@ -169,7 +169,8 @@
           "author": {
             "name": "BasisVR",
             "url": "https://github.com/BasisVR"
-          }
+          },
+          "link": "https://github.com/yt-dlp/yt-dlp"
         }
       }
     },
@@ -186,7 +187,8 @@
           "author": {
             "name": "BasisVR",
             "url": "https://github.com/BasisVR"
-          }
+          },
+          "link": "https://github.com/llealloo/AudioLink"
         }
       }
     },
@@ -254,7 +256,8 @@
           "author": {
             "name": "Valve Corporation",
             "url": "https://github.com/ValveSoftware"
-          }
+          },
+          "link": "https://github.com/ValveSoftware/steamvr_unity_plugin"
         }
       }
     },
@@ -271,7 +274,8 @@
           "author": {
             "name": "Valve Corporation",
             "url": "https://github.com/ValveSoftware"
-          }
+          },
+          "link": "https://github.com/ValveSoftware/unity-xr-plugin"
         }
       }
     },
@@ -288,7 +292,8 @@
           "author": {
             "name": "cnlohr",
             "url": "https://github.com/cnlohr"
-          }
+          },
+          "link": "https://github.com/cnlohr/cilbox"
         }
       }
     },
@@ -305,7 +310,8 @@
           "author": {
             "name": "Cristian Qiu F\u00E9lez",
             "url": "http://cristianqiu.github.io/web"
-          }
+          },
+          "link": "https://cristianqiu.github.io/web/"
         }
       }
     }
