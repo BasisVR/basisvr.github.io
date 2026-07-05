@@ -10,10 +10,10 @@
           "version": "0.0.1",
           "description": "A working pool / billiards table you can drop into a Basis world \u2014 a community port.",
           "unity": "6000.0",
-          "url": "https://github.com/dooly123/MS-BASISSA-Billiards.git",
+          "url": "https://github.com/BasisVR/BasisPoolTable.git",
           "author": {
-            "name": "dooly123",
-            "url": "https://github.com/dooly123"
+            "name": "BasisVR",
+            "url": "https://github.com/BasisVR"
           },
           "image": "icons/com.basis.pooltable.png"
         }
