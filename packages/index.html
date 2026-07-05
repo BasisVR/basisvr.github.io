@@ -133,7 +133,7 @@
             <option value="name">Name (A–Z)</option>
           </select>
         </div>
-        <div id="grid" class="grid gap-4 sm:grid-cols-2"></div>
+        <div id="grid" class="grid gap-4 grid-cols-[repeat(auto-fill,minmax(18rem,1fr))]"></div>
       </section>
     </div>
 
@@ -335,7 +335,7 @@ function renderGrid(){
   if(state.view==='bundles') return renderBundles();
   const grid = document.getElementById('grid');
   document.getElementById('count').innerHTML = `<b class="text-gray-900 dark:text-white">${ALL.length}</b> package${ALL.length===1?'':'s'}`;
-  if(!ALL.length){ grid.innerHTML = `<div class="sm:col-span-2 py-20 text-center text-gray-500 dark:text-gray-400"><p class="text-lg font-semibold text-gray-900 dark:text-white">No packages found</p><p class="mt-1">Try a different search or filter.</p></div>`; return; }
+  if(!ALL.length){ grid.innerHTML = `<div class="col-span-full py-20 text-center text-gray-500 dark:text-gray-400"><p class="text-lg font-semibold text-gray-900 dark:text-white">No packages found</p><p class="mt-1">Try a different search or filter.</p></div>`; return; }
   grid.innerHTML = ALL.map(p=>`
     <div data-id="${esc(p.id)}" class="group flex cursor-pointer flex-col rounded-2xl border border-gray-200 bg-white/70 p-5 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand/20 dark:border-white/10 dark:bg-white/5">
       <div class="flex items-start gap-3">
@@ -429,7 +429,7 @@ function openDetail(id){
 function renderBundles(){
   const grid = document.getElementById('grid');
   document.getElementById('count').innerHTML = `<b class="text-gray-900 dark:text-white">${ALL.length}</b> bundle${ALL.length===1?'':'s'}`;
-  if(!ALL.length){ grid.innerHTML = `<div class="sm:col-span-2 py-20 text-center text-gray-500 dark:text-gray-400"><p class="text-lg font-semibold text-gray-900 dark:text-white">No bundles yet</p><p class="mt-1">Build one from the Basis Package Manager and submit it.</p></div>`; return; }
+  if(!ALL.length){ grid.innerHTML = `<div class="col-span-full py-20 text-center text-gray-500 dark:text-gray-400"><p class="text-lg font-semibold text-gray-900 dark:text-white">No bundles yet</p><p class="mt-1">Build one from the Basis Package Manager and submit it.</p></div>`; return; }
   grid.innerHTML = ALL.map(b=>{
     const n = (b.packages||[]).length;
     const basis = b.basisBranch ? `${esc(b.basisBranch)}${b.basisCommit?'@'+esc(b.basisCommit):''}` : '';
