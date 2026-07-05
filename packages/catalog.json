@@ -98,6 +98,22 @@
           }
         }
       }
+    },
+    "com.basis.vehicles": {
+      "versions": {
+        "0.0.1": {
+          "name": "com.basis.vehicles",
+          "displayName": "Basis Vehicles",
+          "version": "0.0.1",
+          "description": "General-purpose networked vehicle system for Basis: bodies, wheels, thrusters, hover thrusters, steering, gimbaled parts, pilot seats, and engine audio. Includes land \u002B space example scenes.",
+          "unity": "6000.0",
+          "url": "https://github.com/BasisVR/BasisVehicles.git",
+          "author": {
+            "name": "BasisVR",
+            "url": "https://github.com/BasisVR"
+          }
+        }
+      }
     }
   }
 }
