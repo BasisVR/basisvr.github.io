@@ -269,5 +269,29 @@
     "forks": 0,
     "icon": "\uD83C\uDFB5",
     "updated": "2026-07-05"
+  },
+  {
+    "id": "com.basis.openxr",
+    "name": "Basis OpenXR Integration",
+    "description": "OpenXR integration for Basis: head/hand/eye input, device tracking, interaction profiles, and passthrough. Bridges Unity OpenXR \u002B XR Hands into the Basis input/tracker system.",
+    "author": "BasisVR",
+    "authorUrl": "https://github.com/BasisVR",
+    "category": "Platform",
+    "tags": [
+      "platform",
+      "vr",
+      "openxr",
+      "tracking"
+    ],
+    "source": "curated",
+    "gitUrl": "https://github.com/BasisVR/BasisOpenXR.git",
+    "repoUrl": "https://github.com/BasisVR/BasisOpenXR",
+    "unity": "6000.0",
+    "basisVersion": "main",
+    "version": "0.0.1",
+    "stars": 0,
+    "forks": 0,
+    "icon": "\uD83E\uDD7D",
+    "updated": "2026-07-05"
   }
 ]

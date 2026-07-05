@@ -178,6 +178,22 @@
           }
         }
       }
+    },
+    "com.basis.openxr": {
+      "versions": {
+        "0.0.1": {
+          "name": "com.basis.openxr",
+          "displayName": "Basis OpenXR Integration",
+          "version": "0.0.1",
+          "description": "OpenXR integration for Basis: head/hand/eye input, device tracking, interaction profiles, and passthrough. Bridges Unity OpenXR \u002B XR Hands into the Basis input/tracker system.",
+          "unity": "6000.0",
+          "url": "https://github.com/BasisVR/BasisOpenXR.git",
+          "author": {
+            "name": "BasisVR",
+            "url": "https://github.com/BasisVR"
+          }
+        }
+      }
     }
   }
 }
