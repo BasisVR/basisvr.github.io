@@ -419,9 +419,9 @@
                             </p>
                         </li>
 
-                        <li class="card" data-status="wip" data-tags="objects,sync,ownership,replication,props,pickups,seats">
+                        <li class="card" data-status="available" data-tags="objects,sync,ownership,replication,props,pickups,seats">
                             <div class="icn">🧱</div>
-                            <h3 class="mt-3 font-semibold">Object Sync <em class="status wip">In Progress</em></h3>
+                            <h3 class="mt-3 font-semibold">Object Sync <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
                                 <strong>Ownership replication &amp; transform sync</strong> for props, physics pickups, and seats, with more object types landing over time.
                             </p>
@@ -1279,15 +1279,28 @@
                     </header>
 
                     <div class="mt-5 space-y-3">
+                        <!-- Recently Shipped -->
+                        <details class="accordion" open>
+                            <summary>Recently Shipped</summary>
+                            <ul class="mt-3 grid gap-3 sm:grid-cols-2">
+                                <li class="mini-card" data-status="available" data-tags="objects,sync,ownership,replication,props,pickups,seats">
+                                    Object sync <em class="status available">Shipped</em>
+                                </li>
+                                <li class="mini-card" data-status="available" data-tags="objects,sync,ownership,expanded,object types">
+                                    Expanded object sync <em class="status available">Shipped</em>
+                                </li>
+                                <li class="mini-card" data-status="available" data-tags="modules,packages,architecture">
+                                    Modular packages <em class="status available">Shipped</em>
+                                </li>
+                            </ul>
+                        </details>
+
                         <!-- In Progress -->
                         <details class="accordion" open>
                             <summary>In Progress</summary>
                             <ul class="mt-3 grid gap-3 sm:grid-cols-2">
                                 <li class="mini-card" data-status="wip" data-tags="mediapipe,webcam,arm,tracking">
                                     Webcam arm tracking <em class="status wip">WIP</em>
-                                </li>
-                                <li class="mini-card" data-status="wip" data-tags="objects,sync,ownership">
-                                    Expanded object sync <em class="status wip">WIP</em>
                                 </li>
                                 <li class="mini-card" data-status="wip" data-tags="locomotion,movement,walk,fly">
                                     Locomotion modes <em class="status wip">WIP</em>
@@ -1297,9 +1310,6 @@
                                 </li>
                                 <li class="mini-card" data-status="wip" data-tags="steam frame,android,target,platform">
                                     Steam Frame target profile <em class="status wip">WIP</em>
-                                </li>
-                                <li class="mini-card" data-status="wip" data-tags="modules,packages,architecture">
-                                    Modular packages <em class="status wip">WIP</em>
                                 </li>
                             </ul>
                         </details>
