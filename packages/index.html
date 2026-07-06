@@ -122,16 +122,26 @@
       </aside>
 
       <!-- Results -->
-      <section class="rounded-2xl border border-gray-200 bg-white/40 p-4 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/[0.03] sm:p-5">
+      <section class="min-w-0 rounded-2xl border border-gray-200 bg-white/40 p-4 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/[0.03] sm:p-5">
         <div class="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-gray-200 pb-4 dark:border-white/10">
           <div id="count" class="text-sm text-gray-600 dark:text-gray-300"></div>
-          <select id="sort" class="rounded-xl border border-gray-200 bg-white/70 px-3 py-2 text-sm text-gray-800 outline-none focus:border-brand dark:border-white/10 dark:bg-white/10 dark:text-gray-100">
-            <option value="popular">Sort: Popular</option>
-            <option value="stars">Most stars</option>
-            <option value="forks">Most forks</option>
-            <option value="updated">Recently updated</option>
-            <option value="name">Name (A–Z)</option>
-          </select>
+          <div class="flex items-center gap-3">
+            <div id="viewToggle" class="inline-flex rounded-xl border border-gray-200 bg-white/70 p-1 shadow-sm dark:border-white/10 dark:bg-white/5" role="group" aria-label="View layout">
+              <button id="viewGrid" type="button" title="Grid view" aria-label="Grid view" class="rounded-lg px-2.5 py-1.5 text-gray-500 dark:text-gray-400">
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+              </button>
+              <button id="viewList" type="button" title="List view" aria-label="List view" class="rounded-lg px-2.5 py-1.5 text-gray-500 dark:text-gray-400">
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3.5" cy="6" r="1.2" fill="currentColor" stroke="none"/><circle cx="3.5" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="3.5" cy="18" r="1.2" fill="currentColor" stroke="none"/></svg>
+              </button>
+            </div>
+            <select id="sort" class="rounded-xl border border-gray-200 bg-white/70 px-3 py-2 text-sm text-gray-800 outline-none focus:border-brand dark:border-white/10 dark:bg-white/10 dark:text-gray-100">
+              <option value="popular">Sort: Popular</option>
+              <option value="stars">Most stars</option>
+              <option value="forks">Most forks</option>
+              <option value="updated">Recently updated</option>
+              <option value="name">Name (A–Z)</option>
+            </select>
+          </div>
         </div>
         <div id="grid" class="grid gap-4 grid-cols-[repeat(auto-fill,minmax(18rem,1fr))]"></div>
       </section>
@@ -148,7 +158,7 @@
   <div id="toast" class="pointer-events-none fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-2xl border border-gray-200 bg-white px-5 py-3 text-sm opacity-0 shadow-lg transition dark:border-white/10 dark:bg-basisbg"></div>
 
 <script>
-const state = { search:"", source:"all", category:"all", sort:"popular", view:"packages" };
+const state = { search:"", source:"all", category:"all", sort:"popular", view:"packages", layout:"grid" };
 const REPO = "BasisVR/BasisPackageManager";
 let RAW = [], ALL = [], RAWB = [], bundlesLoaded = false;
 
@@ -257,6 +267,26 @@ function tabStyle(){
   document.getElementById('tabBundles').className  = state.view==='bundles'  ? on : off;
 }
 
+// Grid vs list layout — the container class and each button's active state follow state.layout.
+const gridClass = () => state.layout==='list'
+  ? 'flex flex-col gap-3'
+  : 'grid gap-4 grid-cols-[repeat(auto-fill,minmax(18rem,1fr))]';
+function viewStyle(){
+  const on  = 'rounded-lg px-2.5 py-1.5 bg-gradient-to-r from-brand to-purple-600 text-white shadow';
+  const off = 'rounded-lg px-2.5 py-1.5 text-gray-500 hover:text-brand dark:text-gray-400 dark:hover:text-brand';
+  document.getElementById('viewGrid').className = state.layout==='grid' ? on : off;
+  document.getElementById('viewList').className = state.layout==='list' ? on : off;
+  document.getElementById('viewGrid').setAttribute('aria-pressed', state.layout==='grid');
+  document.getElementById('viewList').setAttribute('aria-pressed', state.layout==='list');
+}
+function setLayout(layout){
+  if(state.layout===layout) return;
+  state.layout = layout;
+  try{ localStorage.setItem('basis:pkgLayout', layout); }catch{}
+  viewStyle();
+  renderGrid();
+}
+
 async function switchView(view){
   if(state.view===view) return;
   state.view = view;
@@ -333,12 +363,8 @@ function buildFilters(){
   document.querySelectorAll('[data-category]').forEach(el=>el.onclick=()=>{state.category=el.dataset.category;buildFilters();load();});
 }
 
-function renderGrid(){
-  if(state.view==='bundles') return renderBundles();
-  const grid = document.getElementById('grid');
-  document.getElementById('count').innerHTML = `<b class="text-gray-900 dark:text-white">${ALL.length}</b> package${ALL.length===1?'':'s'}`;
-  if(!ALL.length){ grid.innerHTML = `<div class="col-span-full py-20 text-center text-gray-500 dark:text-gray-400"><p class="text-lg font-semibold text-gray-900 dark:text-white">No packages found</p><p class="mt-1">Try a different search or filter.</p></div>`; return; }
-  grid.innerHTML = ALL.map(p=>`
+function pkgCard(p){
+  return `
     <div data-id="${esc(p.id)}" class="group flex cursor-pointer flex-col rounded-2xl border border-gray-200 bg-white/70 p-5 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand/20 dark:border-white/10 dark:bg-white/5">
       <div class="flex items-start gap-3">
         <div class="inline-flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gray-100 text-xl ring-1 ring-gray-200 dark:bg-white/5 dark:ring-white/10">${imgOrIcon(p)}</div>
@@ -357,7 +383,36 @@ function renderGrid(){
         ${p.license?`<span title="License">⚖ ${esc(p.license)}</span>`:''}
         <button class="ml-auto rounded-xl bg-gradient-to-r from-brand to-purple-600 px-3 py-1.5 text-xs font-semibold text-white">Install</button>
       </div>
-    </div>`).join('');
+    </div>`;
+}
+function pkgRow(p){
+  return `
+    <div data-id="${esc(p.id)}" class="group flex cursor-pointer items-center gap-4 rounded-2xl border border-gray-200 bg-white/70 p-4 shadow-sm backdrop-blur transition hover:shadow-lg hover:shadow-brand/20 dark:border-white/10 dark:bg-white/5">
+      <div class="inline-flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gray-100 text-xl ring-1 ring-gray-200 dark:bg-white/5 dark:ring-white/10">${imgOrIcon(p)}</div>
+      <div class="min-w-0 flex-1">
+        <h3 class="flex flex-wrap items-center gap-2 font-semibold">
+          <span class="truncate">${esc(p.name)}</span>
+          <span class="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${badgeCls(p.source)}">${esc(p.source)}</span>
+          <span class="text-xs font-normal text-gray-500 dark:text-gray-400">by ${esc(p.author)}${hostOf(p)?' · '+hostOf(p):''}${p.basisVersion?' · Basis '+esc(p.basisVersion):''}</span>
+        </h3>
+        <p class="mt-0.5 truncate text-sm text-gray-600 dark:text-gray-300">${esc(p.description)}</p>
+      </div>
+      <div class="hidden shrink-0 items-center gap-3 text-xs text-gray-500 md:flex dark:text-gray-400">
+        <span>⭐ ${fmtNum(p.stars)}</span>
+        <span>⑂ ${fmtNum(p.forks)}</span>
+        <span>v${esc(p.version)}</span>
+      </div>
+      <button class="shrink-0 rounded-xl bg-gradient-to-r from-brand to-purple-600 px-3 py-1.5 text-xs font-semibold text-white">Install</button>
+    </div>`;
+}
+
+function renderGrid(){
+  if(state.view==='bundles') return renderBundles();
+  const grid = document.getElementById('grid');
+  grid.className = gridClass();
+  document.getElementById('count').innerHTML = `<b class="text-gray-900 dark:text-white">${ALL.length}</b> package${ALL.length===1?'':'s'}`;
+  if(!ALL.length){ grid.innerHTML = `<div class="col-span-full py-20 text-center text-gray-500 dark:text-gray-400"><p class="text-lg font-semibold text-gray-900 dark:text-white">No packages found</p><p class="mt-1">Try a different search or filter.</p></div>`; return; }
+  grid.innerHTML = ALL.map(state.layout==='list' ? pkgRow : pkgCard).join('');
   grid.querySelectorAll('[data-id]').forEach(c=>c.onclick=()=>openDetail(c.dataset.id));
 }
 
@@ -429,14 +484,10 @@ function openDetail(id){
   m.querySelectorAll('.copy').forEach(b=>b.onclick=e=>{e.stopPropagation();copy(b.dataset.copy,b);});
 }
 
-function renderBundles(){
-  const grid = document.getElementById('grid');
-  document.getElementById('count').innerHTML = `<b class="text-gray-900 dark:text-white">${ALL.length}</b> bundle${ALL.length===1?'':'s'}`;
-  if(!ALL.length){ grid.innerHTML = `<div class="col-span-full py-20 text-center text-gray-500 dark:text-gray-400"><p class="text-lg font-semibold text-gray-900 dark:text-white">No bundles yet</p><p class="mt-1">Build one from the Basis Package Manager and submit it.</p></div>`; return; }
-  grid.innerHTML = ALL.map(b=>{
-    const n = (b.packages||[]).length;
-    const basis = b.basisBranch ? `${esc(b.basisBranch)}${b.basisCommit?'@'+esc(b.basisCommit):''}` : '';
-    return `
+function bundleCard(b){
+  const n = (b.packages||[]).length;
+  const basis = b.basisBranch ? `${esc(b.basisBranch)}${b.basisCommit?'@'+esc(b.basisCommit):''}` : '';
+  return `
     <div data-bundle="${esc(b.id)}" class="group flex cursor-pointer flex-col rounded-2xl border border-gray-200 bg-white/70 p-5 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand/20 dark:border-white/10 dark:bg-white/5">
       <div class="flex items-start gap-3">
         <div class="inline-flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gray-100 text-xl ring-1 ring-gray-200 dark:bg-white/5 dark:ring-white/10">${imgOrIcon({image:b.image,icon:b.icon||'🧩'})}</div>
@@ -449,7 +500,30 @@ function renderBundles(){
       <p class="mt-3 line-clamp-2 text-sm text-gray-600 dark:text-gray-300">${esc(b.description||'')}</p>
       <div class="mt-3 flex flex-wrap gap-1.5">${(b.tags||[]).slice(0,4).map(t=>`<span class="rounded-full bg-gray-100 px-2 py-0.5 text-[11px] text-gray-600 dark:bg-white/5 dark:text-gray-300">${esc(t)}</span>`).join('')}</div>
     </div>`;
-  }).join('');
+}
+function bundleRow(b){
+  const n = (b.packages||[]).length;
+  const basis = b.basisBranch ? `${esc(b.basisBranch)}${b.basisCommit?'@'+esc(b.basisCommit):''}` : '';
+  return `
+    <div data-bundle="${esc(b.id)}" class="group flex cursor-pointer items-center gap-4 rounded-2xl border border-gray-200 bg-white/70 p-4 shadow-sm backdrop-blur transition hover:shadow-lg hover:shadow-brand/20 dark:border-white/10 dark:bg-white/5">
+      <div class="inline-flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gray-100 text-xl ring-1 ring-gray-200 dark:bg-white/5 dark:ring-white/10">${imgOrIcon({image:b.image,icon:b.icon||'🧩'})}</div>
+      <div class="min-w-0 flex-1">
+        <h3 class="flex flex-wrap items-center gap-2 font-semibold">
+          <span class="truncate">${esc(b.name)}</span>
+          <span class="rounded-full bg-brand/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-brand ring-1 ring-brand/30">${n} pkg${n===1?'':'s'}</span>
+          <span class="text-xs font-normal text-gray-500 dark:text-gray-400">by ${esc(b.author||'—')}${basis?' · Basis '+basis:''}</span>
+        </h3>
+        <p class="mt-0.5 truncate text-sm text-gray-600 dark:text-gray-300">${esc(b.description||'')}</p>
+      </div>
+    </div>`;
+}
+
+function renderBundles(){
+  const grid = document.getElementById('grid');
+  grid.className = gridClass();
+  document.getElementById('count').innerHTML = `<b class="text-gray-900 dark:text-white">${ALL.length}</b> bundle${ALL.length===1?'':'s'}`;
+  if(!ALL.length){ grid.innerHTML = `<div class="col-span-full py-20 text-center text-gray-500 dark:text-gray-400"><p class="text-lg font-semibold text-gray-900 dark:text-white">No bundles yet</p><p class="mt-1">Build one from the Basis Package Manager and submit it.</p></div>`; return; }
+  grid.innerHTML = ALL.map(state.layout==='list' ? bundleRow : bundleCard).join('');
   grid.querySelectorAll('[data-bundle]').forEach(c=>c.onclick=()=>openBundle(c.dataset.bundle));
 }
 
@@ -649,12 +723,14 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModals(); })
 document.getElementById('submitBtn').onclick = openSubmit;
 document.getElementById('tabPackages').onclick = ()=>switchView('packages');
 document.getElementById('tabBundles').onclick = ()=>switchView('bundles');
+document.getElementById('viewGrid').onclick = ()=>setLayout('grid');
+document.getElementById('viewList').onclick = ()=>setLayout('list');
 
 let searchTimer;
 document.getElementById('search').oninput = e=>{ clearTimeout(searchTimer); state.search=e.target.value; searchTimer=setTimeout(load,160); };
 document.getElementById('sort').onchange = e=>{ state.sort=e.target.value; load(); };
 
-(async function init(){ tabStyle(); await fetchAll(); buildFilters(); load(); if(location.hash==='#bundles') switchView('bundles'); })();
+(async function init(){ try{ if(localStorage.getItem('basis:pkgLayout')==='list') state.layout='list'; }catch{} tabStyle(); viewStyle(); await fetchAll(); buildFilters(); load(); if(location.hash==='#bundles') switchView('bundles'); })();
 window.addEventListener('hashchange', ()=>switchView(location.hash==='#bundles'?'bundles':'packages'));
 </script>
 
