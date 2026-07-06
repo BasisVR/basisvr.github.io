@@ -39,7 +39,7 @@
       "knobs",
       "levers"
     ],
-    "source": "curated",
+    "source": "official",
     "gitUrl": "https://github.com/BasisVR/BasisSnapControls.git",
     "repoUrl": "https://github.com/BasisVR/BasisSnapControls",
     "unity": "6000.0",
@@ -65,7 +65,7 @@
       "avatar",
       "tools"
     ],
-    "source": "curated",
+    "source": "official",
     "gitUrl": "https://github.com/BasisVR/BasisAvatarRecorder.git",
     "repoUrl": "https://github.com/BasisVR/BasisAvatarRecorder",
     "unity": "6000.0",
@@ -91,7 +91,7 @@
       "bug-report",
       "tools"
     ],
-    "source": "curated",
+    "source": "official",
     "gitUrl": "https://github.com/BasisVR/BasisExceptionReporting.git",
     "repoUrl": "https://github.com/BasisVR/BasisExceptionReporting",
     "unity": "6000.0",
@@ -116,7 +116,7 @@
       "menu",
       "networking"
     ],
-    "source": "curated",
+    "source": "official",
     "gitUrl": "https://github.com/BasisVR/BasisServersProvider.git",
     "repoUrl": "https://github.com/BasisVR/BasisServersProvider",
     "unity": "6000.0",
@@ -141,7 +141,7 @@
       "image",
       "pickup"
     ],
-    "source": "curated",
+    "source": "official",
     "gitUrl": "https://github.com/BasisVR/BasisImagePickup.git",
     "repoUrl": "https://github.com/BasisVR/BasisImagePickup",
     "unity": "6000.0",
@@ -166,7 +166,7 @@
       "networking",
       "physics"
     ],
-    "source": "curated",
+    "source": "official",
     "gitUrl": "https://github.com/BasisVR/BasisVehicles.git",
     "repoUrl": "https://github.com/BasisVR/BasisVehicles",
     "unity": "6000.0",
@@ -192,7 +192,7 @@
       "prefabs",
       "scenes"
     ],
-    "source": "curated",
+    "source": "official",
     "gitUrl": "https://github.com/BasisVR/BasisExamples.git",
     "repoUrl": "https://github.com/BasisVR/BasisExamples",
     "unity": "6000.0",
@@ -217,7 +217,7 @@
       "streaming",
       "player"
     ],
-    "source": "curated",
+    "source": "official",
     "gitUrl": "https://github.com/BasisVR/BasisMediaPlayer.git",
     "repoUrl": "https://github.com/BasisVR/BasisMediaPlayer",
     "unity": "6000.0",
@@ -242,7 +242,7 @@
       "youtube",
       "integration"
     ],
-    "source": "curated",
+    "source": "official",
     "gitUrl": "https://github.com/BasisVR/BasisYtDlpIntegration.git",
     "repoUrl": "https://github.com/BasisVR/BasisYtDlpIntegration",
     "unity": "6000.0",
@@ -268,7 +268,7 @@
       "audio",
       "reactive"
     ],
-    "source": "curated",
+    "source": "official",
     "gitUrl": "https://github.com/BasisVR/BasisAudioLinkIntegration.git",
     "repoUrl": "https://github.com/BasisVR/BasisAudioLinkIntegration",
     "unity": "6000.0",
@@ -294,7 +294,7 @@
       "openxr",
       "tracking"
     ],
-    "source": "curated",
+    "source": "official",
     "gitUrl": "https://github.com/BasisVR/BasisOpenXR.git",
     "repoUrl": "https://github.com/BasisVR/BasisOpenXR",
     "unity": "6000.0",
@@ -318,7 +318,7 @@
       "vr",
       "assets"
     ],
-    "source": "curated",
+    "source": "official",
     "gitUrl": "https://github.com/BasisVR/BasisVisualTrackers.git",
     "repoUrl": "https://github.com/BasisVR/BasisVisualTrackers",
     "unity": "6000.0",
@@ -343,7 +343,7 @@
       "openvr",
       "steamvr"
     ],
-    "source": "curated",
+    "source": "official",
     "gitUrl": "https://github.com/BasisVR/BasisOpenVR.git",
     "repoUrl": "https://github.com/BasisVR/BasisOpenVR",
     "unity": "6000.0",
@@ -368,7 +368,7 @@
       "steamvr",
       "dependency"
     ],
-    "source": "curated",
+    "source": "official",
     "gitUrl": "https://github.com/BasisVR/BasisSteamVR.git",
     "repoUrl": "https://github.com/BasisVR/BasisSteamVR",
     "unity": "6000.0",
@@ -420,7 +420,7 @@
       "interpreter",
       "dependency"
     ],
-    "source": "curated",
+    "source": "official",
     "gitUrl": "https://github.com/BasisVR/BasisCilbox.git",
     "repoUrl": "https://github.com/BasisVR/BasisCilbox",
     "unity": "6000.0",
@@ -446,7 +446,7 @@
       "urp",
       "dependency"
     ],
-    "source": "curated",
+    "source": "official",
     "gitUrl": "https://github.com/BasisVR/BasisVolumetricFog.git",
     "repoUrl": "https://github.com/BasisVR/BasisVolumetricFog",
     "unity": "6000.0",

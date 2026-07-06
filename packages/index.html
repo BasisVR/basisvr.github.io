@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Package Registry — BasisVR</title>
-  <meta name="description" content="Built-in, curated, and community packages for BasisVR — install them straight from the Basis Package Manager." />
+  <meta name="description" content="Built-in, official, and community packages for BasisVR — install them straight from the Basis Package Manager." />
   <meta name="theme-color" content="#ef1237" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#100f27" media="(prefers-color-scheme: dark)">
   <meta name="color-scheme" content="light dark" />
@@ -85,7 +85,7 @@
         <span class="bg-gradient-to-r from-brand to-purple-600 bg-clip-text text-transparent">Find packages for Basis</span>
       </h1>
       <p class="mt-4 text-base text-gray-600 dark:text-gray-300">
-        Built-in, curated, and community add-ons for Basis. Clone the Basis project with the
+        Built-in, official, and community add-ons for Basis. Clone the Basis project with the
         <a href="https://github.com/BasisVR/BasisPackageManager" target="_blank" class="text-brand hover:underline">Basis Package Manager</a>,
         then install these — hosted on GitHub or GitLab.
       </p>
@@ -166,8 +166,8 @@ const esc = s => (s??"").toString().replace(/[&<>"']/g, c => ({'&':'&amp;','<':'
 // Only ever put http/https links in an href — an escaped "javascript:…" is still a clickable script.
 const safeUrl = u => { try { const x = new URL(u, location.href); return (x.protocol==='http:'||x.protocol==='https:') ? x.href : '#'; } catch { return '#'; } };
 const hostOf = p => { const u=(p.repoUrl||p.gitUrl||'').toLowerCase(); return u.includes('gitlab')?'GitLab':u.includes('github')?'GitHub':''; };
-// curated = hosted under the Basis org (github.com/BasisVR/…); anything else is community.
-const deriveSource = (repoUrl, gitUrl) => { const m=(repoUrl||gitUrl||'').toLowerCase().match(/github\.com[/:]+([^/?#]+)/); return (m && m[1]==='basisvr') ? 'curated' : 'community'; };
+// official = hosted under the Basis org (github.com/BasisVR/…); anything else is community.
+const deriveSource = (repoUrl, gitUrl) => { const m=(repoUrl||gitUrl||'').toLowerCase().match(/github\.com[/:]+([^/?#]+)/); return (m && m[1]==='basisvr') ? 'official' : 'community'; };
 // The Unity UPM revision from a git URL (#tag / #commit / #branch); HEAD when none.
 const refOf = u => { const m=(u||'').match(/#(.+)$/); return m ? m[1].trim() : 'HEAD'; };
 // A repo-relative sub-path from ?path= (Unity allows a leading slash), normalised with a trailing /.
@@ -227,10 +227,10 @@ function resolveImageUrl(val, repoUrl, gitUrl){
 }
 const fmtNum = n => n>=1e9?(n/1e9).toFixed(1).replace(/\.0$/,'')+'B':n>=1e6?(n/1e6).toFixed(1).replace(/\.0$/,'')+'M':n>=1e3?(n/1e3).toFixed(1).replace(/\.0$/,'')+'K':''+n;
 const badgeCls = s => s==='built-in' ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 ring-1 ring-emerald-500/30'
-  : s==='curated' ? 'bg-brand/15 text-brand ring-1 ring-brand/30'
+  : s==='official' ? 'bg-brand/15 text-brand ring-1 ring-brand/30'
   : s==='community' ? 'bg-purple-500/15 text-purple-600 dark:text-purple-400 ring-1 ring-purple-500/30'
   : 'bg-gray-500/15 text-gray-500 ring-1 ring-gray-500/20';
-const dotCls = k => k==='built-in'?'bg-emerald-500':k==='curated'?'bg-brand':k==='community'?'bg-purple-500':'bg-gray-400';
+const dotCls = k => k==='built-in'?'bg-emerald-500':k==='official'?'bg-brand':k==='community'?'bg-purple-500':'bg-gray-400';
 // Package image is a self-hosted path (icons/<id>.png) or null → fall back to the emoji icon.
 const imgOrIcon = p => p.image
   ? `<img src="${esc(p.image)}" alt="" loading="lazy" referrerpolicy="no-referrer" class="h-full w-full object-cover" onerror="this.replaceWith(document.createTextNode('📦'))">`
@@ -340,7 +340,7 @@ function buildFilters(){
   const sources = [
     {key:'all',label:'All packages',count:all.length},
     {key:'built-in',label:'Built-in',count:bySource('built-in')},
-    {key:'curated',label:'Curated',count:bySource('curated')},
+    {key:'official',label:'Official',count:bySource('official')},
     {key:'community',label:'Community',count:bySource('community')},
   ];
   const chip = (active) => 'flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm transition '
@@ -640,7 +640,7 @@ function submitStep2(){
     </div>
     <div class="grid gap-4 sm:grid-cols-2">
       <label class="${SUB_field}"><span class="${SUB_label}">Source (auto)</span>
-        <div class="${SUB_input} flex items-center justify-between"><span id="srcAuto" class="font-semibold">${src}</span><span id="srcHint" class="text-xs text-gray-400">${src==='curated'?'under github.com/BasisVR':'hosted elsewhere'}</span></div></label>
+        <div class="${SUB_input} flex items-center justify-between"><span id="srcAuto" class="font-semibold">${src}</span><span id="srcHint" class="text-xs text-gray-400">${src==='official'?'under github.com/BasisVR':'hosted elsewhere'}</span></div></label>
       <label class="${SUB_field}"><span class="${SUB_label}">Version</span><input name="version" class="${SUB_input}" value="${esc(p.version||'')}" placeholder="1.0.0"></label>
     </div>
     <label class="${SUB_field}"><span class="${SUB_label}">Git URL (UPM) *</span><input name="gitUrl" required class="${SUB_input}" value="${esc(submitState.git)}"></label>
@@ -687,7 +687,7 @@ function submitStep2(){
   const upd = () => {
     const s = deriveSource(f.elements.repoUrl.value, f.elements.gitUrl.value);
     document.getElementById('srcAuto').textContent = s;
-    document.getElementById('srcHint').textContent = s==='curated' ? 'under github.com/BasisVR' : 'hosted elsewhere';
+    document.getElementById('srcHint').textContent = s==='official' ? 'under github.com/BasisVR' : 'hosted elsewhere';
     updImg();
   };
   f.elements.gitUrl.oninput = upd; f.elements.repoUrl.oninput = upd; f.elements.image.oninput = updImg;
