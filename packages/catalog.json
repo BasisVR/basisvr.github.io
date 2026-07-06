@@ -16,7 +16,8 @@
             "name": "dooly123",
             "url": "https://github.com/dooly123"
           },
-          "image": "icons/com.basis.pooltable.png"
+          "image": "icons/com.basis.pooltable.png",
+          "icon": "\uD83C\uDFB1"
         }
       }
     },
@@ -33,7 +34,8 @@
           "author": {
             "name": "BasisVR",
             "url": "https://github.com/BasisVR"
-          }
+          },
+          "icon": "\uD83C\uDF9B\uFE0F"
         }
       }
     },
@@ -50,7 +52,8 @@
           "author": {
             "name": "BasisVR",
             "url": "https://github.com/BasisVR"
-          }
+          },
+          "icon": "\uD83C\uDFA5"
         }
       }
     },
@@ -67,7 +70,8 @@
           "author": {
             "name": "BasisVR",
             "url": "https://github.com/BasisVR"
-          }
+          },
+          "icon": "\uD83D\uDC1B"
         }
       }
     },
@@ -84,7 +88,8 @@
           "author": {
             "name": "BasisVR",
             "url": "https://github.com/BasisVR"
-          }
+          },
+          "icon": "\uD83D\uDDA5\uFE0F"
         }
       }
     },
@@ -101,7 +106,8 @@
           "author": {
             "name": "BasisVR",
             "url": "https://github.com/BasisVR"
-          }
+          },
+          "icon": "\uD83D\uDDBC\uFE0F"
         }
       }
     },
@@ -118,7 +124,8 @@
           "author": {
             "name": "BasisVR",
             "url": "https://github.com/BasisVR"
-          }
+          },
+          "icon": "\uD83D\uDE97"
         }
       }
     },
@@ -135,7 +142,8 @@
           "author": {
             "name": "BasisVR",
             "url": "https://github.com/BasisVR"
-          }
+          },
+          "icon": "\uD83D\uDCDA"
         }
       }
     },
@@ -152,7 +160,8 @@
           "author": {
             "name": "BasisVR",
             "url": "https://github.com/BasisVR"
-          }
+          },
+          "icon": "\uD83C\uDFAC"
         }
       }
     },
@@ -170,6 +179,7 @@
             "name": "BasisVR",
             "url": "https://github.com/BasisVR"
           },
+          "icon": "\uD83D\uDCFA",
           "link": "https://github.com/yt-dlp/yt-dlp"
         }
       }
@@ -188,6 +198,7 @@
             "name": "BasisVR",
             "url": "https://github.com/BasisVR"
           },
+          "icon": "\uD83C\uDFB5",
           "link": "https://github.com/llealloo/AudioLink"
         }
       }
@@ -205,7 +216,8 @@
           "author": {
             "name": "BasisVR",
             "url": "https://github.com/BasisVR"
-          }
+          },
+          "icon": "\uD83E\uDD7D"
         }
       }
     },
@@ -222,7 +234,8 @@
           "author": {
             "name": "BasisVR",
             "url": "https://github.com/BasisVR"
-          }
+          },
+          "icon": "\uD83C\uDFAF"
         }
       }
     },
@@ -239,7 +252,8 @@
           "author": {
             "name": "BasisVR",
             "url": "https://github.com/BasisVR"
-          }
+          },
+          "icon": "\uD83C\uDFAE"
         }
       }
     },
@@ -257,6 +271,7 @@
             "name": "Valve Corporation",
             "url": "https://github.com/ValveSoftware"
           },
+          "icon": "\uD83D\uDD79\uFE0F",
           "link": "https://github.com/ValveSoftware/steamvr_unity_plugin"
         }
       }
@@ -275,6 +290,7 @@
             "name": "Valve Corporation",
             "url": "https://github.com/ValveSoftware"
           },
+          "icon": "\uD83D\uDDA5\uFE0F",
           "link": "https://github.com/ValveSoftware/unity-xr-plugin"
         }
       }
@@ -293,6 +309,7 @@
             "name": "cnlohr",
             "url": "https://github.com/cnlohr"
           },
+          "icon": "\uD83D\uDCE6",
           "link": "https://github.com/cnlohr/cilbox"
         }
       }
@@ -311,6 +328,7 @@
             "name": "Cristian Qiu F\u00E9lez",
             "url": "http://cristianqiu.github.io/web"
           },
+          "icon": "\uD83C\uDF2B\uFE0F",
           "link": "https://cristianqiu.github.io/web/"
         }
       }
