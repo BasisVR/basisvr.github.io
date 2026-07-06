@@ -332,6 +332,24 @@
           "link": "https://cristianqiu.github.io/web/"
         }
       }
+    },
+    "jp.lilxyzw.liltoon": {
+      "versions": {
+        "2.3.4": {
+          "name": "jp.lilxyzw.liltoon",
+          "displayName": "lilToon",
+          "version": "2.3.4",
+          "description": "Feature-rich toon shader.",
+          "unity": "2022.3",
+          "license": "MIT",
+          "url": "https://github.com/lilxyzw/lilToon.git?path=Assets/lilToon",
+          "author": {
+            "name": "lilxyzw",
+            "url": "https://github.com/lilxyzw"
+          },
+          "icon": "\uD83C\uDFA8"
+        }
+      }
     }
   }
 }

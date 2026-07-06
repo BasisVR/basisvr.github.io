@@ -227,7 +227,7 @@
     "stars": 0,
     "forks": 0,
     "icon": "\uD83C\uDFAC",
-    "updated": "2026-07-05"
+    "updated": "2026-07-06"
   },
   {
     "id": "com.basis.integration.ytdlp",
@@ -458,5 +458,28 @@
     "icon": "\uD83C\uDF2B\uFE0F",
     "updated": "2026-07-05",
     "link": "https://cristianqiu.github.io/web/"
+  },
+  {
+    "id": "jp.lilxyzw.liltoon",
+    "name": "lilToon",
+    "description": "Feature-rich toon shader.",
+    "author": "lilxyzw",
+    "authorUrl": "https://github.com/lilxyzw",
+    "category": "Shaders",
+    "tags": [
+      "toon",
+      "shader",
+      "material"
+    ],
+    "source": "community",
+    "gitUrl": "https://github.com/lilxyzw/lilToon.git?path=Assets/lilToon",
+    "repoUrl": "https://github.com/lilxyzw/lilToon",
+    "unity": "2022.3",
+    "license": "MIT",
+    "version": "2.3.4",
+    "stars": 1477,
+    "forks": 171,
+    "icon": "\uD83C\uDFA8",
+    "updated": "2026-06-25"
   }
 ]

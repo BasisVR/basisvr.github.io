@@ -17,7 +17,7 @@
       {
         "id": "com.basis.pooltable",
         "name": "Basis Ported Pooltable",
-        "gitUrl": "https://github.com/BasisVR/BasisPoolTable.git"
+        "gitUrl": "https://github.com/dooly123/MS-BASISSA-Billiards.git"
       },
       {
         "id": "com.basis.addon.snapcontrols",
@@ -103,6 +103,11 @@
         "id": "com.cqf.urpvolumetricfog",
         "name": "URP Volumetric Fog",
         "gitUrl": "https://github.com/BasisVR/BasisVolumetricFog.git"
+      },
+      {
+        "id": "jp.lilxyzw.liltoon",
+        "name": "lilToon",
+        "gitUrl": "https://github.com/lilxyzw/lilToon.git?path=Assets/lilToon"
       }
     ]
   }
