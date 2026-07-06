@@ -69,11 +69,11 @@
             </svg>
           </a>
           <a href="https://github.com/BasisVR/BasisPackageManager/releases/latest" target="_blank"
-             class="ml-6 inline-flex items-center gap-2 rounded-2xl border border-gray-200 bg-white/70 px-4 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:border-brand hover:text-brand dark:border-white/10 dark:bg-white/10 dark:text-white">
+             class="ml-6 inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-brand to-purple-600 px-4 py-2 text-sm font-semibold text-white shadow hover:shadow-lg">
             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
             Get the Package Manager
           </a>
-          <button id="submitBtn" class="ml-3 inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-brand to-purple-600 px-4 py-2 text-sm font-semibold text-white shadow hover:shadow-lg">Submit a package</button>
+          <button id="submitBtn" class="ml-3 inline-flex items-center gap-2 rounded-2xl border border-gray-200 bg-white/70 px-4 py-2 text-sm font-semibold text-gray-600 shadow-sm hover:border-brand hover:text-brand dark:border-white/10 dark:bg-white/10 dark:text-gray-300">Submit a package</button>
         </div>
       </div>
     </div>
@@ -95,10 +95,10 @@
       </div>
     </header>
 
-    <!-- Packages / Bundles toggle -->
+    <!-- Packages / Package Lists toggle -->
     <div class="mt-6 inline-flex rounded-2xl border border-gray-200 bg-white/70 p-1 shadow-sm dark:border-white/10 dark:bg-white/5">
       <button id="tabPackages" type="button" class="rounded-xl px-4 py-2 text-sm font-semibold">Packages</button>
-      <button id="tabBundles" type="button" class="rounded-xl px-4 py-2 text-sm font-semibold">Bundles</button>
+      <button id="tabPackageLists" type="button" class="rounded-xl px-4 py-2 text-sm font-semibold">Package Lists</button>
     </div>
 
     <!-- Registry -->
@@ -107,17 +107,17 @@
       <aside class="space-y-4 lg:sticky lg:top-8 self-start">
         <div id="pkgFilters" class="space-y-4">
           <div class="rounded-2xl border border-gray-200 bg-white/70 p-4 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5">
-            <h4 class="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-400">Source</h4>
+            <h4 class="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Source</h4>
             <div id="sourceChips" class="space-y-1"></div>
           </div>
           <div class="rounded-2xl border border-gray-200 bg-white/70 p-4 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5">
-            <h4 class="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-400">Category</h4>
+            <h4 class="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Category</h4>
             <div id="categoryChips" class="space-y-1"></div>
           </div>
         </div>
-        <div id="bundleInfo" class="hidden rounded-2xl border border-gray-200 bg-white/70 p-4 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5">
-          <h4 class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-400">Bundles</h4>
-          <p class="text-sm text-gray-600 dark:text-gray-300">Bundled packages — a Basis version plus a set of packages. Build your own in the <a href="https://github.com/BasisVR/BasisPackageManager" target="_blank" class="text-brand hover:underline">Basis Package Manager</a> and submit it.</p>
+        <div id="packageListInfo" class="hidden rounded-2xl border border-gray-200 bg-white/70 p-4 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5">
+          <h4 class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Package Lists</h4>
+          <p class="text-sm text-gray-600 dark:text-gray-300">Package lists — a Basis version plus a set of packages. Build your own in the <a href="https://github.com/BasisVR/BasisPackageManager" target="_blank" class="text-brand hover:underline">Basis Package Manager</a> and submit it.</p>
         </div>
       </aside>
 
@@ -160,7 +160,8 @@
 <script>
 const state = { search:"", source:"all", category:"all", sort:"popular", view:"packages", layout:"grid" };
 const REPO = "BasisVR/BasisPackageManager";
-let RAW = [], ALL = [], RAWB = [], bundlesLoaded = false;
+const BASIS_REPO = "https://github.com/BasisVR/Basis";   // the core project a package list clones a fresh copy of
+let RAW = [], ALL = [], RAWPL = [], packageListsLoaded = false;
 
 const esc = s => (s??"").toString().replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 // Only ever put http/https links in an href — an escaped "javascript:…" is still a clickable script.
@@ -253,18 +254,22 @@ async function fetchAll(){
   RAW = await res.json();
 }
 
-async function fetchBundles(){
-  if(bundlesLoaded) return;
-  try{ const res = await fetch('bundles.json', { cache:'no-cache' }); RAWB = res.ok ? await res.json() : []; }
-  catch{ RAWB = []; }
-  bundlesLoaded = true;
+async function fetchPackageLists(){
+  if(packageListsLoaded) return;
+  try{
+    let res = await fetch('packagelists.json', { cache:'no-cache' });
+    if(!res.ok) res = await fetch('bundles.json', { cache:'no-cache' }); // legacy fallback
+    RAWPL = res.ok ? await res.json() : [];
+  }
+  catch{ RAWPL = []; }
+  packageListsLoaded = true;
 }
 
 function tabStyle(){
   const on  = 'rounded-xl px-4 py-2 text-sm font-semibold bg-gradient-to-r from-brand to-purple-600 text-white shadow';
   const off = 'rounded-xl px-4 py-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-brand';
   document.getElementById('tabPackages').className = state.view==='packages' ? on : off;
-  document.getElementById('tabBundles').className  = state.view==='bundles'  ? on : off;
+  document.getElementById('tabPackageLists').className  = state.view==='packagelists'  ? on : off;
 }
 
 // Grid vs list layout — the container class and each button's active state follow state.layout.
@@ -290,18 +295,18 @@ function setLayout(layout){
 async function switchView(view){
   if(state.view===view) return;
   state.view = view;
-  const isB = view==='bundles';
+  const isB = view==='packagelists';
   document.getElementById('pkgFilters').classList.toggle('hidden', isB);
-  document.getElementById('bundleInfo').classList.toggle('hidden', !isB);
+  document.getElementById('packageListInfo').classList.toggle('hidden', !isB);
   document.getElementById('sort').classList.toggle('hidden', isB);
-  document.getElementById('search').placeholder = isB ? 'Search bundles, authors, packages…' : 'Search packages, authors, tags…';
+  document.getElementById('search').placeholder = isB ? 'Search package lists, authors, packages…' : 'Search packages, authors, tags…';
   tabStyle();
-  if(isB) await fetchBundles();
+  if(isB) await fetchPackageLists();
   load();
 }
 
 function load(){
-  if(state.view==='bundles') return loadBundles();
+  if(state.view==='packagelists') return loadPackageLists();
   let q = RAW.slice();
   const s = state.search.trim().toLowerCase();
   if(s) q = q.filter(p =>
@@ -321,8 +326,8 @@ function load(){
   renderGrid();
 }
 
-function loadBundles(){
-  let q = RAWB.slice();
+function loadPackageLists(){
+  let q = RAWPL.slice();
   const s = state.search.trim().toLowerCase();
   if(s) q = q.filter(b =>
     (b.name||'').toLowerCase().includes(s) || (b.id||'').toLowerCase().includes(s) ||
@@ -407,7 +412,7 @@ function pkgRow(p){
 }
 
 function renderGrid(){
-  if(state.view==='bundles') return renderBundles();
+  if(state.view==='packagelists') return renderPackageLists();
   const grid = document.getElementById('grid');
   grid.className = gridClass();
   document.getElementById('count').innerHTML = `<b class="text-gray-900 dark:text-white">${ALL.length}</b> package${ALL.length===1?'':'s'}`;
@@ -460,9 +465,9 @@ function openDetail(id){
         ${p.unity?`<span>Unity <b class="text-gray-900 dark:text-white">${esc(p.unity)}</b></span>`:''}
         ${p.updated?`<span>Updated <b class="text-gray-900 dark:text-white">${esc(p.updated)}</b></span>`:''}
       </div>
-      ${p.dependencies?`<div><p class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-400">Dependencies</p><div class="flex flex-wrap gap-1.5">${Object.entries(p.dependencies).map(([k,v])=>`<span class="rounded-full bg-gray-100 px-2 py-0.5 text-[11px] text-gray-600 dark:bg-white/5 dark:text-gray-300">${esc(k)} ${esc(v)}</span>`).join('')}</div></div>`:''}
+      ${p.dependencies?`<div><p class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Dependencies</p><div class="flex flex-wrap gap-1.5">${Object.entries(p.dependencies).map(([k,v])=>`<span class="rounded-full bg-gray-100 px-2 py-0.5 text-[11px] text-gray-600 dark:bg-white/5 dark:text-gray-300">${esc(k)} ${esc(v)}</span>`).join('')}</div></div>`:''}
       <div>
-        <p class="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-400">How to install</p>
+        <p class="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">How to install</p>
         <a href="basispm://install?id=${encodeURIComponent(p.id)}&name=${encodeURIComponent(p.name)}&git=${encodeURIComponent(p.gitUrl||'')}&repo=${encodeURIComponent(p.repoUrl||'')}"
            class="mb-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-brand to-purple-600 px-5 py-4 text-base font-semibold text-white shadow hover:shadow-lg"
            title="Opens the Basis Package Manager app and adds this package to your active project. Requires the app installed.">
@@ -484,11 +489,11 @@ function openDetail(id){
   m.querySelectorAll('.copy').forEach(b=>b.onclick=e=>{e.stopPropagation();copy(b.dataset.copy,b);});
 }
 
-function bundleCard(b){
+function packageListCard(b){
   const n = (b.packages||[]).length;
   const basis = b.basisBranch ? `${esc(b.basisBranch)}${b.basisCommit?'@'+esc(b.basisCommit):''}` : '';
   return `
-    <div data-bundle="${esc(b.id)}" class="group flex cursor-pointer flex-col rounded-2xl border border-gray-200 bg-white/70 p-5 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand/20 dark:border-white/10 dark:bg-white/5">
+    <div data-packagelist="${esc(b.id)}" class="group flex cursor-pointer flex-col rounded-2xl border border-gray-200 bg-white/70 p-5 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand/20 dark:border-white/10 dark:bg-white/5">
       <div class="flex items-start gap-3">
         <div class="inline-flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gray-100 text-xl ring-1 ring-gray-200 dark:bg-white/5 dark:ring-white/10">${imgOrIcon({image:b.image,icon:b.icon||'🧩'})}</div>
         <div class="min-w-0">
@@ -501,11 +506,11 @@ function bundleCard(b){
       <div class="mt-3 flex flex-wrap gap-1.5">${(b.tags||[]).slice(0,4).map(t=>`<span class="rounded-full bg-gray-100 px-2 py-0.5 text-[11px] text-gray-600 dark:bg-white/5 dark:text-gray-300">${esc(t)}</span>`).join('')}</div>
     </div>`;
 }
-function bundleRow(b){
+function packageListRow(b){
   const n = (b.packages||[]).length;
   const basis = b.basisBranch ? `${esc(b.basisBranch)}${b.basisCommit?'@'+esc(b.basisCommit):''}` : '';
   return `
-    <div data-bundle="${esc(b.id)}" class="group flex cursor-pointer items-center gap-4 rounded-2xl border border-gray-200 bg-white/70 p-4 shadow-sm backdrop-blur transition hover:shadow-lg hover:shadow-brand/20 dark:border-white/10 dark:bg-white/5">
+    <div data-packagelist="${esc(b.id)}" class="group flex cursor-pointer items-center gap-4 rounded-2xl border border-gray-200 bg-white/70 p-4 shadow-sm backdrop-blur transition hover:shadow-lg hover:shadow-brand/20 dark:border-white/10 dark:bg-white/5">
       <div class="inline-flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gray-100 text-xl ring-1 ring-gray-200 dark:bg-white/5 dark:ring-white/10">${imgOrIcon({image:b.image,icon:b.icon||'🧩'})}</div>
       <div class="min-w-0 flex-1">
         <h3 class="flex flex-wrap items-center gap-2 font-semibold">
@@ -518,22 +523,27 @@ function bundleRow(b){
     </div>`;
 }
 
-function renderBundles(){
+function renderPackageLists(){
   const grid = document.getElementById('grid');
   grid.className = gridClass();
-  document.getElementById('count').innerHTML = `<b class="text-gray-900 dark:text-white">${ALL.length}</b> bundle${ALL.length===1?'':'s'}`;
-  if(!ALL.length){ grid.innerHTML = `<div class="col-span-full py-20 text-center text-gray-500 dark:text-gray-400"><p class="text-lg font-semibold text-gray-900 dark:text-white">No bundles yet</p><p class="mt-1">Build one from the Basis Package Manager and submit it.</p></div>`; return; }
-  grid.innerHTML = ALL.map(state.layout==='list' ? bundleRow : bundleCard).join('');
-  grid.querySelectorAll('[data-bundle]').forEach(c=>c.onclick=()=>openBundle(c.dataset.bundle));
+  document.getElementById('count').innerHTML = `<b class="text-gray-900 dark:text-white">${ALL.length}</b> package list${ALL.length===1?'':'s'}`;
+  if(!ALL.length){ grid.innerHTML = `<div class="col-span-full py-20 text-center text-gray-500 dark:text-gray-400"><p class="text-lg font-semibold text-gray-900 dark:text-white">No package lists yet</p><p class="mt-1">Build one from the Basis Package Manager and submit it.</p></div>`; return; }
+  grid.innerHTML = ALL.map(state.layout==='list' ? packageListRow : packageListCard).join('');
+  grid.querySelectorAll('[data-packagelist]').forEach(c=>c.onclick=()=>openPackageList(c.dataset.packagelist));
 }
 
-function openBundle(id){
-  const b = RAWB.find(x=>x.id===id); if(!b) return;
+function openPackageList(id){
+  const b = RAWPL.find(x=>x.id===id); if(!b) return;
   const m = document.getElementById('modal');
   const n = (b.packages||[]).length;
-  const deep = `basispm://bundle?id=${encodeURIComponent(b.id)}`;
+  const deep = `basispm://packagelist?id=${encodeURIComponent(b.id)}`;
   const manifest = JSON.stringify(Object.fromEntries((b.packages||[]).filter(p=>p.gitUrl||p.version).map(p=>[p.id, p.gitUrl||p.version])), null, 2);
   const basis = b.basisBranch ? `${esc(b.basisBranch)}${b.basisCommit?'@'+esc(b.basisCommit):''}` : 'unknown';
+  // "Clone a fresh Basis" step (shown when the toggle is on): clone the branch this package list was built
+  // against, and pin the exact commit when the package list records one. Clones into a folder named "Basis".
+  const branch = b.basisBranch ? esc(b.basisBranch) : '';
+  const cloneCmd = (b.basisBranch ? `git clone --branch ${b.basisBranch} ${BASIS_REPO}` : `git clone ${BASIS_REPO}`)
+    + (b.basisCommit ? `\ngit -C Basis checkout ${b.basisCommit}` : '');
   m.innerHTML = `<div class="w-full max-w-2xl max-h-[85vh] overflow-auto rounded-2xl border border-gray-200 bg-white shadow-2xl dark:border-white/10 dark:bg-basisbg" onclick="event.stopPropagation()">
     <div class="flex items-start gap-4 border-b border-gray-200 p-6 dark:border-white/10">
       <div class="inline-flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-gray-100 text-3xl ring-1 ring-gray-200 dark:bg-white/5 dark:ring-white/10">${imgOrIcon({image:b.image,icon:b.icon||'🧩'})}</div>
@@ -546,26 +556,64 @@ function openBundle(id){
     <div class="space-y-5 p-6">
       <p class="text-gray-600 dark:text-gray-300">${esc(b.description||'')}</p>
       <div>
-        <p class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-400">${n} package${n===1?'':'s'}</p>
+        <p class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">${n} package${n===1?'':'s'}</p>
         <div class="space-y-1.5">${(b.packages||[]).map(p=>`<div class="flex items-center justify-between gap-3 rounded-xl border border-gray-200 px-3 py-2 text-sm dark:border-white/10"><span class="font-medium">${esc(p.name||p.id)}</span><span class="truncate text-xs text-gray-400">${esc(p.id)}</span></div>`).join('')}</div>
       </div>
       <div>
-        <p class="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-400">Install this bundle</p>
+        <div class="mb-3 flex items-center justify-between gap-3">
+          <p class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Install this package list</p>
+          <button id="cloneToggle" type="button" role="switch" aria-checked="true"
+            title="On: clone a fresh Basis first. Off: add these packages to a project you already have."
+            class="inline-flex items-center gap-2 text-xs font-medium text-gray-600 dark:text-gray-300">
+            <span>Clone a fresh Basis</span>
+            <span data-track class="relative inline-flex h-5 w-9 shrink-0 rounded-full bg-brand transition">
+              <span data-thumb class="absolute left-0 top-0.5 h-4 w-4 translate-x-4 rounded-full bg-white shadow transition"></span>
+            </span>
+          </button>
+        </div>
+        <div id="cloneStep" class="mb-3">
+          <p class="mb-2 text-sm text-gray-600 dark:text-gray-300">Clone a fresh Basis${branch?` (<b class="text-gray-900 dark:text-white">${branch}</b>)`:''} and open it in Unity, then install:</p>
+          <div class="relative"><pre class="whitespace-pre-wrap break-all rounded-xl border border-gray-200 bg-gray-50 p-3 pr-16 font-mono text-xs text-gray-800 dark:border-white/10 dark:bg-black/30 dark:text-gray-200">${esc(cloneCmd)}</pre><button class="copy absolute right-2 top-2 rounded-lg border border-gray-200 px-2 py-1 text-xs hover:border-brand hover:text-brand dark:border-white/10" data-copy="${esc(cloneCmd)}">Copy</button></div>
+        </div>
         <a href="${esc(deep)}" class="mb-2 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-brand to-purple-600 px-5 py-4 text-base font-semibold text-white shadow hover:shadow-lg"
            title="Opens the Basis Package Manager and adds every package to a project you pick.">
           <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
-          Install bundle in the app
+          Install package list in the app
         </a>
-        <p class="text-center text-xs text-gray-400">Adds all ${n} package${n===1?'':'s'} to a project you choose. Don't have it? <a href="https://github.com/${REPO}/releases/latest" target="_blank" class="text-brand hover:underline">Get the Package Manager</a>.</p>
+        <p id="bundleHint" class="text-center text-xs text-gray-400"></p>
       </div>
       <div>
-        <div class="mb-2 flex items-center justify-between"><span class="text-xs font-semibold uppercase tracking-wide text-gray-400">Or add to Packages/manifest.json</span><button class="copy rounded-lg border border-gray-200 px-2 py-1 text-xs hover:border-brand hover:text-brand dark:border-white/10" data-copy="${esc(manifest)}">Copy</button></div>
+        <div class="mb-2 flex items-center justify-between"><span class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Or add to Packages/manifest.json</span><button class="copy rounded-lg border border-gray-200 px-2 py-1 text-xs hover:border-brand hover:text-brand dark:border-white/10" data-copy="${esc(manifest)}">Copy</button></div>
         <pre class="overflow-x-auto whitespace-pre-wrap break-all rounded-xl border border-gray-200 bg-gray-50 p-3 font-mono text-xs text-gray-800 dark:border-white/10 dark:bg-black/30 dark:text-gray-200">${esc(manifest)}</pre>
       </div>
     </div>
   </div>`;
   m.classList.remove('hidden');
   m.querySelectorAll('.copy').forEach(btn=>btn.onclick=e=>{e.stopPropagation();copy(btn.dataset.copy,btn);});
+
+  // Clone-a-fresh-Basis toggle. On → show the git-clone step and frame the button as the "then install"
+  // second step; off → hide it and just add the packages to a project you already have. The deep link is
+  // identical either way (the app always asks which project), so this only changes what the page tells you
+  // to do first. The choice is remembered across package lists via localStorage.
+  const tgl = document.getElementById('cloneToggle');
+  const step = document.getElementById('cloneStep');
+  const hint = document.getElementById('bundleHint');
+  const track = tgl.querySelector('[data-track]');
+  const thumb = tgl.querySelector('[data-thumb]');
+  const getApp = `No app yet? <a href="https://github.com/${REPO}/releases/latest" target="_blank" class="text-brand hover:underline">Get it</a>.`;
+  const applyClone = on => {
+    tgl.setAttribute('aria-checked', on);
+    track.className = `relative inline-flex h-5 w-9 shrink-0 rounded-full transition ${on?'bg-brand':'bg-gray-300 dark:bg-white/20'}`;
+    thumb.className = `absolute left-0 top-0.5 h-4 w-4 rounded-full bg-white shadow transition ${on?'translate-x-4':'translate-x-0.5'}`;
+    step.classList.toggle('hidden', !on);
+    hint.innerHTML = on
+      ? `Then adds all ${n} package${n===1?'':'s'} to the Basis you just cloned — pick it in the app. ${getApp}`
+      : `Adds all ${n} package${n===1?'':'s'} to a project you already have. ${getApp}`;
+  };
+  let cloneOn = true;
+  try{ cloneOn = localStorage.getItem('basis:bundleClone') !== '0'; }catch{}
+  applyClone(cloneOn);
+  tgl.onclick = () => { cloneOn = tgl.getAttribute('aria-checked') !== 'true'; try{ localStorage.setItem('basis:bundleClone', cloneOn?'1':'0'); }catch{} applyClone(cloneOn); };
 }
 
 const SUB_field = 'block text-sm text-gray-600 dark:text-gray-300 mb-3';
@@ -722,7 +770,7 @@ document.getElementById('submitModal').onclick = closeModals;
 document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModals(); });
 document.getElementById('submitBtn').onclick = openSubmit;
 document.getElementById('tabPackages').onclick = ()=>switchView('packages');
-document.getElementById('tabBundles').onclick = ()=>switchView('bundles');
+document.getElementById('tabPackageLists').onclick = ()=>switchView('packagelists');
 document.getElementById('viewGrid').onclick = ()=>setLayout('grid');
 document.getElementById('viewList').onclick = ()=>setLayout('list');
 
@@ -730,8 +778,8 @@ let searchTimer;
 document.getElementById('search').oninput = e=>{ clearTimeout(searchTimer); state.search=e.target.value; searchTimer=setTimeout(load,160); };
 document.getElementById('sort').onchange = e=>{ state.sort=e.target.value; load(); };
 
-(async function init(){ try{ if(localStorage.getItem('basis:pkgLayout')==='list') state.layout='list'; }catch{} tabStyle(); viewStyle(); await fetchAll(); buildFilters(); load(); if(location.hash==='#bundles') switchView('bundles'); })();
-window.addEventListener('hashchange', ()=>switchView(location.hash==='#bundles'?'bundles':'packages'));
+(async function init(){ try{ if(localStorage.getItem('basis:pkgLayout')==='list') state.layout='list'; }catch{} tabStyle(); viewStyle(); await fetchAll(); buildFilters(); load(); if(location.hash==='#packagelists'||location.hash==='#bundles') switchView('packagelists'); })();
+window.addEventListener('hashchange', ()=>switchView((location.hash==='#packagelists'||location.hash==='#bundles')?'packagelists':'packages'));
 </script>
 
 <script src="/footer.js" defer></script>
