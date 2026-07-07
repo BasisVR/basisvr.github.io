@@ -17,7 +17,18 @@
             "url": "https://github.com/dooly123"
           },
           "image": "icons/com.basis.pooltable.png",
-          "icon": "\uD83C\uDFB1"
+          "icon": "\uD83C\uDFB1",
+          "category": "Worlds",
+          "source": "community",
+          "tags": [
+            "worlds",
+            "game",
+            "billiards",
+            "pool"
+          ],
+          "stars": 0,
+          "forks": 1,
+          "updated": "2026-07-05"
         }
       }
     },
@@ -35,7 +46,19 @@
             "name": "BasisVR",
             "url": "https://github.com/BasisVR"
           },
-          "icon": "\uD83C\uDF9B\uFE0F"
+          "icon": "\uD83C\uDF9B\uFE0F",
+          "category": "Interactions",
+          "source": "official",
+          "tags": [
+            "worlds",
+            "interaction",
+            "controls",
+            "knobs",
+            "levers"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-04"
         }
       }
     },
@@ -53,7 +76,19 @@
             "name": "BasisVR",
             "url": "https://github.com/BasisVR"
           },
-          "icon": "\uD83C\uDFA5"
+          "icon": "\uD83C\uDFA5",
+          "category": "Developer Tools",
+          "source": "official",
+          "tags": [
+            "developer",
+            "animation",
+            "recording",
+            "avatar",
+            "tools"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-04"
         }
       }
     },
@@ -71,7 +106,19 @@
             "name": "BasisVR",
             "url": "https://github.com/BasisVR"
           },
-          "icon": "\uD83D\uDC1B"
+          "icon": "\uD83D\uDC1B",
+          "category": "Developer Tools",
+          "source": "official",
+          "tags": [
+            "developer",
+            "crash",
+            "exceptions",
+            "bug-report",
+            "tools"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-04"
         }
       }
     },
@@ -89,7 +136,18 @@
             "name": "BasisVR",
             "url": "https://github.com/BasisVR"
           },
-          "icon": "\uD83D\uDDA5\uFE0F"
+          "icon": "\uD83D\uDDA5\uFE0F",
+          "category": "UI",
+          "source": "official",
+          "tags": [
+            "ui",
+            "servers",
+            "menu",
+            "networking"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-05"
         }
       }
     },
@@ -107,7 +165,18 @@
             "name": "BasisVR",
             "url": "https://github.com/BasisVR"
           },
-          "icon": "\uD83D\uDDBC\uFE0F"
+          "icon": "\uD83D\uDDBC\uFE0F",
+          "category": "Interactions",
+          "source": "official",
+          "tags": [
+            "interaction",
+            "networking",
+            "image",
+            "pickup"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-05"
         }
       }
     },
@@ -125,7 +194,18 @@
             "name": "BasisVR",
             "url": "https://github.com/BasisVR"
           },
-          "icon": "\uD83D\uDE97"
+          "icon": "\uD83D\uDE97",
+          "category": "Gameplay",
+          "source": "official",
+          "tags": [
+            "vehicles",
+            "gameplay",
+            "networking",
+            "physics"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-05"
         }
       }
     },
@@ -143,7 +223,19 @@
             "name": "BasisVR",
             "url": "https://github.com/BasisVR"
           },
-          "icon": "\uD83D\uDCDA"
+          "icon": "\uD83D\uDCDA",
+          "category": "Examples",
+          "source": "official",
+          "tags": [
+            "examples",
+            "demo",
+            "learning",
+            "prefabs",
+            "scenes"
+          ],
+          "stars": 1,
+          "forks": 2,
+          "updated": "2026-07-05"
         }
       }
     },
@@ -161,7 +253,18 @@
             "name": "BasisVR",
             "url": "https://github.com/BasisVR"
           },
-          "icon": "\uD83C\uDFAC"
+          "icon": "\uD83C\uDFAC",
+          "category": "Media",
+          "source": "official",
+          "tags": [
+            "media",
+            "video",
+            "streaming",
+            "player"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-06"
         }
       }
     },
@@ -180,7 +283,18 @@
             "url": "https://github.com/BasisVR"
           },
           "icon": "\uD83D\uDCFA",
-          "link": "https://github.com/yt-dlp/yt-dlp"
+          "link": "https://github.com/yt-dlp/yt-dlp",
+          "category": "Media",
+          "source": "official",
+          "tags": [
+            "media",
+            "video",
+            "youtube",
+            "integration"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-05"
         }
       }
     },
@@ -199,7 +313,18 @@
             "url": "https://github.com/BasisVR"
           },
           "icon": "\uD83C\uDFB5",
-          "link": "https://github.com/llealloo/AudioLink"
+          "link": "https://github.com/llealloo/AudioLink",
+          "category": "Integrations",
+          "source": "official",
+          "tags": [
+            "integration",
+            "audiolink",
+            "audio",
+            "reactive"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-05"
         }
       }
     },
@@ -217,7 +342,18 @@
             "name": "BasisVR",
             "url": "https://github.com/BasisVR"
           },
-          "icon": "\uD83E\uDD7D"
+          "icon": "\uD83E\uDD7D",
+          "category": "Platform",
+          "source": "official",
+          "tags": [
+            "platform",
+            "vr",
+            "openxr",
+            "tracking"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-05"
         }
       }
     },
@@ -235,7 +371,17 @@
             "name": "BasisVR",
             "url": "https://github.com/BasisVR"
           },
-          "icon": "\uD83C\uDFAF"
+          "icon": "\uD83C\uDFAF",
+          "category": "Platform",
+          "source": "official",
+          "tags": [
+            "trackers",
+            "vr",
+            "assets"
+          ],
+          "stars": 1,
+          "forks": 0,
+          "updated": "2026-07-05"
         }
       }
     },
@@ -253,7 +399,18 @@
             "name": "BasisVR",
             "url": "https://github.com/BasisVR"
           },
-          "icon": "\uD83C\uDFAE"
+          "icon": "\uD83C\uDFAE",
+          "category": "Platform",
+          "source": "official",
+          "tags": [
+            "platform",
+            "vr",
+            "openvr",
+            "steamvr"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-05"
         }
       }
     },
@@ -272,7 +429,18 @@
             "url": "https://github.com/ValveSoftware"
           },
           "icon": "\uD83D\uDD79\uFE0F",
-          "link": "https://github.com/ValveSoftware/steamvr_unity_plugin"
+          "link": "https://github.com/ValveSoftware/steamvr_unity_plugin",
+          "category": "Platform",
+          "source": "official",
+          "tags": [
+            "platform",
+            "vr",
+            "steamvr",
+            "dependency"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-05"
         }
       }
     },
@@ -291,7 +459,18 @@
             "url": "https://github.com/ValveSoftware"
           },
           "icon": "\uD83D\uDDA5\uFE0F",
-          "link": "https://github.com/ValveSoftware/unity-xr-plugin"
+          "link": "https://github.com/ValveSoftware/unity-xr-plugin",
+          "category": "Platform",
+          "source": "built-in",
+          "tags": [
+            "platform",
+            "vr",
+            "openvr",
+            "dependency"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-05"
         }
       }
     },
@@ -310,7 +489,18 @@
             "url": "https://github.com/cnlohr"
           },
           "icon": "\uD83D\uDCE6",
-          "link": "https://github.com/cnlohr/cilbox"
+          "link": "https://github.com/cnlohr/cilbox",
+          "category": "Dependencies",
+          "source": "official",
+          "tags": [
+            "sandbox",
+            "cil",
+            "interpreter",
+            "dependency"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-05"
         }
       }
     },
@@ -329,7 +519,18 @@
             "url": "http://cristianqiu.github.io/web"
           },
           "icon": "\uD83C\uDF2B\uFE0F",
-          "link": "https://cristianqiu.github.io/web/"
+          "link": "https://cristianqiu.github.io/web/",
+          "category": "Rendering",
+          "source": "official",
+          "tags": [
+            "rendering",
+            "fog",
+            "urp",
+            "dependency"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-05"
         }
       }
     },
@@ -347,7 +548,955 @@
             "name": "lilxyzw",
             "url": "https://github.com/lilxyzw"
           },
-          "icon": "\uD83C\uDFA8"
+          "icon": "\uD83C\uDFA8",
+          "category": "Shaders",
+          "source": "community",
+          "tags": [
+            "toon",
+            "shader",
+            "material"
+          ],
+          "stars": 1478,
+          "forks": 171,
+          "updated": "2026-06-25"
+        }
+      }
+    },
+    "com.basis.framework": {
+      "versions": {
+        "0.0.1": {
+          "name": "com.basis.framework",
+          "displayName": "Basis Framework",
+          "version": "0.0.1",
+          "description": "The core Basis framework assembly \u2014 avatar/IK, networking, players, menu, and the runtime systems the whole app is built on.",
+          "unity": "6000.0",
+          "license": "MIT",
+          "url": "https://github.com/BasisVR/BasisFramework.git",
+          "author": {
+            "name": "BasisVR",
+            "url": "https://github.com/BasisVR"
+          },
+          "icon": "\uD83C\uDFD7\uFE0F",
+          "category": "Core",
+          "source": "official",
+          "tags": [
+            "core",
+            "framework",
+            "runtime"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "com.basis.framework.editor": {
+      "versions": {
+        "0.0.1": {
+          "name": "com.basis.framework.editor",
+          "displayName": "Basis Framework Editor",
+          "version": "0.0.1",
+          "description": "Editor-side tooling for the Basis framework: inspectors, build hooks, IK test/sweep windows, and the documentation engine.",
+          "unity": "6000.0",
+          "license": "MIT",
+          "url": "https://github.com/BasisVR/BasisFrameworkEditor.git",
+          "author": {
+            "name": "BasisVR",
+            "url": "https://github.com/BasisVR"
+          },
+          "icon": "\uD83D\uDEE0\uFE0F",
+          "category": "Core",
+          "source": "official",
+          "tags": [
+            "core",
+            "editor",
+            "tools"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "com.basis.sdk": {
+      "versions": {
+        "0.0.1": {
+          "name": "com.basis.sdk",
+          "displayName": "Basis SDK",
+          "version": "0.0.1",
+          "description": "The Basis SDK: shared runtime types, avatar/scene descriptors, highlight settings, and fonts used across the framework and content.",
+          "unity": "6000.0",
+          "license": "MIT",
+          "url": "https://github.com/BasisVR/BasisSDK.git",
+          "author": {
+            "name": "BasisVR",
+            "url": "https://github.com/BasisVR"
+          },
+          "icon": "\uD83E\uDDF0",
+          "category": "Core",
+          "source": "official",
+          "tags": [
+            "core",
+            "sdk",
+            "runtime"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "com.basis.common": {
+      "versions": {
+        "0.0.1": {
+          "name": "com.basis.common",
+          "displayName": "Basis Common",
+          "version": "0.0.1",
+          "description": "Shared low-level utilities (ordered delegates, math helpers) referenced across Basis packages.",
+          "unity": "6000.0",
+          "license": "MIT",
+          "url": "https://github.com/BasisVR/BasisCommon.git",
+          "author": {
+            "name": "BasisVR",
+            "url": "https://github.com/BasisVR"
+          },
+          "icon": "\uD83E\uDDF1",
+          "category": "Core",
+          "source": "official",
+          "tags": [
+            "core",
+            "utilities"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "com.basis.server": {
+      "versions": {
+        "1.0.0": {
+          "name": "com.basis.server",
+          "displayName": "Basis Server",
+          "version": "1.0.0",
+          "description": "The Basis networking server assembly \u2014 the authoritative relay/host used by the framework and the standalone server build.",
+          "unity": "6000.0",
+          "license": "MIT",
+          "url": "https://github.com/BasisVR/BasisServer.git",
+          "author": {
+            "name": "BasisVR",
+            "url": "https://github.com/BasisVR"
+          },
+          "icon": "\uD83D\uDDC4\uFE0F",
+          "category": "Core",
+          "source": "official",
+          "tags": [
+            "core",
+            "networking",
+            "server"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "com.basis.eventdriver": {
+      "versions": {
+        "0.0.1": {
+          "name": "com.basis.eventdriver",
+          "displayName": "Basis Event Driver",
+          "version": "0.0.1",
+          "description": "The central tick/event driver that sequences per-frame simulation across avatars, nameplates, and beacons.",
+          "unity": "6000.0",
+          "license": "MIT",
+          "url": "https://github.com/BasisVR/BasisEventDriver.git",
+          "author": {
+            "name": "BasisVR",
+            "url": "https://github.com/BasisVR"
+          },
+          "icon": "\uD83D\uDD04",
+          "category": "Core",
+          "source": "official",
+          "tags": [
+            "core",
+            "events",
+            "tick"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "com.basis.bundlemanagement": {
+      "versions": {
+        "0.0.1": {
+          "name": "com.basis.bundlemanagement",
+          "displayName": "Basis Bundle Management",
+          "version": "0.0.1",
+          "description": "Asset-bundle loading and management for Basis content (avatars, worlds, props) via Addressables.",
+          "unity": "6000.0",
+          "license": "MIT",
+          "url": "https://github.com/BasisVR/BasisBundleManagement.git",
+          "author": {
+            "name": "BasisVR",
+            "url": "https://github.com/BasisVR"
+          },
+          "icon": "\uD83D\uDDC2\uFE0F",
+          "category": "Core",
+          "source": "official",
+          "tags": [
+            "core",
+            "addressables",
+            "bundles"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "com.basis.settings": {
+      "versions": {
+        "1.0.0": {
+          "name": "com.basis.settings",
+          "displayName": "Basis Settings",
+          "version": "1.0.0",
+          "description": "The Basis settings system \u2014 per-platform defaults, bindings, and live-apply persistence.",
+          "unity": "6000.0",
+          "license": "MIT",
+          "url": "https://github.com/BasisVR/BasisSettings.git",
+          "author": {
+            "name": "BasisVR",
+            "url": "https://github.com/BasisVR"
+          },
+          "icon": "\u2699\uFE0F",
+          "category": "Core",
+          "source": "official",
+          "tags": [
+            "core",
+            "settings",
+            "config"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "com.basis.setup": {
+      "versions": {
+        "0.0.1": {
+          "name": "com.basis.setup",
+          "displayName": "Basis Setup",
+          "version": "0.0.1",
+          "description": "Editor generators that (re)create the Assets-level project config Unity resolves from fixed paths \u2014 Addressables, URP, quality, XR, input \u2014 so Basis sources can live in packages.",
+          "unity": "6000.0",
+          "license": "MIT",
+          "url": "https://github.com/BasisVR/BasisSetup.git",
+          "author": {
+            "name": "BasisVR",
+            "url": "https://github.com/BasisVR"
+          },
+          "icon": "\uD83D\uDD27",
+          "category": "Core",
+          "source": "official",
+          "tags": [
+            "core",
+            "editor",
+            "setup",
+            "config"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "com.basis.shim": {
+      "versions": {
+        "0.0.1": {
+          "name": "com.basis.shim",
+          "displayName": "Basis Shims",
+          "version": "0.0.1",
+          "description": "CILBOX sandbox bridge \u2014 the shim API that lets sandboxed C# worlds safely reach framework features (video, OSC, interactables).",
+          "unity": "6000.0",
+          "license": "MIT",
+          "url": "https://github.com/BasisVR/BasisShims.git",
+          "author": {
+            "name": "BasisVR",
+            "url": "https://github.com/BasisVR"
+          },
+          "icon": "\uD83E\uDDE9",
+          "category": "Core",
+          "source": "official",
+          "tags": [
+            "core",
+            "sandbox",
+            "cilbox"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "com.basis.gizmos": {
+      "versions": {
+        "0.0.1": {
+          "name": "com.basis.gizmos",
+          "displayName": "Basis Gizmos",
+          "version": "0.0.1",
+          "description": "Runtime \u002B editor gizmo drawing used throughout Basis for debugging and visualization.",
+          "unity": "6000.0",
+          "license": "MIT",
+          "url": "https://github.com/BasisVR/BasisGizmos.git",
+          "author": {
+            "name": "BasisVR",
+            "url": "https://github.com/BasisVR"
+          },
+          "icon": "\uD83D\uDCD0",
+          "category": "Developer Tools",
+          "source": "official",
+          "tags": [
+            "developer",
+            "gizmos",
+            "debug"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "com.basis.profilerintergration": {
+      "versions": {
+        "0.0.1": {
+          "name": "com.basis.profilerintergration",
+          "displayName": "Basis Profiler Integration",
+          "version": "0.0.1",
+          "description": "Custom Unity Profiler counters for Basis networking and the event driver.",
+          "unity": "6000.0",
+          "license": "MIT",
+          "url": "https://github.com/BasisVR/BasisProfilerIntegration.git",
+          "author": {
+            "name": "BasisVR",
+            "url": "https://github.com/BasisVR"
+          },
+          "icon": "\uD83D\uDCCA",
+          "category": "Developer Tools",
+          "source": "official",
+          "tags": [
+            "developer",
+            "profiler",
+            "performance"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "com.basis.openlipsync": {
+      "versions": {
+        "0.2.0": {
+          "name": "com.basis.openlipsync",
+          "displayName": "Basis OpenLipSync",
+          "version": "0.2.0",
+          "description": "Viseme/lip-sync driving for Basis avatars from microphone audio.",
+          "unity": "6000.0",
+          "license": "Apache-2.0",
+          "url": "https://github.com/BasisVR/BasisOpenLipSync.git",
+          "author": {
+            "name": "BasisVR",
+            "url": "https://github.com/BasisVR"
+          },
+          "icon": "\uD83D\uDC44",
+          "category": "Audio",
+          "source": "official",
+          "tags": [
+            "audio",
+            "lipsync",
+            "avatar"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "com.basis.mediapipe": {
+      "versions": {
+        "0.0.1": {
+          "name": "com.basis.mediapipe",
+          "displayName": "Basis MediaPipe Tracking",
+          "version": "0.0.1",
+          "description": "Webcam-driven head/hand/finger/body, eye and face tracking that feeds the avatar as fake trackers, finger data, gaze and blendshapes. Backed by the MediaPipe Unity Plugin.",
+          "unity": "6000.0",
+          "license": "MIT",
+          "url": "https://github.com/BasisVR/BasisMediaPipe.git",
+          "author": {
+            "name": "BasisVR",
+            "url": "https://github.com/BasisVR"
+          },
+          "icon": "\uD83D\uDD90\uFE0F",
+          "category": "Tracking",
+          "source": "official",
+          "tags": [
+            "tracking",
+            "mediapipe",
+            "face",
+            "hands"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "com.basis.textmeshpro": {
+      "versions": {
+        "0.0.1": {
+          "name": "com.basis.textmeshpro",
+          "displayName": "Basis TextMeshPro",
+          "version": "0.0.1",
+          "description": "TextMeshPro packaged for Basis (fonts \u002B runtime) so world-space text and UI render consistently.",
+          "unity": "6000.0",
+          "license": "LicenseRef-UnityCompanionLicense",
+          "url": "https://github.com/BasisVR/BasisTextMeshPro.git",
+          "author": {
+            "name": "BasisVR",
+            "url": "https://github.com/BasisVR"
+          },
+          "icon": "\uD83D\uDD24",
+          "category": "Dependencies",
+          "source": "official",
+          "tags": [
+            "dependency",
+            "text",
+            "ui"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "org.basisvr.base128": {
+      "versions": {
+        "1.2.2": {
+          "name": "org.basisvr.base128",
+          "displayName": "Base128",
+          "version": "1.2.2",
+          "description": "Variable-length integer binary serialization. NuGet lib repackaged as a UPM dependency for Basis.",
+          "unity": "6000.0",
+          "license": "MIT",
+          "url": "https://github.com/BasisVR/BasisBase128.git",
+          "author": {
+            "name": "Wojmik",
+            "url": "https://github.com/Wojmik"
+          },
+          "icon": "\uD83D\uDD22",
+          "link": "https://github.com/Wojmik/Base128",
+          "category": "Dependencies",
+          "source": "built-in",
+          "tags": [
+            "dependency",
+            "serialization"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "org.basisvr.bouncycastle": {
+      "versions": {
+        "2.5.0": {
+          "name": "org.basisvr.bouncycastle",
+          "displayName": "BouncyCastle.Cryptography",
+          "version": "2.5.0",
+          "description": "The Bouncy Castle cryptography library. NuGet lib repackaged as a UPM dependency for Basis.",
+          "unity": "6000.0",
+          "license": "MIT",
+          "url": "https://github.com/BasisVR/BasisBouncyCastle.git",
+          "author": {
+            "name": "Legion of the Bouncy Castle",
+            "url": "https://github.com/bcgit"
+          },
+          "icon": "\uD83D\uDD10",
+          "link": "https://github.com/bcgit/bc-csharp",
+          "category": "Dependencies",
+          "source": "built-in",
+          "tags": [
+            "dependency",
+            "crypto"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "org.basisvr.generator.equals": {
+      "versions": {
+        "3.2.0": {
+          "name": "org.basisvr.generator.equals",
+          "displayName": "Generator.Equals",
+          "version": "3.2.0",
+          "description": "Source generator for IEquatable\u003CT\u003E via attributes. NuGet lib repackaged as a UPM dependency for Basis.",
+          "unity": "6000.0",
+          "license": "MIT",
+          "url": "https://github.com/BasisVR/BasisGeneratorEquals.git",
+          "author": {
+            "name": "Diego Frata",
+            "url": "https://github.com/diegofrata"
+          },
+          "icon": "\uD83D\uDFF0",
+          "link": "https://github.com/diegofrata/Generator.Equals",
+          "category": "Dependencies",
+          "source": "built-in",
+          "tags": [
+            "dependency",
+            "source-generator"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "org.basisvr.k4os.compression.lz4": {
+      "versions": {
+        "1.3.8": {
+          "name": "org.basisvr.k4os.compression.lz4",
+          "displayName": "K4os.Compression.LZ4",
+          "version": "1.3.8",
+          "description": "LZ4 compression for .NET (used for avatar-bundle compression). NuGet lib repackaged as a UPM dependency for Basis.",
+          "unity": "6000.0",
+          "license": "MIT",
+          "url": "https://github.com/BasisVR/BasisK4osCompressionLZ4.git",
+          "author": {
+            "name": "Milosz Krajewski",
+            "url": "https://github.com/MiloszKrajewski"
+          },
+          "icon": "\uD83D\uDDDC\uFE0F",
+          "link": "https://github.com/MiloszKrajewski/K4os.Compression.LZ4",
+          "category": "Dependencies",
+          "source": "official",
+          "tags": [
+            "dependency",
+            "compression"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "org.basisvr.newtonsoft.json": {
+      "versions": {
+        "13.0.3": {
+          "name": "org.basisvr.newtonsoft.json",
+          "displayName": "Newtonsoft.Json",
+          "version": "13.0.3",
+          "description": "High-performance JSON framework. NuGet lib repackaged as a UPM dependency for Basis.",
+          "unity": "6000.0",
+          "license": "MIT",
+          "url": "https://github.com/BasisVR/BasisNewtonsoftJson.git",
+          "author": {
+            "name": "James Newton-King",
+            "url": "https://github.com/JamesNK"
+          },
+          "icon": "\uD83D\uDCC4",
+          "link": "https://github.com/JamesNK/Newtonsoft.Json",
+          "category": "Dependencies",
+          "source": "built-in",
+          "tags": [
+            "dependency",
+            "json"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "org.basisvr.simplebase": {
+      "versions": {
+        "4.0.2": {
+          "name": "org.basisvr.simplebase",
+          "displayName": "SimpleBase",
+          "version": "4.0.2",
+          "description": "Base16/32/58/85 encoding/decoding. NuGet lib repackaged as a UPM dependency for Basis.",
+          "unity": "6000.0",
+          "license": "MIT",
+          "url": "https://github.com/BasisVR/BasisSimpleBase.git",
+          "author": {
+            "name": "Sedat Kapanoglu",
+            "url": "https://github.com/ssg"
+          },
+          "icon": "\uD83D\uDD21",
+          "link": "https://github.com/ssg/SimpleBase",
+          "category": "Dependencies",
+          "source": "built-in",
+          "tags": [
+            "dependency",
+            "encoding"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "com.avionblock.opussharp": {
+      "versions": {
+        "0.0.1": {
+          "name": "com.avionblock.opussharp",
+          "displayName": "OpusSharp",
+          "version": "0.0.1",
+          "description": "Opus audio codec bindings with prebuilt native libs, used by Basis voice.",
+          "unity": "6000.0",
+          "license": "MIT",
+          "url": "https://github.com/BasisVR/OpusSharp.git",
+          "author": {
+            "name": "BasisVR",
+            "url": "https://github.com/BasisVR"
+          },
+          "icon": "\uD83D\uDD0A",
+          "link": "https://github.com/BasisVR/OpusSharp",
+          "category": "Audio",
+          "source": "official",
+          "tags": [
+            "audio",
+            "codec",
+            "voice",
+            "dependency"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "com.gator-dragon-games.jigglephysics": {
+      "versions": {
+        "16.0.1": {
+          "name": "com.gator-dragon-games.jigglephysics",
+          "displayName": "Unity Jiggle Physics",
+          "version": "16.0.1",
+          "description": "Burst-jobified stretchy/bouncy bone physics for meshes and bones. Vendored for Basis.",
+          "unity": "6000.0",
+          "url": "https://github.com/BasisVR/UnityJigglePhysics.git",
+          "author": {
+            "name": "Naelstrof",
+            "url": "https://github.com/naelstrof"
+          },
+          "icon": "\uD83C\uDF90",
+          "link": "https://github.com/naelstrof/UnityJigglePhysics",
+          "category": "Physics",
+          "source": "official",
+          "tags": [
+            "physics",
+            "jiggle",
+            "bones",
+            "dependency"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "com.steam.steamaudio": {
+      "versions": {
+        "0.0.1": {
+          "name": "com.steam.steamaudio",
+          "displayName": "Steam Audio",
+          "version": "0.0.1",
+          "description": "Valve\u0027s Steam Audio spatializer with native plugins, vendored for Basis VoIP/HRTF.",
+          "unity": "6000.0",
+          "license": "Apache-2.0",
+          "url": "https://github.com/BasisVR/steam-audio.git",
+          "author": {
+            "name": "Valve Corporation",
+            "url": "https://github.com/ValveSoftware"
+          },
+          "icon": "\uD83D\uDD09",
+          "link": "https://github.com/ValveSoftware/steam-audio",
+          "category": "Audio",
+          "source": "official",
+          "tags": [
+            "audio",
+            "spatial",
+            "hrtf",
+            "dependency"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "com.xiph.rnnoise": {
+      "versions": {
+        "0.0.1": {
+          "name": "com.xiph.rnnoise",
+          "displayName": "RNNoise.Net",
+          "version": "0.0.1",
+          "description": "RNNoise-based background noise suppression for Basis voice.",
+          "unity": "6000.0",
+          "license": "MIT AND BSD-3-Clause",
+          "url": "https://github.com/BasisVR/RNNoise.Net.git",
+          "author": {
+            "name": "Xiph.Org",
+            "url": "https://github.com/xiph"
+          },
+          "icon": "\uD83D\uDD07",
+          "link": "https://github.com/xiph/rnnoise",
+          "category": "Audio",
+          "source": "built-in",
+          "tags": [
+            "audio",
+            "noise",
+            "voice",
+            "dependency"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "com.llealloo.audiolink": {
+      "versions": {
+        "3.1.2": {
+          "name": "com.llealloo.audiolink",
+          "displayName": "AudioLink",
+          "version": "3.1.2",
+          "description": "Audio-reactive data (bands, chronotensity) shared with shaders. The underlying AudioLink library vendored for Basis.",
+          "unity": "6000.0",
+          "license": "MIT",
+          "url": "https://github.com/BasisVR/BasisAudioLink.git",
+          "author": {
+            "name": "llealloo",
+            "url": "https://github.com/llealloo"
+          },
+          "icon": "\uD83C\uDFB6",
+          "link": "https://github.com/llealloo/AudioLink",
+          "category": "Dependencies",
+          "source": "built-in",
+          "tags": [
+            "audio",
+            "reactive",
+            "dependency"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "nuget.meamod.dns": {
+      "versions": {
+        "1.0.71": {
+          "name": "nuget.meamod.dns",
+          "displayName": "MeaMod.DNS",
+          "version": "1.0.71",
+          "description": "Managed multicast-DNS / DNS library used for Basis local discovery.",
+          "unity": "6000.0",
+          "license": "MIT",
+          "url": "https://github.com/BasisVR/BasisMeaModDns.git",
+          "author": {
+            "name": "MeaMod",
+            "url": "https://github.com/MeaMod"
+          },
+          "icon": "\uD83C\uDF10",
+          "link": "https://github.com/MeaMod/DNS",
+          "category": "Dependencies",
+          "source": "official",
+          "tags": [
+            "dependency",
+            "dns",
+            "networking"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "com.github.homuler.mediapipe": {
+      "versions": {
+        "0.16.3": {
+          "name": "com.github.homuler.mediapipe",
+          "displayName": "MediaPipe Unity Plugin",
+          "version": "0.16.3",
+          "description": "Google MediaPipe for Unity (native libs \u002B graphs), the inference backend behind Basis MediaPipe tracking.",
+          "unity": "6000.0",
+          "license": "MIT",
+          "url": "https://github.com/BasisVR/BasisMediaPipePlugin.git",
+          "author": {
+            "name": "homuler",
+            "url": "https://github.com/homuler"
+          },
+          "icon": "\uD83E\uDDE0",
+          "link": "https://github.com/homuler/MediaPipeUnityPlugin",
+          "category": "Dependencies",
+          "source": "built-in",
+          "tags": [
+            "dependency",
+            "mediapipe",
+            "ml"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "com.unity.render-pipelines.universal": {
+      "versions": {
+        "17.5.0": {
+          "name": "com.unity.render-pipelines.universal",
+          "displayName": "Universal Render Pipeline (Basis)",
+          "version": "17.5.0",
+          "description": "URP with Basis modifications, vendored so the framework can hard-reference render features.",
+          "unity": "6000.0",
+          "url": "https://github.com/BasisVR/BasisURP.git",
+          "author": {
+            "name": "Unity Technologies",
+            "url": "https://github.com/Unity-Technologies"
+          },
+          "icon": "\uD83C\uDF06",
+          "link": "https://github.com/Unity-Technologies/Graphics",
+          "category": "Rendering",
+          "source": "official",
+          "tags": [
+            "rendering",
+            "urp",
+            "dependency"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "com.unity.3rdpersondemo": {
+      "versions": {
+        "0.0.1": {
+          "name": "com.unity.3rdpersondemo",
+          "displayName": "Third Person Demo",
+          "version": "0.0.1",
+          "description": "Unity third-person controller demo content vendored for Basis.",
+          "unity": "6000.0",
+          "license": "See license.txt",
+          "url": "https://github.com/BasisVR/BasisThirdPersonDemo.git",
+          "author": {
+            "name": "Unity Technologies",
+            "url": "https://github.com/Unity-Technologies"
+          },
+          "icon": "\uD83C\uDFC3",
+          "category": "Examples",
+          "source": "official",
+          "tags": [
+            "examples",
+            "demo"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "dev.hai-vr.basis.comms": {
+      "versions": {
+        "0.0.1": {
+          "name": "dev.hai-vr.basis.comms",
+          "displayName": "HVR Basis Comms",
+          "version": "0.0.1",
+          "description": "Ha\u00EF~\u0027s avatar-comms system for Basis (OSC acquisition, Vixxy controls, avatar variable networking). BasisVR fork of hai-vr/Basis.",
+          "unity": "6000.0",
+          "license": "MIT",
+          "url": "https://github.com/BasisVR/hai-vr-Basis.git?path=Basis/Packages/dev.hai-vr.basis.comms#basis",
+          "author": {
+            "name": "Ha\u00EF~",
+            "url": "https://github.com/hai-vr"
+          },
+          "icon": "\uD83D\uDCE1",
+          "link": "https://github.com/hai-vr/Basis",
+          "category": "Integrations",
+          "source": "official",
+          "tags": [
+            "integration",
+            "comms",
+            "osc",
+            "avatar"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "dev.hai-vr.basis.ndmf": {
+      "versions": {
+        "0.0.1": {
+          "name": "dev.hai-vr.basis.ndmf",
+          "displayName": "HVR Basis NDMF Hook",
+          "version": "0.0.1",
+          "description": "Ha\u00EF~\u0027s NDMF (Non-Destructive Modular Framework) hook for Basis avatars. BasisVR fork of hai-vr/Basis.",
+          "unity": "6000.0",
+          "license": "MIT",
+          "url": "https://github.com/BasisVR/hai-vr-Basis.git?path=Basis/Packages/dev.hai-vr.basis.ndmf#basis",
+          "author": {
+            "name": "Ha\u00EF~",
+            "url": "https://github.com/hai-vr"
+          },
+          "icon": "\uD83E\uDDEC",
+          "link": "https://github.com/hai-vr/Basis",
+          "category": "Developer Tools",
+          "source": "official",
+          "tags": [
+            "developer",
+            "ndmf",
+            "avatar"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
+        }
+      }
+    },
+    "dev.hai-vr.hvr.license-review": {
+      "versions": {
+        "0.0.1": {
+          "name": "dev.hai-vr.hvr.license-review",
+          "displayName": "HVR License Review",
+          "version": "0.0.1",
+          "description": "Ha\u00EF~\u0027s license-review tooling. BasisVR fork of hai-vr/Basis.",
+          "unity": "6000.0",
+          "license": "MIT",
+          "url": "https://github.com/BasisVR/hai-vr-Basis.git?path=Basis/Packages/dev.hai-vr.hvr.license-review#basis",
+          "author": {
+            "name": "Ha\u00EF~",
+            "url": "https://github.com/hai-vr"
+          },
+          "icon": "\uD83D\uDCDC",
+          "link": "https://github.com/hai-vr/Basis",
+          "category": "Developer Tools",
+          "source": "official",
+          "tags": [
+            "developer",
+            "license",
+            "tools"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-07-07"
         }
       }
     }
