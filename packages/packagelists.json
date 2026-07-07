@@ -1,5 +1,282 @@
 [
   {
+    "id": "basis-minimum",
+    "name": "Basis Minimum",
+    "description": "The Basis packages a project needs \u2014 added automatically when you create a new project in the Package Manager. Start here and trim.",
+    "author": "BasisVR",
+    "authorUrl": "https://github.com/BasisVR",
+    "basisBranch": "main",
+    "unity": "6000.0",
+    "icon": "\ud83e\uddf1",
+    "tags": [
+      "minimum",
+      "core",
+      "default"
+    ],
+    "packages": [
+      {
+        "id": "com.avionblock.opussharp",
+        "name": "OpusSharp",
+        "gitUrl": "https://github.com/BasisVR/OpusSharp.git"
+      },
+      {
+        "id": "com.basis.addon.snapcontrols",
+        "name": "Basis Snap Controls",
+        "gitUrl": "https://github.com/BasisVR/BasisSnapControls.git"
+      },
+      {
+        "id": "com.basis.bundlemanagement",
+        "name": "Basis Bundlemanagement",
+        "gitUrl": "https://github.com/BasisVR/BasisBundleManagement.git"
+      },
+      {
+        "id": "com.basis.common",
+        "name": "Basis Common",
+        "gitUrl": "https://github.com/BasisVR/BasisCommon.git"
+      },
+      {
+        "id": "com.basis.developer.exceptions",
+        "name": "Basis Exception Reporting",
+        "gitUrl": "https://github.com/BasisVR/BasisExceptionReporting.git"
+      },
+      {
+        "id": "com.basis.developer.recorder",
+        "name": "Basis Avatar Recorder",
+        "gitUrl": "https://github.com/BasisVR/BasisAvatarRecorder.git"
+      },
+      {
+        "id": "com.basis.eventdriver",
+        "name": "Basis Eventdriver",
+        "gitUrl": "https://github.com/BasisVR/BasisEventDriver.git"
+      },
+      {
+        "id": "com.basis.examples",
+        "name": "Basis Examples",
+        "gitUrl": "https://github.com/BasisVR/BasisExamples.git"
+      },
+      {
+        "id": "com.basis.framework",
+        "name": "Basis Framework",
+        "gitUrl": "https://github.com/BasisVR/BasisFramework.git"
+      },
+      {
+        "id": "com.basis.framework.editor",
+        "name": "Basis Framework Editor",
+        "gitUrl": "https://github.com/BasisVR/BasisFrameworkEditor.git"
+      },
+      {
+        "id": "com.basis.gizmos",
+        "name": "Basis Gizmos",
+        "gitUrl": "https://github.com/BasisVR/BasisGizmos.git"
+      },
+      {
+        "id": "com.basis.imagepickup",
+        "name": "Basis Image Pickup",
+        "gitUrl": "https://github.com/BasisVR/BasisImagePickup.git"
+      },
+      {
+        "id": "com.basis.integration.audiolink",
+        "name": "Basis AudioLink Integration",
+        "gitUrl": "https://github.com/BasisVR/BasisAudioLinkIntegration.git"
+      },
+      {
+        "id": "com.basis.integration.ytdlp",
+        "name": "Basis yt-dlp Integration",
+        "gitUrl": "https://github.com/BasisVR/BasisYtDlpIntegration.git"
+      },
+      {
+        "id": "com.basis.mediapipe",
+        "name": "Basis Mediapipe",
+        "gitUrl": "https://github.com/BasisVR/BasisMediaPipe.git"
+      },
+      {
+        "id": "com.basis.mediaplayer",
+        "name": "Basis Media Player",
+        "gitUrl": "https://github.com/BasisVR/BasisMediaPlayer.git"
+      },
+      {
+        "id": "com.basis.openlipsync",
+        "name": "Basis Openlipsync",
+        "gitUrl": "https://github.com/BasisVR/BasisOpenLipSync.git"
+      },
+      {
+        "id": "com.basis.openvr",
+        "name": "Basis OpenVR Integration",
+        "gitUrl": "https://github.com/BasisVR/BasisOpenVR.git"
+      },
+      {
+        "id": "com.basis.openxr",
+        "name": "Basis OpenXR Integration",
+        "gitUrl": "https://github.com/BasisVR/BasisOpenXR.git"
+      },
+      {
+        "id": "com.basis.pooltable",
+        "name": "Basis Ported Pooltable",
+        "gitUrl": "https://github.com/dooly123/MS-BASISSA-Billiards.git"
+      },
+      {
+        "id": "com.basis.profilerintergration",
+        "name": "Basis Profilerintergration",
+        "gitUrl": "https://github.com/BasisVR/BasisProfilerIntegration.git"
+      },
+      {
+        "id": "com.basis.provider.servers",
+        "name": "Basis Servers Panel",
+        "gitUrl": "https://github.com/BasisVR/BasisServersProvider.git"
+      },
+      {
+        "id": "com.basis.sdk",
+        "name": "Basis Sdk",
+        "gitUrl": "https://github.com/BasisVR/BasisSDK.git"
+      },
+      {
+        "id": "com.basis.server",
+        "name": "Basis Server",
+        "gitUrl": "https://github.com/BasisVR/BasisServer.git"
+      },
+      {
+        "id": "com.basis.settings",
+        "name": "Basis Settings",
+        "gitUrl": "https://github.com/BasisVR/BasisSettings.git"
+      },
+      {
+        "id": "com.basis.setup",
+        "name": "Basis Setup",
+        "gitUrl": "https://github.com/BasisVR/BasisSetup.git"
+      },
+      {
+        "id": "com.basis.shim",
+        "name": "Basis Shim",
+        "gitUrl": "https://github.com/BasisVR/BasisShims.git"
+      },
+      {
+        "id": "com.basis.textmeshpro",
+        "name": "Basis Textmeshpro",
+        "gitUrl": "https://github.com/BasisVR/BasisTextMeshPro.git"
+      },
+      {
+        "id": "com.basis.vehicles",
+        "name": "Basis Vehicles",
+        "gitUrl": "https://github.com/BasisVR/BasisVehicles.git"
+      },
+      {
+        "id": "com.basis.visualtrackers",
+        "name": "Basis Visual Trackers",
+        "gitUrl": "https://github.com/BasisVR/BasisVisualTrackers.git"
+      },
+      {
+        "id": "com.cnlohr.cilbox",
+        "name": "Cilbox",
+        "gitUrl": "https://github.com/BasisVR/BasisCilbox.git"
+      },
+      {
+        "id": "com.cqf.urpvolumetricfog",
+        "name": "URP Volumetric Fog",
+        "gitUrl": "https://github.com/BasisVR/BasisVolumetricFog.git"
+      },
+      {
+        "id": "com.gator-dragon-games.jigglephysics",
+        "name": "Jiggle Physics",
+        "gitUrl": "https://github.com/BasisVR/UnityJigglePhysics.git"
+      },
+      {
+        "id": "com.github.homuler.mediapipe",
+        "name": "MediaPipe Plugin",
+        "gitUrl": "https://github.com/BasisVR/BasisMediaPipePlugin.git"
+      },
+      {
+        "id": "com.llealloo.audiolink",
+        "name": "AudioLink",
+        "gitUrl": "https://github.com/BasisVR/BasisAudioLink.git"
+      },
+      {
+        "id": "com.steam.steamaudio",
+        "name": "Steam Audio",
+        "gitUrl": "https://github.com/BasisVR/steam-audio.git"
+      },
+      {
+        "id": "com.steam.steamvr",
+        "name": "SteamVR (for Basis)",
+        "gitUrl": "https://github.com/BasisVR/BasisSteamVR.git"
+      },
+      {
+        "id": "com.unity.3rdpersondemo",
+        "name": "Third Person Demo",
+        "gitUrl": "https://github.com/BasisVR/BasisThirdPersonDemo.git"
+      },
+      {
+        "id": "com.unity.render-pipelines.universal",
+        "name": "Universal RP (Basis fork)",
+        "gitUrl": "https://github.com/BasisVR/BasisURP.git"
+      },
+      {
+        "id": "com.valvesoftware.openxr.utils",
+        "name": "Valve OpenXR Utils",
+        "gitUrl": "https://github.com/ValveSoftware/Unity.git?path=com.valvesoftware.openxr.utils#41ca1855174652d288af94a1b83ef76e34b5d4af"
+      },
+      {
+        "id": "com.valvesoftware.unity.openvr",
+        "name": "OpenVR XR Plugin",
+        "gitUrl": "https://github.com/BasisVR/BasisOpenVRPlugin.git"
+      },
+      {
+        "id": "com.xiph.rnnoise",
+        "name": "RNNoise",
+        "gitUrl": "https://github.com/BasisVR/RNNoise.Net.git"
+      },
+      {
+        "id": "dev.hai-vr.basis.comms",
+        "name": "HVR Basis Comms",
+        "gitUrl": "https://github.com/BasisVR/hai-vr-Basis.git?path=Basis/Packages/dev.hai-vr.basis.comms#basis"
+      },
+      {
+        "id": "dev.hai-vr.basis.ndmf",
+        "name": "HVR NDMF",
+        "gitUrl": "https://github.com/BasisVR/hai-vr-Basis.git?path=Basis/Packages/dev.hai-vr.basis.ndmf#basis"
+      },
+      {
+        "id": "dev.hai-vr.hvr.license-review",
+        "name": "HVR License Review",
+        "gitUrl": "https://github.com/BasisVR/hai-vr-Basis.git?path=Basis/Packages/dev.hai-vr.hvr.license-review#basis"
+      },
+      {
+        "id": "nuget.meamod.dns",
+        "name": "MeaMod DNS",
+        "gitUrl": "https://github.com/BasisVR/BasisMeaModDns.git"
+      },
+      {
+        "id": "org.basisvr.base128",
+        "name": "Base128",
+        "gitUrl": "https://github.com/BasisVR/BasisBase128.git"
+      },
+      {
+        "id": "org.basisvr.bouncycastle",
+        "name": "BouncyCastle",
+        "gitUrl": "https://github.com/BasisVR/BasisBouncyCastle.git"
+      },
+      {
+        "id": "org.basisvr.generator.equals",
+        "name": "Generator.Equals",
+        "gitUrl": "https://github.com/BasisVR/BasisGeneratorEquals.git"
+      },
+      {
+        "id": "org.basisvr.k4os.compression.lz4",
+        "name": "K4os.Compression.LZ4",
+        "gitUrl": "https://github.com/BasisVR/BasisK4osCompressionLZ4.git"
+      },
+      {
+        "id": "org.basisvr.newtonsoft.json",
+        "name": "Newtonsoft.Json",
+        "gitUrl": "https://github.com/BasisVR/BasisNewtonsoftJson.git"
+      },
+      {
+        "id": "org.basisvr.simplebase",
+        "name": "SimpleBase",
+        "gitUrl": "https://github.com/BasisVR/BasisSimpleBase.git"
+      }
+    ]
+  },
+  {
     "id": "basis-recommended",
     "name": "Basis Recommended",
     "description": "Every curated Basis package \u2014 the full recommended set, added on top of a fresh Basis clone in one click.",
