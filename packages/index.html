@@ -155,6 +155,7 @@
 
   <div id="modal" class="hidden fixed inset-0 z-40 grid place-items-center bg-black/50 p-6 backdrop-blur-sm"></div>
   <div id="submitModal" class="hidden fixed inset-0 z-40 grid place-items-center bg-black/50 p-6 backdrop-blur-sm"></div>
+  <div id="getAppModal" class="hidden fixed inset-0 z-50 grid place-items-center bg-black/50 p-6 backdrop-blur-sm"></div>
   <div id="toast" class="pointer-events-none fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-2xl border border-gray-200 bg-white px-5 py-3 text-sm opacity-0 shadow-lg transition dark:border-white/10 dark:bg-basisbg"></div>
 
 <script>
@@ -465,11 +466,11 @@ function openDetail(id){
         ${p.unity?`<span>Unity <b class="text-gray-900 dark:text-white">${esc(p.unity)}</b></span>`:''}
         ${p.updated?`<span>Updated <b class="text-gray-900 dark:text-white">${esc(p.updated)}</b></span>`:''}
       </div>
-      ${p.dependencies?`<div><p class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Dependencies</p><div class="flex flex-wrap gap-1.5">${Object.entries(p.dependencies).map(([k,v])=>`<span class="rounded-full bg-gray-100 px-2 py-0.5 text-[11px] text-gray-600 dark:bg-white/5 dark:text-gray-300">${esc(k)} ${esc(v)}</span>`).join('')}</div></div>`:''}
+      <div id="depSlot" data-for="${esc(p.id)}"></div>
       <div>
         <p class="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">How to install</p>
         <a href="basispm://install?id=${encodeURIComponent(p.id)}&name=${encodeURIComponent(p.name)}&git=${encodeURIComponent(p.gitUrl||'')}&repo=${encodeURIComponent(p.repoUrl||'')}"
-           class="mb-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-brand to-purple-600 px-5 py-4 text-base font-semibold text-white shadow hover:shadow-lg"
+           class="deeplink mb-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-brand to-purple-600 px-5 py-4 text-base font-semibold text-white shadow hover:shadow-lg"
            title="Opens the Basis Package Manager app and adds this package to your active project. Requires the app installed.">
           <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
           Install in the Basis Package Manager
@@ -487,6 +488,29 @@ function openDetail(id){
   </div>`;
   m.classList.remove('hidden');
   m.querySelectorAll('.copy').forEach(b=>b.onclick=e=>{e.stopPropagation();copy(b.dataset.copy,b);});
+  m.querySelectorAll('.deeplink').forEach(a=>a.addEventListener('click', onDeepLinkClick));
+  renderDeps(p);
+}
+
+// Dependencies aren't in the catalog — they live in each package's package.json. Fetch it once
+// the modal is open and fill in the slot. The isConnected guard means a slow fetch from a package
+// you've since closed (or swapped for another) can't paint into the wrong modal.
+async function renderDeps(p){
+  const slot = document.getElementById('depSlot');
+  if(!slot) return;
+  const paint = deps => {
+    if(!slot.isConnected) return;
+    const entries = deps ? Object.entries(deps) : [];
+    slot.innerHTML = entries.length
+      ? `<div><p class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Dependencies</p><div class="flex flex-wrap gap-1.5">${entries.map(([k,v])=>`<span class="rounded-full bg-gray-100 px-2 py-0.5 text-[11px] text-gray-600 dark:bg-white/5 dark:text-gray-300">${esc(k)} ${esc(v)}</span>`).join('')}</div></div>`
+      : '';
+  };
+  // Already recorded in the catalog? Use that and skip the network.
+  if(p.dependencies && Object.keys(p.dependencies).length){ paint(p.dependencies); return; }
+  slot.innerHTML = `<p class="text-xs text-gray-400">Loading dependencies…</p>`;
+  let pj = null;
+  try{ pj = await fetchPackageJson(p.repoUrl, p.gitUrl); }catch{}
+  paint(pj && pj.dependencies);
 }
 
 function packageListCard(b){
@@ -575,7 +599,7 @@ function openPackageList(id){
           <p class="mb-2 text-sm text-gray-600 dark:text-gray-300">Clone a fresh Basis${branch?` (<b class="text-gray-900 dark:text-white">${branch}</b>)`:''} and open it in Unity, then install:</p>
           <div class="relative"><pre class="whitespace-pre-wrap break-all rounded-xl border border-gray-200 bg-gray-50 p-3 pr-16 font-mono text-xs text-gray-800 dark:border-white/10 dark:bg-black/30 dark:text-gray-200">${esc(cloneCmd)}</pre><button class="copy absolute right-2 top-2 rounded-lg border border-gray-200 px-2 py-1 text-xs hover:border-brand hover:text-brand dark:border-white/10" data-copy="${esc(cloneCmd)}">Copy</button></div>
         </div>
-        <a href="${esc(deep)}" class="mb-2 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-brand to-purple-600 px-5 py-4 text-base font-semibold text-white shadow hover:shadow-lg"
+        <a href="${esc(deep)}" class="deeplink mb-2 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-brand to-purple-600 px-5 py-4 text-base font-semibold text-white shadow hover:shadow-lg"
            title="Opens the Basis Package Manager and adds every package to a project you pick.">
           <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
           Install package list in the app
@@ -590,6 +614,7 @@ function openPackageList(id){
   </div>`;
   m.classList.remove('hidden');
   m.querySelectorAll('.copy').forEach(btn=>btn.onclick=e=>{e.stopPropagation();copy(btn.dataset.copy,btn);});
+  m.querySelectorAll('.deeplink').forEach(a=>a.addEventListener('click', onDeepLinkClick));
 
   // Clone-a-fresh-Basis toggle. On → show the git-clone step and frame the button as the "then install"
   // second step; off → hide it and just add the packages to a project you already have. The deep link is
@@ -764,9 +789,78 @@ function submitPackage(e){
   toast('Opening a GitHub issue to submit…','ok');
 }
 
-function closeModals(){ document.getElementById('modal').classList.add('hidden'); document.getElementById('submitModal').classList.add('hidden'); }
+// ---- basispm:// deep links, with a "you don't have the app yet" fallback ----
+// The Install buttons hand off to the Basis Package Manager desktop app. If it
+// isn't installed the click just does nothing, which reads as broken. So we fire
+// the deep link, then watch for the tab losing focus/visibility — that only
+// happens when the app actually takes over. If it never does within ~1.5s, we
+// assume the app is missing and surface the download page instead.
+const APP_DOWNLOAD_URL = `https://github.com/${REPO}/releases/latest`;
+let lastDeepLink = null;
+
+function onDeepLinkClick(e){
+  // Leave modified/middle clicks to the browser; only hijack a plain left click.
+  if(e.button!==0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  e.preventDefault();
+  launchApp(e.currentTarget.getAttribute('href'));
+}
+
+function launchApp(deep){
+  lastDeepLink = deep;
+  let settled = false;
+  const detach = () => {
+    window.removeEventListener('blur', onLeave);
+    window.removeEventListener('pagehide', onLeave);
+    document.removeEventListener('visibilitychange', onVis);
+    clearTimeout(timer);
+  };
+  // Tab lost focus / went to the background → the app opened. Nothing more to do.
+  const onLeave = () => { if(settled) return; settled = true; detach(); };
+  const onVis = () => { if(document.hidden) onLeave(); };
+  window.addEventListener('blur', onLeave);
+  window.addEventListener('pagehide', onLeave);
+  document.addEventListener('visibilitychange', onVis);
+
+  window.location.href = deep;   // hand off to the protocol handler
+
+  const timer = setTimeout(() => {
+    if(settled) return; settled = true; detach();
+    // Still here, focused and visible: the handler almost certainly isn't installed.
+    if(!document.hidden && document.hasFocus()) openGetApp();
+  }, 1500);
+}
+
+function openGetApp(){
+  const m = document.getElementById('getAppModal');
+  m.innerHTML = `<div class="w-full max-w-md rounded-2xl border border-gray-200 bg-white shadow-2xl dark:border-white/10 dark:bg-basisbg" onclick="event.stopPropagation()">
+    <div class="flex items-start gap-4 border-b border-gray-200 p-6 dark:border-white/10">
+      <div class="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-brand/10 text-2xl">📦</div>
+      <div class="min-w-0 flex-1">
+        <h2 class="text-lg font-bold">Get the Basis Package Manager</h2>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Nothing opened? That button hands off to the Basis Package Manager desktop app — and it doesn't look installed yet. Grab it below, then click Install again.</p>
+      </div>
+      <button onclick="closeGetApp()" class="text-2xl leading-none text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">&times;</button>
+    </div>
+    <div class="space-y-3 p-6">
+      <a href="${esc(APP_DOWNLOAD_URL)}" target="_blank" rel="noopener noreferrer"
+         class="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-brand to-purple-600 px-5 py-4 text-base font-semibold text-white shadow hover:shadow-lg">
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+        Download the Package Manager
+      </a>
+      <button onclick="retryDeepLink()" class="w-full rounded-2xl border border-gray-200 px-5 py-3 text-sm font-semibold text-gray-600 hover:border-brand hover:text-brand dark:border-white/10 dark:text-gray-300">
+        Already installed it? Try opening again
+      </button>
+    </div>
+  </div>`;
+  m.classList.remove('hidden');
+}
+function closeGetApp(){ document.getElementById('getAppModal').classList.add('hidden'); }
+function retryDeepLink(){ closeGetApp(); if(lastDeepLink) launchApp(lastDeepLink); }
+
+function closeModals(){ document.getElementById('modal').classList.add('hidden'); document.getElementById('submitModal').classList.add('hidden'); closeGetApp(); }
 document.getElementById('modal').onclick = closeModals;
 document.getElementById('submitModal').onclick = closeModals;
+document.getElementById('getAppModal').onclick = closeGetApp;
 document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModals(); });
 document.getElementById('submitBtn').onclick = openSubmit;
 document.getElementById('tabPackages').onclick = ()=>switchView('packages');
