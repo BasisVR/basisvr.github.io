@@ -349,7 +349,7 @@ function buildFilters(){
     {key:'community',label:'Community',count:bySource('community')},
   ];
   const chip = (active) => 'flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm transition '
-    + (active ? 'bg-gray-100 font-semibold dark:bg-white/10' : 'text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/5');
+    + (active ? 'bg-brand/15 text-brand ring-1 ring-brand/30 font-semibold dark:bg-white/10 dark:text-gray-100 dark:ring-0' : 'text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/5');
   const pill = 'rounded-full bg-gray-100 px-2 text-xs text-gray-500 dark:bg-white/5 dark:text-gray-400';
 
   document.getElementById('sourceChips').innerHTML = sources.map(s=>
