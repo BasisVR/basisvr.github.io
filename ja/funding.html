@@ -8,7 +8,7 @@
     <meta name="description" content="How BasisVR is run, how funding works, and how you can support the open-source Social & Networked VR framework." />
     <meta property="og:title" content="BasisVR — How We Are Funded" />
     <meta property="og:description" content="Transparent governance, funding sources, and sustainability for the BasisVR framework." />
-    <meta property="og:image" content="https://raw.githubusercontent.com/BasisVR/basisvr.github.io/main/Images/basisdiscord2.png" />
+    <meta property="og:image" content="https://basisvr.org/Images/basisdiscord2-og.jpg" />
     <meta name="theme-color" content="#ef1237" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#100f27" media="(prefers-color-scheme: dark)">
     <meta name="color-scheme" content="light dark" />
@@ -16,9 +16,9 @@
     <meta name="twitter:card" content="summary_large_image" />
 
     <!-- Fonts & Tailwind -->
-    <link rel="preconnect" href="https://fonts.bunny.net" />
-    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <link rel="preconnect" href="https://fonts.bunny.net" crossorigin />
+    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&amp;display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/dist/tailwind.css" />
 
     <!-- External config & theme -->
     <script src="/theme.js" defer></script>
@@ -31,7 +31,7 @@
     <!-- =============================
          Global Animated Gradient Backdrop
          ============================= -->
-    <div aria-hidden="true" class="animated-gradient fixed inset-0 -z-30 opacity-25 dark:opacity-20"></div>
+    <div aria-hidden="true" class="animated-gradient fixed inset-0 -z-30 opacity-35 dark:opacity-30"></div>
 
     <!-- =============================
          Decorative + Parallax Layers
@@ -71,7 +71,7 @@
         <!-- Top bar -->
         <div class="flex items-center justify-between">
             <a href="/ja/" class="inline-flex items-center gap-3 group">
-                <img src="https://raw.githubusercontent.com/BasisVR/basisvr.github.io/main/Images/BasisLogoN.png"
+                <img width="256" height="256" decoding="async" src="/Images/BasisLogoN.webp"
                      alt="BasisVR Logo"
                      class="h-10 w-10 rounded-lg ring-1 ring-gray-200 dark:ring-white/10 group-hover:scale-105 transition" loading="lazy" />
                 <span class="font-semibold text-lg">BasisVR</span>
@@ -579,6 +579,6 @@
     <!-- Footer Year -->
     <script src="/footer.js" defer></script>
     <!-- Flowbite -->
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js" defer></script>
 </body>
 </html>

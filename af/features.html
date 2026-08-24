@@ -8,17 +8,17 @@
     <meta name="description" content="Explore BasisVR’s current capabilities and roadmap: networking, voice, avatars, interaction, worlds, SDKs, rendering, performance, devices, and more." />
     <meta property="og:title" content="BasisVR – Features" />
     <meta property="og:description" content="A modern overview of everything in BasisVR and what’s coming next." />
-    <meta property="og:image" content="https://raw.githubusercontent.com/BasisVR/basisvr.github.io/main/Images/basisdiscord2.png" />
+    <meta property="og:image" content="https://basisvr.org/Images/basisdiscord2-og.jpg" />
     <meta name="theme-color" content="#ef1237" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#100f27" media="(prefers-color-scheme: dark)">
     <meta name="color-scheme" content="light dark" />
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net" />
-    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.bunny.net" crossorigin />
+    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&amp;display=swap" rel="stylesheet" />
 
     <!-- Tailwind (CDN) -->
-    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <link rel="stylesheet" href="/dist/tailwind.css" />
 
     <!-- Theme (also provides the Tailwind CDN config) -->
     <script src="/theme.js" defer></script>
@@ -242,7 +242,7 @@
 </head>
 <body class="bg-white text-gray-800 dark:bg-basisbg dark:text-gray-100 antialiased">
     <!-- Backdrop -->
-    <div aria-hidden="true" class="animated-gradient fixed inset-0 -z-30 opacity-25 dark:opacity-20"></div>
+    <div aria-hidden="true" class="animated-gradient fixed inset-0 -z-30 opacity-35 dark:opacity-30"></div>
 
     <!-- Subtle decorative blobs -->
     <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
@@ -255,7 +255,7 @@
         <!-- Top bar -->
         <div class="flex items-center justify-between py-5">
             <a href="/af/" class="inline-flex items-center gap-3">
-                <img src="https://raw.githubusercontent.com/BasisVR/basisvr.github.io/main/Images/BasisLogoN.png"
+                <img width="256" height="256" decoding="async" src="/Images/BasisLogoN.webp"
                      alt="BasisVR Logo"
                      class="h-9 w-9 rounded-xl ring-1 ring-gray-200 dark:ring-white/10" />
                 <span class="font-semibold">BasisVR</span>
@@ -319,7 +319,7 @@
 
                 <!-- Visual -->
                 <div class="relative">
-                    <img src="https://raw.githubusercontent.com/BasisVR/basisvr.github.io/main/Images/NameplateMassAmount.png"
+                    <img width="1920" height="1080" decoding="async" loading="lazy" src="/Images/NameplateMassAmount.webp"
                          alt="BasisVR Showcase" class="aspect-video w-full rounded-2xl border border-black/10 dark:border-white/10 object-cover shadow" />
                 </div>
             </div>
@@ -1356,7 +1356,7 @@
     <!-- Footer JS -->
     <script src="/footer.js" defer></script>
     <!-- Flowbite -->
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js" defer></script>
 
     <!-- Interactions: filter + search + scrollspy + layout toggle -->
     <script>

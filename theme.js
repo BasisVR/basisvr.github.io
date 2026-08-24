@@ -1,36 +1,9 @@
 /* theme.js
- * Tailwind CDN config + theme init + parallax (mousemove + scroll) with reduced-motion support
+ * Theme init + parallax (mousemove + scroll) with reduced-motion support
  */
 
-/* -----------------------------
-   Tailwind CDN config
-   NOTE: This must execute BEFORE loading the Tailwind CDN script.
-   If you're currently loading theme.js after Tailwind, either:
-   1) move this file above the CDN <script>, or
-   2) inline just this config block in a <script> before the CDN include.
--------------------------------- */
-window.tailwind = window.tailwind || {};
-window.tailwind.config = {
-  darkMode: 'class',
-  theme: {
-    extend: {
-      fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui'] },
-      colors: {
-        brand: {
-          DEFAULT: '#ef1237',
-          100: '#ffd6de',
-          300: '#ff5775',
-          500: '#ef1237',
-          700: '#950a24'
-        },
-        basisbg: '#100f27'
-      },
-      boxShadow: {
-        soft: '0 8px 30px rgba(0,0,0,0.08)'
-      }
-    }
-  }
-};
+/* Tailwind theme (brand colours, Inter, soft shadow) now lives in tailwind.config.js
+   and is compiled into /dist/tailwind.css by `npm run build:css`. */
 
 /* -----------------------------
    Theme: dark mode bootstrap
@@ -51,61 +24,71 @@ window.tailwind.config = {
 })();
 
 /* -----------------------------
+   DOM-ready helper
+-------------------------------- */
+function onReady(fn) {
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn);
+  else fn();
+}
+
+/* -----------------------------
    Reduced motion detection
 -------------------------------- */
 const prefersReducedMotion = window.matchMedia
   ? window.matchMedia('(prefers-reduced-motion: reduce)')
   : { matches: false, addEventListener: () => {} };
 
-/* Utility to pause CSS gradient animations when reduced motion */
+/* Utility to pause CSS gradient animations when reduced motion.
+   The animation lives on .animated-gradient::before, which inline styles
+   cannot reach, so toggle a class the stylesheet keys off instead. */
 function updateAnimatedGradients() {
-  const animated = document.querySelectorAll('.animated-gradient');
-  animated.forEach(el => {
-    el.style.animationPlayState = prefersReducedMotion.matches ? 'paused' : 'running';
+  const paused = prefersReducedMotion.matches;
+  document.querySelectorAll('.animated-gradient').forEach(el => {
+    el.classList.toggle('motion-paused', paused);
   });
 }
 prefersReducedMotion.addEventListener?.('change', updateAnimatedGradients);
-document.addEventListener('DOMContentLoaded', updateAnimatedGradients);
+onReady(updateAnimatedGradients);
 
 /* -----------------------------
    Parallax: mousemove (desktop)
    - Uses requestAnimationFrame to throttle
    - GPU-friendly translate3d
    - Controlled by [data-parallax] (number)
+   - Layers are collected once; promotion comes from .parallax-will-change
+     in the stylesheet rather than a style write on every frame
 -------------------------------- */
 (() => {
   if (prefersReducedMotion.matches) return;
 
+  // only run on devices that have a mouse/touchpad pointer
+  if (!(window.matchMedia && window.matchMedia('(pointer: fine)').matches)) return;
+
+  let layers = [];
   let rafId = null;
   let lastCx = 0, lastCy = 0;
 
   function onMouseMove(e) {
-    const cx = e.clientX / window.innerWidth - 0.5;   // -0.5..0.5
-    const cy = e.clientY / window.innerHeight - 0.5;  // -0.5..0.5
-    lastCx = cx;
-    lastCy = cy;
-    if (rafId) return;
-    rafId = requestAnimationFrame(applyMouseParallax);
+    lastCx = e.clientX / window.innerWidth - 0.5;   // -0.5..0.5
+    lastCy = e.clientY / window.innerHeight - 0.5;  // -0.5..0.5
+    if (rafId === null) rafId = requestAnimationFrame(applyMouseParallax);
   }
 
   function applyMouseParallax() {
     rafId = null;
-    const layers = document.querySelectorAll('[data-parallax]');
-    layers.forEach(layer => {
-      const speed = parseFloat(layer.getAttribute('data-parallax')) || 1;
+    for (const { el, speed } of layers) {
       // tune multiplier for subtle motion
-      const tx = -lastCx * speed * 10;
-      const ty = -lastCy * speed * 10;
-      layer.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
-      layer.style.willChange = 'transform';
-    });
+      el.style.transform = `translate3d(${-lastCx * speed * 10}px, ${-lastCy * speed * 10}px, 0)`;
+    }
   }
 
-  // only add on devices that have a mouse/touchpad pointer
-  const hasFinePointer = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
-  if (hasFinePointer) {
-    window.addEventListener('mousemove', onMouseMove, { passive: true });
-  }
+  onReady(() => {
+    layers = Array.from(document.querySelectorAll('[data-parallax]'), el => ({
+      el,
+      speed: parseFloat(el.getAttribute('data-parallax')) || 1
+    }));
+    if (layers.length) window.addEventListener('mousemove', onMouseMove, { passive: true });
+  });
 })();
 
 /* -----------------------------
@@ -117,9 +100,7 @@ document.addEventListener('DOMContentLoaded', updateAnimatedGradients);
 (() => {
   if (prefersReducedMotion.matches) return;
 
-  const nodes = () => document.querySelectorAll('[data-parallax-scroll]');
-  if (!nodes().length) return; // skip if not used
-
+  let layers = [];
   let ticking = false;
 
   function onScroll() {
@@ -131,17 +112,20 @@ document.addEventListener('DOMContentLoaded', updateAnimatedGradients);
   function applyScrollParallax() {
     ticking = false;
     const scrollY = window.scrollY || window.pageYOffset || 0;
-    nodes().forEach(el => {
-      const speed = parseFloat(el.getAttribute('data-parallax-scroll')) || 1;
+    for (const { el, speed } of layers) {
       // smaller multiplier keeps it subtle; tweak to taste
-      const ty = (scrollY * speed) * 0.05;
-      el.style.transform = `translate3d(0, ${ty}px, 0)`;
-      el.style.willChange = 'transform';
-    });
+      el.style.transform = `translate3d(0, ${scrollY * speed * 0.05}px, 0)`;
+    }
   }
 
-  // attach
-  window.addEventListener('scroll', onScroll, { passive: true });
-  // initial position
-  applyScrollParallax();
+  onReady(() => {
+    layers = Array.from(document.querySelectorAll('[data-parallax-scroll]'), el => ({
+      el,
+      speed: parseFloat(el.getAttribute('data-parallax-scroll')) || 1
+    }));
+    if (!layers.length) return; // skip if not used
+    for (const { el } of layers) el.style.willChange = 'transform';
+    window.addEventListener('scroll', onScroll, { passive: true });
+    applyScrollParallax(); // initial position
+  });
 })();

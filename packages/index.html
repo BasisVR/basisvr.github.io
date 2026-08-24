@@ -12,18 +12,11 @@
   <meta http-equiv="Content-Security-Policy" content="img-src 'self' https://raw.githubusercontent.com https://gitlab.com data:;">
 
   <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.bunny.net" />
-  <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.bunny.net" crossorigin />
+  <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&amp;display=swap" rel="stylesheet" />
 
-  <!-- Tailwind config (matches the main site) then Tailwind CDN -->
-  <script>
-    window.tailwind = { config: { darkMode: 'class', theme: { extend: {
-      fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui'] },
-      colors: { brand: { DEFAULT:'#ef1237', 100:'#ffd6de', 300:'#ff5775', 500:'#ef1237', 700:'#950a24' }, basisbg: '#100f27' },
-      boxShadow: { soft: '0 8px 30px rgba(0,0,0,0.08)' }
-    } } } };
-  </script>
-  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <!-- Tailwind: compiled from tailwind.config.js by `npm run build:css` -->
+  <link rel="stylesheet" href="/dist/tailwind.css" />
   <script src="/theme.js" defer></script>
   <link rel="stylesheet" href="/styles.css" />
   <style>
@@ -37,7 +30,7 @@
 <body class="bg-white text-gray-800 dark:bg-basisbg dark:text-gray-100 antialiased">
 
   <!-- Backdrop -->
-  <div aria-hidden="true" class="animated-gradient fixed inset-0 -z-30 opacity-25 dark:opacity-20"></div>
+  <div aria-hidden="true" class="animated-gradient fixed inset-0 -z-30 opacity-35 dark:opacity-30"></div>
   <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
     <div class="absolute -top-24 left-1/2 -translate-x-1/2 h-[50rem] w-[50rem] rounded-full bg-gradient-to-br from-brand/20 via-pink-500/15 to-purple-600/15 blur-3xl"></div>
     <div data-parallax="8" class="absolute top-[12%] left-[8%] h-56 w-56 rounded-full bg-pink-400/25 dark:bg-pink-400/15 blur-3xl"></div>
@@ -49,7 +42,7 @@
     <!-- Top bar (shared site chrome — logo + nav are the way back to basisvr.org) -->
     <div class="flex items-center justify-between">
       <a href="/" class="inline-flex items-center gap-3">
-        <img src="https://raw.githubusercontent.com/BasisVR/basisvr.github.io/main/Images/BasisLogoN.png" alt="BasisVR Logo" class="h-10 w-10 rounded-lg ring-1 ring-gray-200 dark:ring-white/10" />
+        <img width="256" height="256" decoding="async" src="/Images/BasisLogoN.webp" alt="BasisVR Logo" class="h-10 w-10 rounded-lg ring-1 ring-gray-200 dark:ring-white/10" />
         <span class="font-semibold text-lg">BasisVR</span>
       </a>
       <div class="flex items-center">
@@ -371,7 +364,7 @@ function buildFilters(){
 
 function pkgCard(p){
   return `
-    <div data-id="${esc(p.id)}" class="group flex cursor-pointer flex-col rounded-2xl border border-gray-200 bg-white/70 p-5 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand/20 dark:border-white/10 dark:bg-white/5">
+    <div data-id="${esc(p.id)}" class="group flex cursor-pointer flex-col rounded-2xl border border-gray-200 bg-white/70 p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand/20 dark:border-white/10 dark:bg-white/5">
       <div class="flex items-start gap-3">
         <div class="inline-flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gray-100 text-xl ring-1 ring-gray-200 dark:bg-white/5 dark:ring-white/10">${imgOrIcon(p)}</div>
         <div class="min-w-0">
@@ -393,7 +386,7 @@ function pkgCard(p){
 }
 function pkgRow(p){
   return `
-    <div data-id="${esc(p.id)}" class="group flex cursor-pointer items-center gap-4 rounded-2xl border border-gray-200 bg-white/70 p-4 shadow-sm backdrop-blur transition hover:shadow-lg hover:shadow-brand/20 dark:border-white/10 dark:bg-white/5">
+    <div data-id="${esc(p.id)}" class="group flex cursor-pointer items-center gap-4 rounded-2xl border border-gray-200 bg-white/70 p-4 shadow-sm transition hover:shadow-lg hover:shadow-brand/20 dark:border-white/10 dark:bg-white/5">
       <div class="inline-flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gray-100 text-xl ring-1 ring-gray-200 dark:bg-white/5 dark:ring-white/10">${imgOrIcon(p)}</div>
       <div class="min-w-0 flex-1">
         <h3 class="flex flex-wrap items-center gap-2 font-semibold">
@@ -517,7 +510,7 @@ function packageListCard(b){
   const n = (b.packages||[]).length;
   const basis = b.basisBranch ? `${esc(b.basisBranch)}${b.basisCommit?'@'+esc(b.basisCommit):''}` : '';
   return `
-    <div data-packagelist="${esc(b.id)}" class="group flex cursor-pointer flex-col rounded-2xl border border-gray-200 bg-white/70 p-5 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand/20 dark:border-white/10 dark:bg-white/5">
+    <div data-packagelist="${esc(b.id)}" class="group flex cursor-pointer flex-col rounded-2xl border border-gray-200 bg-white/70 p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand/20 dark:border-white/10 dark:bg-white/5">
       <div class="flex items-start gap-3">
         <div class="inline-flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gray-100 text-xl ring-1 ring-gray-200 dark:bg-white/5 dark:ring-white/10">${imgOrIcon({image:b.image,icon:b.icon||'🧩'})}</div>
         <div class="min-w-0">
@@ -534,7 +527,7 @@ function packageListRow(b){
   const n = (b.packages||[]).length;
   const basis = b.basisBranch ? `${esc(b.basisBranch)}${b.basisCommit?'@'+esc(b.basisCommit):''}` : '';
   return `
-    <div data-packagelist="${esc(b.id)}" class="group flex cursor-pointer items-center gap-4 rounded-2xl border border-gray-200 bg-white/70 p-4 shadow-sm backdrop-blur transition hover:shadow-lg hover:shadow-brand/20 dark:border-white/10 dark:bg-white/5">
+    <div data-packagelist="${esc(b.id)}" class="group flex cursor-pointer items-center gap-4 rounded-2xl border border-gray-200 bg-white/70 p-4 shadow-sm transition hover:shadow-lg hover:shadow-brand/20 dark:border-white/10 dark:bg-white/5">
       <div class="inline-flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gray-100 text-xl ring-1 ring-gray-200 dark:bg-white/5 dark:ring-white/10">${imgOrIcon({image:b.image,icon:b.icon||'🧩'})}</div>
       <div class="min-w-0 flex-1">
         <h3 class="flex flex-wrap items-center gap-2 font-semibold">

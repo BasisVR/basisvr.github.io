@@ -1,0 +1,45 @@
+name: Build Tailwind CSS
+
+# The site is served straight from the repo, so dist/tailwind.css has to be committed.
+# This rebuilds it whenever markup changes, so a new utility class can never ship unstyled.
+on:
+  push:
+    paths:
+      - '**/*.html'
+      - 'tailwind.config.js'
+      - 'src/input.css'
+      - 'package.json'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-css
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - run: npm ci
+
+      - run: npm run build:css
+
+      - name: Commit if changed
+        run: |
+          if [[ -n "$(git status --porcelain dist/tailwind.css)" ]]; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add dist/tailwind.css
+            git commit -m "Rebuild Tailwind CSS"
+            git push
+          else
+            echo "dist/tailwind.css already up to date"
+          fi

@@ -12,29 +12,50 @@
 /* =========================
    Animated Gradient
    - Apply .animated-gradient to hero sections, cards, etc.
+   - The element must be positioned (Tailwind `fixed` / `relative`).
+   - The gradient lives on an oversized ::before that only animates
+     `transform`, so the compositor drives it with no per-frame repaint.
+     Animating `background-position` instead repaints the whole layer
+     every frame and dirties the backdrop of every `backdrop-blur` above it.
    ========================= */
 @keyframes gradient-shift {
-    0% {
-        background-position: 0% 50%;
+    0%,
+    100% {
+        transform: translate3d(-24%, -24%, 0);
     }
 
     50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
+        transform: translate3d(24%, 24%, 0);
     }
 }
 
 .animated-gradient {
+    overflow: hidden;
+}
+
+.animated-gradient::before {
+    content: "";
+    position: absolute;
+    inset: -50%; /* 2x the box, so a +/-24% drift never exposes an edge */
     background: linear-gradient( -45deg, #ef1237, /* brand red */
     #9333ea, /* purple */
     #3b82f6, /* blue */
     #f43f5e /* pink/red */
     );
-    background-size: 400% 400%;
     animation: gradient-shift 15s ease infinite;
+}
+
+.animated-gradient.motion-paused::before {
+    animation-play-state: paused;
+}
+
+/* =========================
+   Parallax Layers
+   - Promotes the blurred blobs once at parse time, so their 64px blur is
+     rasterized a single time and mouse parallax stays compositor-only.
+   ========================= */
+.parallax-will-change {
+    will-change: transform;
 }
 
 /* =========================
@@ -50,14 +71,15 @@ body::after {
     background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='160'%20height='160'%3E%3Cfilter%20id='d'%20x='0'%20y='0'%20width='100%25'%20height='100%25'%20color-interpolation-filters='sRGB'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.85'%20numOctaves='2'%20stitchTiles='stitch'/%3E%3CfeColorMatrix%20type='saturate'%20values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncR%20type='linear'%20slope='3'%20intercept='-1'/%3E%3CfeFuncG%20type='linear'%20slope='3'%20intercept='-1'/%3E%3CfeFuncB%20type='linear'%20slope='3'%20intercept='-1'/%3E%3CfeFuncA%20type='linear'%20slope='0'%20intercept='1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect%20width='160'%20height='160'%20filter='url(%23d)'/%3E%3C/svg%3E");
     background-size: 160px 160px;
     background-repeat: repeat;
+    will-change: transform; /* own layer: rasterize the noise tile once, then composite */
 }
 
 /* =========================
    Respect Reduced Motion
    ========================= */
 @media (prefers-reduced-motion: reduce) {
-    .animated-gradient {
+    .animated-gradient::before {
         animation: none !important;
-        background-position: 50% 50%; /* freeze at center */
+        transform: none; /* freeze at center */
     }
 }
