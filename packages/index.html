@@ -369,7 +369,7 @@ function pkgCard(p){
         <div class="inline-flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gray-100 text-xl ring-1 ring-gray-200 dark:bg-white/5 dark:ring-white/10">${imgOrIcon(p)}</div>
         <div class="min-w-0">
           <h3 class="flex flex-wrap items-center gap-2 font-semibold">${esc(p.name)}
-            <span class="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${badgeCls(p.source)}">${esc(p.source)}</span></h3>
+            <span class="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${badgeCls(p.source)}">${esc(p.source)}</span>${p.server?`<span title="Also installs into the Basis Server: its server code is compiled into the server build" class="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide bg-sky-500/15 text-sky-600 dark:text-sky-400 ring-1 ring-sky-500/30">Server</span>`:''}</h3>
           <p class="text-xs text-gray-500 dark:text-gray-400">by ${esc(p.author)}${hostOf(p)?' · '+hostOf(p):''}${p.basisVersion?' · Basis '+esc(p.basisVersion):''}</p>
         </div>
       </div>
@@ -391,7 +391,7 @@ function pkgRow(p){
       <div class="min-w-0 flex-1">
         <h3 class="flex flex-wrap items-center gap-2 font-semibold">
           <span class="truncate">${esc(p.name)}</span>
-          <span class="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${badgeCls(p.source)}">${esc(p.source)}</span>
+          <span class="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${badgeCls(p.source)}">${esc(p.source)}</span>${p.server?`<span title="Also installs into the Basis Server: its server code is compiled into the server build" class="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide bg-sky-500/15 text-sky-600 dark:text-sky-400 ring-1 ring-sky-500/30">Server</span>`:''}
           <span class="text-xs font-normal text-gray-500 dark:text-gray-400">by ${esc(p.author)}${hostOf(p)?' · '+hostOf(p):''}${p.basisVersion?' · Basis '+esc(p.basisVersion):''}</span>
         </h3>
         <p class="mt-0.5 truncate text-sm text-gray-600 dark:text-gray-300">${esc(p.description)}</p>
@@ -443,7 +443,7 @@ function openDetail(id){
     <div class="flex items-start gap-4 border-b border-gray-200 p-6 dark:border-white/10">
       <div class="inline-flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-gray-100 text-3xl ring-1 ring-gray-200 dark:bg-white/5 dark:ring-white/10">${imgOrIcon(p)}</div>
       <div class="min-w-0 flex-1">
-        <h2 class="flex flex-wrap items-center gap-2 text-xl font-bold">${esc(p.name)} <span class="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${badgeCls(p.source)}">${esc(p.source)}</span></h2>
+        <h2 class="flex flex-wrap items-center gap-2 text-xl font-bold">${esc(p.name)} <span class="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${badgeCls(p.source)}">${esc(p.source)}</span>${p.server?`<span title="Also installs into the Basis Server: its server code is compiled into the server build" class="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide bg-sky-500/15 text-sky-600 dark:text-sky-400 ring-1 ring-sky-500/30">Server</span>`:''}</h2>
         <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">by ${p.authorUrl?`<a href="${esc(safeUrl(p.authorUrl))}" target="_blank" rel="noopener noreferrer" class="underline hover:text-brand">${esc(p.author)}</a>`:esc(p.author)} · ${esc(p.category)}${hostOf(p)?' · '+hostOf(p):''}</p>
       </div>
       <button onclick="closeModals()" class="text-2xl leading-none text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">&times;</button>
@@ -457,6 +457,7 @@ function openDetail(id){
         ${p.license?`<span title="License (SPDX)">License <b class="text-gray-900 dark:text-white">${esc(p.license)}</b></span>`:''}
         ${p.basisVersion?`<span title="The Basis version this package was built and tested against">Built for Basis <b class="text-gray-900 dark:text-white">${esc(p.basisVersion)}</b></span>`:''}
         ${p.unity?`<span>Unity <b class="text-gray-900 dark:text-white">${esc(p.unity)}</b></span>`:''}
+        ${p.server?`<span title="Installing it also adds its server code to the Basis Server build">Includes <b class="text-gray-900 dark:text-white">Basis Server</b> code</span>`:''}
         ${p.updated?`<span>Updated <b class="text-gray-900 dark:text-white">${esc(p.updated)}</b></span>`:''}
       </div>
       <div id="depSlot" data-for="${esc(p.id)}"></div>
@@ -718,6 +719,7 @@ function submitStep2(){
     </div>
     <label class="${SUB_field}"><span class="${SUB_label}">License <span class="text-xs text-gray-400">SPDX identifier — e.g. MIT</span></span><input name="license" class="${SUB_input}" value="${esc(p.license||'')}" placeholder="MIT"></label>
     <label class="${SUB_field}"><span class="${SUB_label}">Website / link <span class="text-xs text-gray-400">optional — homepage, docs, or a showcase video</span></span><input name="link" class="${SUB_input}" placeholder="https://…"></label>
+    <label class="mb-4 flex items-start gap-3 text-sm"><input type="checkbox" name="server" class="mt-1"${p.basisServer?' checked':''}><span><b>Includes Basis Server code</b><span class="block text-xs text-gray-500 dark:text-gray-400">It also compiles into the Basis Server: a basisServer section in package.json, an .asmref into a Basis network assembly, or a Server~ folder.</span></span></label>
     <div class="grid gap-4 sm:grid-cols-2">
       <label class="${SUB_field}"><span class="${SUB_label}">Discord invite <span class="text-xs text-gray-400">optional</span></span><input name="discord" class="${SUB_input}" placeholder="https://discord.gg/…"></label>
       <label class="${SUB_field}"><span class="${SUB_label}">Donation link <span class="text-xs text-gray-400">optional</span></span><input name="donate" class="${SUB_input}" placeholder="https://ko-fi.com/…"></label>
@@ -769,7 +771,8 @@ function submitPackage(e){
     source:deriveSource(g('repoUrl'), g('gitUrl')), gitUrl:g('gitUrl')||null, repoUrl:g('repoUrl')||null,
     image:resolveImageUrl(g('image'), g('repoUrl'), g('gitUrl'))||null,
     unity:g('unity')||null, version:g('version')||'1.0.0',
-    basisVersion:g('basisVersion')||null, license:g('license')||null, discord:g('discord')||null, donate:g('donate')||null, link:g('link')||null
+    basisVersion:g('basisVersion')||null, license:g('license')||null, discord:g('discord')||null, donate:g('donate')||null, link:g('link')||null,
+    server:f.elements.server?.checked||undefined
   };
   const deps = submitState.pkg && submitState.pkg.dependencies;
   if(deps && Object.keys(deps).length) pkg.dependencies = deps;
