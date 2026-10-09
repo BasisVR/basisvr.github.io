@@ -61,7 +61,7 @@
               <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
             </svg>
           </a>
-          <a href="https://github.com/BasisVR/BasisPackageManager/releases/latest" target="_blank"
+          <a id="getAppBtn" href="https://github.com/BasisVR/BasisPackageManager/releases/latest" target="_blank"
              class="ml-6 inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-brand to-purple-600 px-4 py-2 text-sm font-semibold text-white shadow hover:shadow-lg">
             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
             Get the Package Manager
@@ -619,7 +619,7 @@ function openPackageList(id){
   const hint = document.getElementById('bundleHint');
   const track = tgl.querySelector('[data-track]');
   const thumb = tgl.querySelector('[data-thumb]');
-  const getApp = `No app yet? <a href="https://github.com/${REPO}/releases/latest" target="_blank" class="text-brand hover:underline">Get it</a>.`;
+  const getApp = `No app yet? <a href="https://github.com/${REPO}/releases/latest" target="_blank" onclick="return onGetAppClick(event)" class="text-brand hover:underline">Get it</a>.`;
   const applyClone = on => {
     tgl.setAttribute('aria-checked', on);
     track.className = `relative inline-flex h-5 w-9 shrink-0 rounded-full transition ${on?'bg-brand':'bg-gray-300 dark:bg-white/20'}`;
@@ -792,7 +792,67 @@ function submitPackage(e){
 // happens when the app actually takes over. If it never does within ~1.5s, we
 // assume the app is missing and surface the download page instead.
 const APP_DOWNLOAD_URL = `https://github.com/${REPO}/releases/latest`;
+const DOWNLOAD_BASE = `https://github.com/${REPO}/releases/latest/download/`;
+const DOWNLOADS = [
+  { id:'win-x64',     os:'Windows', cpu:'x64',           file:'BasisPackageManager-win-Setup.exe' },
+  { id:'win-arm64',   os:'Windows', cpu:'ARM64',         file:'BasisPackageManager-win-arm64-Setup.exe' },
+  { id:'osx-arm64',   os:'macOS',   cpu:'Apple Silicon', file:'BasisPackageManager-osx-Setup.pkg' },
+  { id:'osx-x64',     os:'macOS',   cpu:'Intel',         file:'BasisPackageManager-osx-x64-Setup.pkg' },
+  { id:'linux-x64',   os:'Linux',   cpu:'x64',           file:'BasisPackageManager.AppImage' },
+  { id:'linux-arm64', os:'Linux',   cpu:'ARM64',         file:'BasisPackageManager-linux-arm64.AppImage' },
+];
 let lastDeepLink = null;
+
+function detectOs(){
+  const ua = navigator.userAgent || '';
+  const platform = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || '';
+  if(/Android|iPhone|iPad|iPod/i.test(ua) || (/Mac/i.test(platform) && navigator.maxTouchPoints > 1)) return null;
+  if(/Win/i.test(platform) || /Windows/i.test(ua)) return 'win';
+  if(/Mac/i.test(platform) || /Macintosh/i.test(ua)) return 'osx';
+  if(/Linux|X11|CrOS/i.test(`${platform} ${ua}`)) return 'linux';
+  return null;
+}
+
+function macCpuFromGpu(){
+  try {
+    const gl = document.createElement('canvas').getContext('webgl');
+    const info = gl && gl.getExtension('WEBGL_debug_renderer_info');
+    const renderer = info ? String(gl.getParameter(info.UNMASKED_RENDERER_WEBGL)) : '';
+    if(/Intel|AMD|Radeon|NVIDIA/i.test(renderer)) return 'x64';
+    if(/Apple M\d/i.test(renderer)) return 'arm64';
+  } catch {}
+  return null;
+}
+
+async function detectCpu(os){
+  const hints = navigator.userAgentData;
+  if(hints && hints.getHighEntropyValues){
+    try {
+      const { architecture } = await hints.getHighEntropyValues(['architecture']);
+      if(architecture === 'arm') return { cpu:'arm64', sure:true };
+      if(architecture === 'x86') return { cpu:'x64', sure:true };
+    } catch {}
+  }
+  if(/aarch64|arm64/i.test(navigator.userAgent || '')) return { cpu:'arm64', sure:true };
+  if(os === 'osx'){ const gpu = macCpuFromGpu(); return { cpu: gpu || 'arm64', sure: !!gpu }; }
+  return { cpu:'x64', sure:false };
+}
+
+async function detectDownload(){
+  const os = detectOs();
+  if(!os) return null;
+  const { cpu, sure } = await detectCpu(os);
+  const download = DOWNLOADS.find(d => d.id === `${os}-${cpu}`);
+  return download ? { download, sure } : null;
+}
+const downloadReady = detectDownload().catch(() => null);
+
+function onGetAppClick(e){
+  if(e.button!==0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return true;
+  e.preventDefault();
+  openGetApp(false);
+  return false;
+}
 
 function onDeepLinkClick(e){
   // Leave modified/middle clicks to the browser; only hijack a plain left click.
@@ -826,26 +886,47 @@ function launchApp(deep){
   }, 1500);
 }
 
-function openGetApp(){
+async function openGetApp(afterDeepLink = true){
+  const found = await downloadReady;
+  const d = found && found.download;
   const m = document.getElementById('getAppModal');
+  const intro = afterDeepLink
+    ? 'Nothing opened? That button hands off to the Basis Package Manager desktop app — and it doesn\'t look installed yet. Grab it below, then click Install again.'
+    : 'The desktop app clones Basis for you and installs these packages into your projects.';
+  const arrow = '<svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>';
+  const bigButton = 'flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-brand to-purple-600 px-5 py-4 text-base font-semibold text-white shadow hover:shadow-lg';
+  const primary = d
+    ? `<a href="${esc(DOWNLOAD_BASE + d.file)}" class="${bigButton}">${arrow}Download for ${esc(d.os)} (${esc(d.cpu)})</a>`
+    : `<a href="${esc(APP_DOWNLOAD_URL)}" target="_blank" rel="noopener noreferrer" class="${bigButton}">${arrow}See all downloads</a>`;
+  const note = !d
+    ? 'The Package Manager runs on Windows, macOS and Linux computers. Pick yours below.'
+    : d.os === 'Linux' ? `After it downloads, run <code class="rounded bg-gray-100 px-1 dark:bg-white/10">chmod +x ${esc(d.file)}</code>, then open it.`
+    : d.os === 'macOS' && !found.sure ? 'Not sure which Mac you have? Apple menu, About This Mac: a Chip means Apple Silicon, a Processor means Intel.'
+    : '';
+  const others = DOWNLOADS.filter(x => x !== d).map(x =>
+    `<a href="${esc(DOWNLOAD_BASE + x.file)}" class="flex items-center justify-between gap-2 rounded-xl border border-gray-200 px-3 py-2 text-sm hover:border-brand hover:text-brand dark:border-white/10">
+      <span class="font-semibold">${esc(x.os)}</span><span class="text-xs text-gray-500 dark:text-gray-400">${esc(x.cpu)}</span>
+    </a>`).join('');
   m.innerHTML = `<div class="w-full max-w-md rounded-2xl border border-gray-200 bg-white shadow-2xl dark:border-white/10 dark:bg-basisbg" onclick="event.stopPropagation()">
     <div class="flex items-start gap-4 border-b border-gray-200 p-6 dark:border-white/10">
       <div class="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-brand/10 text-2xl">📦</div>
       <div class="min-w-0 flex-1">
         <h2 class="text-lg font-bold">Get the Basis Package Manager</h2>
-        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Nothing opened? That button hands off to the Basis Package Manager desktop app — and it doesn't look installed yet. Grab it below, then click Install again.</p>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">${intro}</p>
       </div>
       <button onclick="closeGetApp()" class="text-2xl leading-none text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">&times;</button>
     </div>
-    <div class="space-y-3 p-6">
-      <a href="${esc(APP_DOWNLOAD_URL)}" target="_blank" rel="noopener noreferrer"
-         class="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-brand to-purple-600 px-5 py-4 text-base font-semibold text-white shadow hover:shadow-lg">
-        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
-        Download the Package Manager
-      </a>
-      <button onclick="retryDeepLink()" class="w-full rounded-2xl border border-gray-200 px-5 py-3 text-sm font-semibold text-gray-600 hover:border-brand hover:text-brand dark:border-white/10 dark:text-gray-300">
+    <div class="space-y-4 p-6">
+      ${primary}
+      ${note ? `<p class="text-sm text-gray-500 dark:text-gray-400">${note}</p>` : ''}
+      <div>
+        <p class="mb-2 text-xs font-bold uppercase tracking-wider text-gray-400">${d ? 'Other platforms' : 'Downloads'}</p>
+        <div class="grid grid-cols-2 gap-2">${others}</div>
+        <a href="${esc(APP_DOWNLOAD_URL)}" target="_blank" rel="noopener noreferrer" class="mt-3 inline-block text-xs text-brand hover:underline">All files on GitHub, including portable builds</a>
+      </div>
+      ${afterDeepLink ? `<button onclick="retryDeepLink()" class="w-full rounded-2xl border border-gray-200 px-5 py-3 text-sm font-semibold text-gray-600 hover:border-brand hover:text-brand dark:border-white/10 dark:text-gray-300">
         Already installed it? Try opening again
-      </button>
+      </button>` : ''}
     </div>
   </div>`;
   m.classList.remove('hidden');
@@ -857,6 +938,7 @@ function closeModals(){ document.getElementById('modal').classList.add('hidden')
 document.getElementById('modal').onclick = closeModals;
 document.getElementById('submitModal').onclick = closeModals;
 document.getElementById('getAppModal').onclick = closeGetApp;
+document.getElementById('getAppBtn').addEventListener('click', onGetAppClick);
 document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModals(); });
 document.getElementById('submitBtn').onclick = openSubmit;
 document.getElementById('tabPackages').onclick = ()=>switchView('packages');
