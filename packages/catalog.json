@@ -29,6 +29,70 @@
           "updated": "2026-06-25"
         }
       }
+    },
+    "com.s-ilent.crosstone": {
+      "versions": {
+        "1.2.0": {
+          "name": "com.s-ilent.crosstone",
+          "displayName": "Silent's Cel Shading Shader",
+          "version": "1.2.0",
+          "description": "Unity shaders for cel/toon shading. Designed to take Unity's HDR lighting into account while presenting materials in the best possible way.",
+          "unity": "6000.4",
+          "license": "MIT",
+          "url": "https://gitlab.com/s-ilent/SCSS.git",
+          "author": {
+            "name": "Silent",
+            "url": "https://gitlab.com/s-ilent"
+          },
+          "icon": "🖌️",
+          "category": "Shaders",
+          "source": "community",
+          "tags": [
+            "tools",
+            "editor",
+            "shader",
+            "material"
+          ],
+          "stars": 49,
+          "forks": 41,
+          "updated": "2026-10-05"
+        }
+      }
+    },
+    "com.yuna0x0.basis.convert": {
+      "versions": {
+        "0.12.2": {
+          "name": "com.yuna0x0.basis.convert",
+          "displayName": "Watari (Converter for Basis)",
+          "version": "0.12.2",
+          "description": "Converts VRChat, VRM and Dynamic Bone components on an avatar into their Basis equivalents: jiggle physics, constraints, the avatar descriptor, HVR Vixxy controls and authored motion.",
+          "unity": "6000.5",
+          "license": "MIT",
+          "url": "https://github.com/yuna0x0/watari-basis.git?path=/Packages/com.yuna0x0.basis.convert",
+          "author": {
+            "name": "yuna0x0",
+            "url": "https://github.com/yuna0x0"
+          },
+          "icon": "🌉",
+          "link": "https://yuna0x0.github.io/watari-basis/",
+          "category": "Developer Tools",
+          "source": "community",
+          "tags": [
+            "basis",
+            "basisvr",
+            "avatar",
+            "migration",
+            "converter",
+            "editor-tool",
+            "vrchat",
+            "vrm",
+            "vroid"
+          ],
+          "stars": 2,
+          "forks": 1,
+          "updated": "2026-10-07"
+        }
+      }
     }
   }
 }
