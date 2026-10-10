@@ -93,6 +93,72 @@
           "updated": "2026-10-07"
         }
       }
+    },
+    "com.basis.transport.steam": {
+      "versions": {
+        "0.1.0": {
+          "name": "com.basis.transport.steam",
+          "displayName": "Basis Steam Transport",
+          "version": "0.1.0",
+          "description": "Steam network transport for Basis. Adds the 'steam' network stack: players connect to a host's or a dedicated server's Steam ID (steam:<SteamID64>) over the Steam relay, with no port forwarding and no exposed IP address. Unity on Windows, Linux and macOS, and the Basis Server through the Basis Package Manager.",
+          "unity": "6000.7",
+          "license": "MIT",
+          "url": "https://github.com/dooly123/Basis-Steam-Transport-Package.git",
+          "author": {
+            "name": "dooly123",
+            "url": "https://github.com/dooly123"
+          },
+          "icon": "📡",
+          "category": "Networking",
+          "source": "community",
+          "tags": [
+            "steam",
+            "networking",
+            "transport",
+            "relay",
+            "multiplayer",
+            "server"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-10-10",
+          "server": true
+        }
+      }
+    },
+    "com.basis.steamlobby": {
+      "versions": {
+        "0.1.0": {
+          "name": "com.basis.steamlobby",
+          "displayName": "Basis Steam Lobby",
+          "version": "0.1.0",
+          "description": "Steam lobbies for Basis, on top of the Basis Steam Transport package. Adds a Steam Lobbies menu panel: host a session and open a Steam lobby for it, browse friends' and public lobbies, invite friends, and join over the Steam relay with no port forwarding. Desktop only (Windows, Linux, macOS).",
+          "unity": "6000.7",
+          "license": "MIT",
+          "dependencies": {
+            "com.basis.transport.steam": "0.1.0"
+          },
+          "url": "https://github.com/dooly123/Basis-Steam-Lobby-Package.git",
+          "author": {
+            "name": "dooly123",
+            "url": "https://github.com/dooly123"
+          },
+          "icon": "🎮",
+          "category": "Networking",
+          "source": "community",
+          "tags": [
+            "steam",
+            "lobby",
+            "multiplayer",
+            "invites",
+            "friends",
+            "networking"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-10-10"
+        }
+      }
     }
   }
 }

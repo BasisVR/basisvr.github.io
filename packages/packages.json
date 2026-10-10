@@ -80,5 +80,65 @@
     "discord": "https://discord.gg/nYXzaUS",
     "donate": "https://yuna.tw/donate",
     "link": "https://yuna0x0.github.io/watari-basis/"
+  },
+  {
+    "id": "com.basis.transport.steam",
+    "name": "Basis Steam Transport",
+    "description": "Steam network transport for Basis. Adds the 'steam' network stack: players connect to a host's or a dedicated server's Steam ID (steam:<SteamID64>) over the Steam relay, with no port forwarding and no exposed IP address. Unity on Windows, Linux and macOS, and the Basis Server through the Basis Package Manager.",
+    "author": "dooly123",
+    "authorUrl": "https://github.com/dooly123",
+    "category": "Networking",
+    "tags": [
+      "steam",
+      "networking",
+      "transport",
+      "relay",
+      "multiplayer",
+      "server"
+    ],
+    "source": "community",
+    "gitUrl": "https://github.com/dooly123/Basis-Steam-Transport-Package.git",
+    "repoUrl": "https://github.com/dooly123/Basis-Steam-Transport-Package",
+    "unity": "6000.7",
+    "basisVersion": "developer",
+    "license": "MIT",
+    "version": "0.1.0",
+    "stars": 0,
+    "forks": 0,
+    "icon": "📡",
+    "updated": "2026-10-10",
+    "discord": "https://discord.gg/v6ve6WT562",
+    "server": true
+  },
+  {
+    "id": "com.basis.steamlobby",
+    "name": "Basis Steam Lobby",
+    "description": "Steam lobbies for Basis, on top of the Basis Steam Transport package. Adds a Steam Lobbies menu panel: host a session and open a Steam lobby for it, browse friends' and public lobbies, invite friends, and join over the Steam relay with no port forwarding. Desktop only (Windows, Linux, macOS).",
+    "author": "dooly123",
+    "authorUrl": "https://github.com/dooly123",
+    "category": "Networking",
+    "tags": [
+      "steam",
+      "lobby",
+      "multiplayer",
+      "invites",
+      "friends",
+      "networking"
+    ],
+    "source": "community",
+    "gitUrl": "https://github.com/dooly123/Basis-Steam-Lobby-Package.git",
+    "repoUrl": "https://github.com/dooly123/Basis-Steam-Lobby-Package",
+    "unity": "6000.7",
+    "basisVersion": "developer",
+    "license": "MIT",
+    "version": "0.1.0",
+    "stars": 0,
+    "forks": 0,
+    "icon": "🎮",
+    "updated": "2026-10-10",
+    "dependencies": {
+      "com.basis.transport.steam": "0.1.0"
+    },
+    "discord": "https://discord.gg/v6ve6WT562"
   }
 ]
