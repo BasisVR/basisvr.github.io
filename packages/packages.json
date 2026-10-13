@@ -106,7 +106,7 @@
     "stars": 0,
     "forks": 0,
     "icon": "📡",
-    "updated": "2026-10-10",
+    "updated": "2026-10-12",
     "discord": "https://discord.gg/v6ve6WT562",
     "server": true
   },
@@ -135,7 +135,7 @@
     "stars": 0,
     "forks": 0,
     "icon": "🎮",
-    "updated": "2026-10-10",
+    "updated": "2026-10-12",
     "dependencies": {
       "com.basis.transport.steam": "0.1.0"
     },
@@ -167,7 +167,7 @@
     "stars": 1,
     "forks": 0,
     "icon": "🌐",
-    "updated": "2026-10-10",
+    "updated": "2026-10-12",
     "discord": "https://discord.gg/v6ve6WT562",
     "server": true
   },
