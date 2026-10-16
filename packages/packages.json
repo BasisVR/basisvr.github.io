@@ -200,5 +200,33 @@
       "com.unity.render-pipelines.universal": "17.4.0",
       "com.unity.ugui": "2.0.0"
     }
+  },
+  {
+    "id": "com.basis.landiscovery",
+    "name": "Toys LAN Discovery",
+    "description": "Finds Basis servers on your local network. Servers on the same LAN appear in the Servers panel by themselves, with no address to type, and a hosted session can be shown to the LAN from the host settings. Uses mDNS/DNS-SD. Install it into the Unity project to browse and announce, and into a Basis Server through the Basis Package Manager to announce dedicated servers.",
+    "author": "Toys0125",
+    "authorUrl": "https://github.com/Toys0125",
+    "category": "Networking",
+    "tags": [
+      "basis",
+      "lan",
+      "mdns",
+      "discovery",
+      "networking",
+      "multiplayer"
+    ],
+    "source": "community",
+    "gitUrl": "https://github.com/Toys0125/LANDiscovery.git",
+    "repoUrl": "https://github.com/Toys0125/LANDiscovery",
+    "unity": "6000.7",
+    "basisVersion": "developer",
+    "license": "MIT",
+    "version": "0.1.0",
+    "stars": 0,
+    "forks": 0,
+    "icon": "🛰️",
+    "updated": "2026-10-15",
+    "server": true
   }
 ]
