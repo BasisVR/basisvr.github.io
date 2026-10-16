@@ -1,5 +1,5 @@
 /* theme.js
- * Theme init + parallax (mousemove + scroll) with reduced-motion support
+ * Theme init + mesh gradient backdrop with reduced-motion support
  */
 
 /* Tailwind theme (brand colours, Inter, soft shadow) now lives in tailwind.config.js
@@ -38,94 +38,69 @@ const prefersReducedMotion = window.matchMedia
   ? window.matchMedia('(prefers-reduced-motion: reduce)')
   : { matches: false, addEventListener: () => {} };
 
-/* Utility to pause CSS gradient animations when reduced motion.
-   The animation lives on .animated-gradient::before, which inline styles
-   cannot reach, so toggle a class the stylesheet keys off instead. */
-function updateAnimatedGradients() {
-  const paused = prefersReducedMotion.matches;
-  document.querySelectorAll('.animated-gradient').forEach(el => {
-    el.classList.toggle('motion-paused', paused);
-  });
-}
-prefersReducedMotion.addEventListener?.('change', updateAnimatedGradients);
-onReady(updateAnimatedGradients);
-
 /* -----------------------------
-   Parallax: mousemove (desktop)
-   - Uses requestAnimationFrame to throttle
-   - GPU-friendly translate3d
-   - Controlled by [data-parallax] (number)
-   - Layers are collected once; promotion comes from .parallax-will-change
-     in the stylesheet rather than a style write on every frame
+   Backdrop: Paper Shaders mesh gradient (/vendor/paper-shaders)
 -------------------------------- */
-(() => {
-  if (prefersReducedMotion.matches) return;
+onReady(() => {
+  const host = document.getElementById('site-bg');
+  if (!host || !window.WebGL2RenderingContext) return;
 
-  // only run on devices that have a mouse/touchpad pointer
-  if (!(window.matchMedia && window.matchMedia('(pointer: fine)').matches)) return;
+  const style = getComputedStyle(host);
+  const colors = [];
+  for (let i = 0, c; (c = style.getPropertyValue(`--site-bg-${i}`).trim()); i++) colors.push(c);
+  if (!colors.length) return;
+  const speed = 0.5;
+  const frameInterval = 1000 / 30;
 
-  let layers = [];
-  let rafId = null;
-  let lastCx = 0, lastCy = 0;
+  Promise.all([
+    import('/vendor/paper-shaders/shader-mount.js'),
+    import('/vendor/paper-shaders/shaders/mesh-gradient.js'),
+    import('/vendor/paper-shaders/shader-sizing.js'),
+    import('/vendor/paper-shaders/get-shader-color-from-string.js')
+  ]).then(([{ ShaderMount }, { meshGradientFragmentShader }, { ShaderFitOptions }, { getShaderColorFromString }]) => {
+    const mount = new ShaderMount(
+      host,
+      meshGradientFragmentShader,
+      {
+        u_colors: colors.map(getShaderColorFromString),
+        u_colorsCount: colors.length,
+        u_distortion: 0.8,
+        u_swirl: 0.1,
+        u_grainMixer: 0,
+        u_grainOverlay: 0,
+        u_fit: ShaderFitOptions.cover,
+        u_scale: 1,
+        u_rotation: 0,
+        u_offsetX: 0,
+        u_offsetY: 0,
+        u_originX: 0.5,
+        u_originY: 0.5,
+        u_worldWidth: 0,
+        u_worldHeight: 0
+      },
+      { alpha: false, antialias: false, depth: false, stencil: false, powerPreference: 'low-power' },
+      0,
+      0,
+      1,
+      640 * 360
+    );
+    mount.canvasElement.addEventListener('webglcontextlost', () => host.classList.remove('is-ready'));
 
-  function onMouseMove(e) {
-    lastCx = e.clientX / window.innerWidth - 0.5;   // -0.5..0.5
-    lastCy = e.clientY / window.innerHeight - 0.5;  // -0.5..0.5
-    if (rafId === null) rafId = requestAnimationFrame(applyMouseParallax);
-  }
-
-  function applyMouseParallax() {
-    rafId = null;
-    for (const { el, speed } of layers) {
-      // tune multiplier for subtle motion
-      el.style.transform = `translate3d(${-lastCx * speed * 10}px, ${-lastCy * speed * 10}px, 0)`;
-    }
-  }
-
-  onReady(() => {
-    layers = Array.from(document.querySelectorAll('[data-parallax]'), el => ({
-      el,
-      speed: parseFloat(el.getAttribute('data-parallax')) || 1
-    }));
-    if (layers.length) window.addEventListener('mousemove', onMouseMove, { passive: true });
-  });
-})();
-
-/* -----------------------------
-   Parallax: scroll (mobile/touch fallback)
-   - Elements with [data-parallax-scroll]
-   - speed attribute: number (e.g., 2, 4, 8)
-   - Effect: translateY based on scroll position
--------------------------------- */
-(() => {
-  if (prefersReducedMotion.matches) return;
-
-  let layers = [];
-  let ticking = false;
-
-  function onScroll() {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(applyScrollParallax);
-  }
-
-  function applyScrollParallax() {
-    ticking = false;
-    const scrollY = window.scrollY || window.pageYOffset || 0;
-    for (const { el, speed } of layers) {
-      // smaller multiplier keeps it subtle; tweak to taste
-      el.style.transform = `translate3d(0, ${scrollY * speed * 0.05}px, 0)`;
-    }
-  }
-
-  onReady(() => {
-    layers = Array.from(document.querySelectorAll('[data-parallax-scroll]'), el => ({
-      el,
-      speed: parseFloat(el.getAttribute('data-parallax-scroll')) || 1
-    }));
-    if (!layers.length) return; // skip if not used
-    for (const { el } of layers) el.style.willChange = 'transform';
-    window.addEventListener('scroll', onScroll, { passive: true });
-    applyScrollParallax(); // initial position
-  });
-})();
+    const start = performance.now();
+    let rafId = 0;
+    let lastFrame = -Infinity;
+    const tick = now => {
+      rafId = requestAnimationFrame(tick);
+      if (now - lastFrame < frameInterval - 1) return;
+      lastFrame = now;
+      mount.setFrame((now - start) * speed);
+    };
+    const animate = () => {
+      cancelAnimationFrame(rafId);
+      if (!prefersReducedMotion.matches) rafId = requestAnimationFrame(tick);
+    };
+    prefersReducedMotion.addEventListener?.('change', animate);
+    animate();
+    requestAnimationFrame(() => requestAnimationFrame(() => host.classList.add('is-ready')));
+  }).catch(() => host.querySelector('canvas')?.remove());
+});

@@ -10,52 +10,53 @@
 }
 
 /* =========================
-   Animated Gradient
-   - Apply .animated-gradient to hero sections, cards, etc.
-   - The element must be positioned (Tailwind `fixed` / `relative`).
-   - The gradient lives on an oversized ::before that only animates
-     `transform`, so the compositor drives it with no per-frame repaint.
-     Animating `background-position` instead repaints the whole layer
-     every frame and dirties the backdrop of every `backdrop-blur` above it.
+   Backdrop
    ========================= */
-@keyframes gradient-shift {
-    0%,
-    100% {
-        transform: translate3d(-24%, -24%, 0);
-    }
-
-    50% {
-        transform: translate3d(24%, 24%, 0);
-    }
-}
-
-.animated-gradient {
+.site-bg {
+    --site-bg-0: #c1caff;
+    --site-bg-1: #b1d8ff;
+    --site-bg-2: #d6b4fb;
+    --site-bg-3: #f6a5c6;
+    --site-bg-4: #f2bfc9;
+    --site-bg-5: #b9d0fe;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100lvh;
+    z-index: -30;
     overflow: hidden;
+    pointer-events: none;
+    background:
+        radial-gradient(50% 60% at 12% 18%, var(--site-bg-1), transparent),
+        radial-gradient(45% 55% at 88% 22%, var(--site-bg-2), transparent),
+        radial-gradient(55% 60% at 78% 88%, var(--site-bg-3), transparent),
+        radial-gradient(45% 55% at 20% 85%, var(--site-bg-4), transparent),
+        var(--site-bg-0);
 }
 
-.animated-gradient::before {
-    content: "";
+.dark .site-bg {
+    --site-bg-0: #232a6a;
+    --site-bg-1: #12386d;
+    --site-bg-2: #3a1766;
+    --site-bg-3: #580d3d;
+    --site-bg-4: #5a273b;
+    --site-bg-5: #1d306d;
+}
+
+.site-bg > canvas {
     position: absolute;
-    inset: -50%; /* 2x the box, so a +/-24% drift never exposes an edge */
-    background: linear-gradient( -45deg, #ef1237, /* brand red */
-    #9333ea, /* purple */
-    #3b82f6, /* blue */
-    #f43f5e /* pink/red */
-    );
-    animation: gradient-shift 15s ease infinite;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.8s ease;
 }
 
-.animated-gradient.motion-paused::before {
-    animation-play-state: paused;
-}
-
-/* =========================
-   Parallax Layers
-   - Promotes the blurred blobs once at parse time, so their 64px blur is
-     rasterized a single time and mouse parallax stays compositor-only.
-   ========================= */
-.parallax-will-change {
-    will-change: transform;
+.site-bg.is-ready > canvas {
+    opacity: 1;
 }
 
 /* =========================
@@ -72,14 +73,4 @@ body::after {
     background-size: 160px 160px;
     background-repeat: repeat;
     will-change: transform; /* own layer: rasterize the noise tile once, then composite */
-}
-
-/* =========================
-   Respect Reduced Motion
-   ========================= */
-@media (prefers-reduced-motion: reduce) {
-    .animated-gradient::before {
-        animation: none !important;
-        transform: none; /* freeze at center */
-    }
 }

@@ -30,12 +30,7 @@
 <body class="bg-white text-gray-800 dark:bg-basisbg dark:text-gray-100 antialiased">
 
   <!-- Backdrop -->
-  <div aria-hidden="true" class="animated-gradient fixed inset-0 -z-30 opacity-35 dark:opacity-30"></div>
-  <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-    <div class="absolute -top-24 left-1/2 -translate-x-1/2 h-[50rem] w-[50rem] rounded-full bg-gradient-to-br from-brand/20 via-pink-500/15 to-purple-600/15 blur-3xl"></div>
-    <div data-parallax="8" class="absolute top-[12%] left-[8%] h-56 w-56 rounded-full bg-pink-400/25 dark:bg-pink-400/15 blur-3xl"></div>
-    <div data-parallax="4" class="absolute bottom-[10%] right-[12%] h-80 w-80 rounded-full bg-purple-500/25 dark:bg-purple-500/15 blur-3xl"></div>
-  </div>
+  <div id="site-bg" aria-hidden="true" class="site-bg"></div>
 
   <div class="mx-auto max-w-[2000px] px-6 py-8 sm:py-12">
 
@@ -82,7 +77,7 @@
         <a href="https://github.com/BasisVR/BasisPackageManager" target="_blank" class="text-brand hover:underline">Basis Package Manager</a>,
         then install these — hosted on GitHub or GitLab.
       </p>
-      <div class="mt-6 flex items-center gap-3 rounded-2xl border border-gray-200 bg-white/70 px-4 shadow-sm backdrop-blur focus-within:ring-2 focus-within:ring-brand dark:border-white/10 dark:bg-white/5">
+      <div class="mt-6 flex items-center gap-3 rounded-2xl border border-gray-200 bg-white/70 px-4 shadow-sm focus-within:ring-2 focus-within:ring-brand dark:border-white/10 dark:bg-white/5">
         <svg class="h-5 w-5 shrink-0 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
         <input id="search" type="text" autocomplete="off" placeholder="Search packages, authors, tags…" class="w-full bg-transparent py-3.5 text-base outline-none placeholder:text-gray-400" />
       </div>
@@ -99,23 +94,23 @@
       <!-- Filters -->
       <aside class="space-y-4 lg:sticky lg:top-8 self-start">
         <div id="pkgFilters" class="space-y-4">
-          <div class="rounded-2xl border border-gray-200 bg-white/70 p-4 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5">
+          <div class="rounded-2xl border border-gray-200 bg-white/70 p-4 shadow-sm dark:border-white/10 dark:bg-white/5">
             <h4 class="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Source</h4>
             <div id="sourceChips" class="space-y-1"></div>
           </div>
-          <div class="rounded-2xl border border-gray-200 bg-white/70 p-4 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5">
+          <div class="rounded-2xl border border-gray-200 bg-white/70 p-4 shadow-sm dark:border-white/10 dark:bg-white/5">
             <h4 class="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Category</h4>
             <div id="categoryChips" class="space-y-1"></div>
           </div>
         </div>
-        <div id="packageListInfo" class="hidden rounded-2xl border border-gray-200 bg-white/70 p-4 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5">
+        <div id="packageListInfo" class="hidden rounded-2xl border border-gray-200 bg-white/70 p-4 shadow-sm dark:border-white/10 dark:bg-white/5">
           <h4 class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Package Lists</h4>
           <p class="text-sm text-gray-600 dark:text-gray-300">Package lists — a Basis version plus a set of packages. Build your own in the <a href="https://github.com/BasisVR/BasisPackageManager" target="_blank" class="text-brand hover:underline">Basis Package Manager</a> and submit it.</p>
         </div>
       </aside>
 
       <!-- Results -->
-      <section class="min-w-0 rounded-2xl border border-gray-200 bg-white/40 p-4 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/[0.03] sm:p-5">
+      <section class="min-w-0 rounded-2xl border border-gray-200 bg-white/40 p-4 shadow-sm dark:border-white/10 dark:bg-white/[0.03] sm:p-5">
         <div class="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-gray-200 pb-4 dark:border-white/10">
           <div id="count" class="text-sm text-gray-600 dark:text-gray-300"></div>
           <div class="flex items-center gap-3">
