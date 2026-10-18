@@ -17,7 +17,7 @@
     "unity": "2022.3",
     "license": "MIT",
     "version": "2.3.4",
-    "stars": 1586,
+    "stars": 1587,
     "forks": 185,
     "icon": "🎨",
     "updated": "2026-10-17"
@@ -195,7 +195,7 @@
     "stars": 0,
     "forks": 0,
     "icon": "💡",
-    "updated": "2026-10-16",
+    "updated": "2026-10-18",
     "dependencies": {
       "com.unity.render-pipelines.universal": "17.4.0",
       "com.unity.ugui": "2.0.0"
