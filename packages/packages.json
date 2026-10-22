@@ -195,7 +195,7 @@
     "stars": 0,
     "forks": 0,
     "icon": "💡",
-    "updated": "2026-10-21",
+    "updated": "2026-10-22",
     "dependencies": {
       "com.unity.render-pipelines.universal": "17.4.0",
       "com.unity.ugui": "2.0.0"
