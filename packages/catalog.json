@@ -195,11 +195,11 @@
     },
     "town.mr.vrsl-urp": {
       "versions": {
-        "0.3.0-rc.2": {
+        "0.3.1": {
           "name": "town.mr.vrsl-urp",
           "displayName": "VR Stage Lighting URP",
-          "version": "0.3.0-rc.2",
-          "description": "Standalone Unity 6 / URP 17+ realtime lighting and raymarched volumetric beams driven from DMX or AudioLink data. Render-pass injection at runtime, no URP Renderer Feature changes, no project-side renderer settings touched. Co-installable with com.acchosen.vr-stage-lighting (asset GUIDs, shader names, and runtime globals are namespaced to avoid collision); existing upstream scenes continue to work alongside.",
+          "version": "0.3.1",
+          "description": "Realtime stage lighting and raymarched beams for Unity 6000.4+ and URP 17.4+, driven by DMX or AudioLink. Adds its render passes at runtime and leaves your URP asset and renderer alone. Installs beside com.acchosen.vr-stage-lighting: asset GUIDs, shader names and runtime globals don't collide.",
           "unity": "6000.4",
           "license": "MIT",
           "dependencies": {
@@ -256,6 +256,65 @@
           "forks": 0,
           "updated": "2026-10-15",
           "server": true
+        }
+      }
+    },
+    "at.pimaker.ltcgi": {
+      "versions": {
+        "1.7.4": {
+          "name": "at.pimaker.ltcgi",
+          "displayName": "LTCGI",
+          "version": "1.7.4",
+          "description": "Optimized plug-and-play realtime area lighting using the linearly transformed cosine algorithm for Unity/VRChat.",
+          "unity": "2022.3",
+          "license": "MIT",
+          "url": "https://github.com/PiMaker/ltcgi.git",
+          "author": {
+            "name": "PiMaker",
+            "url": "https://github.com/PiMaker"
+          },
+          "icon": "🔆",
+          "category": "Shaders",
+          "source": "community",
+          "tags": [
+            "lighting",
+            "area light",
+            "realtime",
+            "video",
+            "shader"
+          ],
+          "stars": 539,
+          "forks": 36,
+          "updated": "2026-10-17"
+        }
+      }
+    },
+    "com.basis.integration.ltcgi": {
+      "versions": {
+        "0.1.0": {
+          "name": "com.basis.integration.ltcgi",
+          "displayName": "Basis LTCGI Integration",
+          "version": "0.1.0",
+          "description": "LTCGI video lighting for Basis that matches the screen. A Basis Media Player's screen lights the room with what it actually shows, following its projection and placeholder, the part of the frame it crops, each panel of a screen built from several, and UV layouts that change while the world runs. Needs LTCGI 1.7.4 or later. For one screen showing the whole frame, Basis Video Texture Output into LTCGI's Video Texture is enough.",
+          "license": "MIT OR Apache-2.0",
+          "url": "https://github.com/towneh/BasisLTCGIIntegration.git",
+          "author": {
+            "name": "towneh",
+            "url": "https://github.com/towneh"
+          },
+          "icon": "📺",
+          "category": "Misc",
+          "source": "community",
+          "tags": [
+            "basis",
+            "ltcgi",
+            "lighting",
+            "video",
+            "media player"
+          ],
+          "stars": 0,
+          "forks": 0,
+          "updated": "2026-11-02"
         }
       }
     }
