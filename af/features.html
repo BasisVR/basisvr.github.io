@@ -441,7 +441,7 @@
                             <div class="icn">🗜️</div>
                             <h3 class="mt-3 font-semibold">Network Compression <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                                LZ4 and Deflate compression across avatar bundles and data channels trims bandwidth at scale.
+                                LZ4 and Deflate compression across avatar bundles and data channels, plus dictionary-trained <strong>Zstandard</strong> for server-side avatar bundles, trims bandwidth at scale.
                             </p>
                         </li>
 
@@ -477,6 +477,30 @@
                                 The transport layer is pluggable: the default is reliable-UDP (LiteNetLib), and alternate backends can be registered without touching game code.
                             </p>
                         </li>
+                        <li class="card" data-status="addon" data-tags="websocket,transport,web,browser,udp blocked,networking">
+                            <div class="icn">🕸️</div>
+                            <h3 class="mt-3 font-semibold">WebSocket Transport <em class="status addon">Add-on</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Web builds connect through WebSocket, and native clients can use it on networks that block UDP. Installs on the client and the server from the <a href="/packages" class="underline hover:text-brand">package registry</a>.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="addon" data-tags="steam,lobby,relay,transport,friends,invites,no port forwarding">
+                            <div class="icn">🎮</div>
+                            <h3 class="mt-3 font-semibold">Steam Transport &amp; Lobbies <em class="status addon">Add-on</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Join a host or dedicated server by Steam ID over the Steam relay, with no port forwarding and no exposed IP address. The lobby package adds hosting, friend invites and a lobby browser. Desktop only.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="addon" data-tags="lan,local network,discovery,mdns,dns-sd,servers">
+                            <div class="icn">🏠</div>
+                            <h3 class="mt-3 font-semibold">LAN Discovery <em class="status addon">Add-on</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Servers on your local network show up in the Servers panel by themselves, with no address to type. Hosted sessions and dedicated servers can both announce over mDNS/DNS-SD.
+                            </p>
+                        </li>
+
                     </ul>
                 </section>
 
@@ -574,7 +598,7 @@
                             <div class="icn">🦵</div>
                             <h3 class="mt-3 font-semibold">Full-Body IK (Burst) <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                                Custom full-body IK compiled with Burst for VR-grade performance.
+                                The Eerie Movement solver drives spine, arms and legs with Burst, including chest and hip tracker support, elbow and knee trackers, shoulder shrug and soft elbow/knee limits.
                             </p>
                         </li>
 
@@ -638,7 +662,7 @@
                             <div class="icn">📐</div>
                             <h3 class="mt-3 font-semibold">Height &amp; Scale Calibration <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                                Automatic avatar height and scale calibration to match your real-world proportions.
+                                Automatic avatar height and scale calibration from your eye height or arm span, so your avatar matches your real-world proportions.
                             </p>
                         </li>
 
@@ -646,7 +670,7 @@
                             <div class="icn">🎯</div>
                             <h3 class="mt-3 font-semibold">Full-Body Tracker Calibration <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                                Guided multi-stage calibration for SteamVR trackers and constellation setups, including tracker pairing.
+                                Guided multi-stage calibration for SteamVR trackers and constellation setups, including tracker pairing. Your calibration is remembered between sessions.
                             </p>
                         </li>
 
@@ -662,7 +686,7 @@
                             <div class="icn">🎥</div>
                             <h3 class="mt-3 font-semibold">Motion Recording <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                                Record full-body motion (pose, muscles, scale) to file for playback and analysis.
+                                Record the local avatar&#39;s pose, root motion and extra bones to disk every frame, then convert recordings into humanoid AnimationClips.
                             </p>
                         </li>
 
@@ -678,7 +702,7 @@
                             <div class="icn">📷</div>
                             <h3 class="mt-3 font-semibold">Webcam Face &amp; Body Tracking <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                                MediaPipe-driven webcam tracking feeds head/face, hand/finger pose, gaze, and ARKit-style blendshapes as synthetic trackers (requires the MediaPipe plugin). Arm tracking is still in progress.
+                                MediaPipe-driven webcam tracking feeds head, body, hand and finger pose, gaze, and ARKit-style blendshapes as synthetic trackers (requires the MediaPipe plugin).
                             </p>
                         </li>
 
@@ -689,6 +713,38 @@
                                 Interactive pedestals for showcasing and selecting avatars, with spawn/preview support.
                             </p>
                         </li>
+                        <li class="card" data-status="wip" data-tags="vrm,gltf,glb,avatars,import,license,url">
+                            <div class="icn">📦</div>
+                            <h3 class="mt-3 font-semibold">VRM &amp; glTF Avatars <em class="status wip">In Progress</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Wear VRM and glTF avatars straight from a file drop or a direct URL, and the server passes the file on to other players. Restricted VRM licenses are shown before you wear one.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="wip" data-tags="fingers,grasp,pose override,hands,props,api">
+                            <div class="icn">✊</div>
+                            <h3 class="mt-3 font-semibold">Finger Overrides &amp; Grasping <em class="status wip">In Progress</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Scripts can override finger poses one finger or one joint at a time, and a grasp solver wraps fingers around held props and surfaces.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="constraints,aim,look-at,parent,damped,chains,burst">
+                            <div class="icn">🔗</div>
+                            <h3 class="mt-3 font-semibold">Constraint Solver <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                A Burst solver for the SDK&#39;s position, rotation, scale, parent, aim, look-at and damped constraints, plus constraint chains.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="authored motion,procedural,oscillation,spin,animation,burst">
+                            <div class="icn">🌀</div>
+                            <h3 class="mt-3 font-semibold">Authored Motion <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Creator-authored procedural movement (oscillations, spins, chains) on avatars and props, animated by a Burst job system.
+                            </p>
+                        </li>
+
                     </ul>
                 </section>
 
@@ -720,7 +776,7 @@
                             <div class="icn">✋</div>
                             <h3 class="mt-3 font-semibold">Physics Pickups &amp; Grabbing <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                                Grab, throw, and manipulate props with physics joints, parent constraints, and highlight feedback.
+                                Grab, throw, and manipulate props with physics joints, parent constraints, and highlight feedback. On desktop, Shift + mouse wheel scales a held prop.
                             </p>
                         </li>
 
@@ -752,7 +808,7 @@
                             <div class="icn">📸</div>
                             <h3 class="mt-3 font-semibold">Hand-Held Camera <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                                A grabbable in-world camera with photo capture, depth-of-field, 360° stereo capture, and picture-in-picture network streaming.
+                                A grabbable in-world camera with PNG/EXR/360° capture, depth-of-field, per-camera post-processing and render passes, plus live video output to Spout (Windows), Syphon (macOS) and v4l2loopback (Linux).
                             </p>
                         </li>
 
@@ -763,6 +819,30 @@
                                 A full multiplayer billiards table — great for social hubs and demos.
                             </p>
                         </li>
+                        <li class="card" data-status="available" data-tags="images,gif,drag and drop,pickup,png,jpeg">
+                            <div class="icn">🖼️</div>
+                            <h3 class="mt-3 font-semibold">Image Pickups <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Drop a PNG, JPEG or GIF onto the window to spawn a networked image you can grab. Animated GIFs play in sync for everyone, and image bytes are never stored on the server.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="trackers,props,bind,steamvr,openxr,pickup">
+                            <div class="icn">📍</div>
+                            <h3 class="mt-3 font-semibold">Tracker-Bound Props <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Bind a SteamVR or OpenXR tracker to a spawned prop and its pose drives the prop every frame, streamed to remote players.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="wip" data-tags="accessibility,one handed,controller,input">
+                            <div class="icn">🖐️</div>
+                            <h3 class="mt-3 font-semibold">One-Handed Mode <em class="status wip">In Progress</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Play with a single controller. One-handed mode picks the hand automatically or can be set to left or right.
+                            </p>
+                        </li>
+
                     </ul>
                 </section>
 
@@ -818,7 +898,7 @@
                             <div class="icn">🔔</div>
                             <h3 class="mt-3 font-semibold">Notifications <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                                An in-app notification center for joins, leaves, and system events.
+                                An in-app notification center for joins, leaves, downloads, and system events.
                             </p>
                         </li>
 
@@ -861,6 +941,38 @@
                                 Spawn panels and manage in-world UI workflows.
                             </p>
                         </li>
+                        <li class="card" data-status="available" data-tags="sharing,content share,portals,links,folders,settings,orbs">
+                            <div class="icn">🔮</div>
+                            <h3 class="mt-3 font-semibold">Content Sharing <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Hand avatars, props, links, text, library folders, settings and world portals to the people around you as shareable orbs.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="favourites,favorites,settings,quick access">
+                            <div class="icn">⭐</div>
+                            <h3 class="mt-3 font-semibold">Favourites <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Pin the settings you change most so they are one tap away.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="servers,directory,connect,host,panel,optional">
+                            <div class="icn">🗂️</div>
+                            <h3 class="mt-3 font-semibold">Servers Panel <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                A server directory with connect and host controls. It is an optional package, so an app can ship without it.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="wip" data-tags="freehand,radial,hand menu,props,api">
+                            <div class="icn">🌸</div>
+                            <h3 class="mt-3 font-semibold">Freehand Menu <em class="status wip">In Progress</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                A radial hand menu, with a direct-call API that props can use to add their own entries.
+                            </p>
+                        </li>
+
                     </ul>
                 </section>
 
@@ -893,16 +1005,16 @@
                         </li>
                         <li class="card" data-status="available" data-tags="video,media player,rtsp,rtmp,hardware decode,streaming">
                             <div class="icn">🎬</div>
-                            <h3 class="mt-3 font-semibold">Live Video Player <em class="status available">Available</em></h3>
+                            <h3 class="mt-3 font-semibold">Media Player <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                                Hardware-decoded live video (RTSP/RTMP/MPEG-TS/fMP4) straight into a zero-copy GPU texture via OS codecs — no transcode server. Windows, Android, and Linux backends today.
+                                Live and on-demand video and audio. A Rust engine decodes on the platform&#39;s hardware decoders straight into a GPU texture, with per-speaker audio, captions and subtitles, playlists, and late-join sync. Windows, Android and Linux today. An optional yt-dlp bolt-on resolves page URLs to streams.
                             </p>
                         </li>
                         <li class="card" data-status="available" data-tags="cilbox,sandbox,scripting,security,cil,untrusted">
                             <div class="icn">🧪</div>
                             <h3 class="mt-3 font-semibold">Sandboxed Scripting (CILBox) <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                                A CIL (C#) interpreter sandbox runs untrusted world/avatar/prop scripts behind a whitelisted API, so community content can ship logic safely.
+                                A CIL (C#) interpreter sandbox runs untrusted world/avatar/prop scripts behind a whitelisted API, so community content can ship logic safely. Shims cover input, haptics, audio, networking, saves, menus, compute shaders, renderer raycasts and more, and a built-in profiler shows what each script costs.
                             </p>
                         </li>
                         <li class="card" data-status="available" data-tags="console,debug,tools,diagnostics">
@@ -915,6 +1027,38 @@
                             <h3 class="mt-3 font-semibold">Audio-Reactive Worlds <em class="status available">Available</em></h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">AudioLink integration lets world and avatar shaders react to music and voice.</p>
                         </li>
+                        <li class="card" data-status="available" data-tags="screen share,desktop,window,h.264,streaming,audio">
+                            <div class="icn">🖥️</div>
+                            <h3 class="mt-3 font-semibold">Screen Share <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Share a display or window, with its sound, onto a screen in the world. Frames are hardware H.264 encoded and only sent to players looking at the screen.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="wip" data-tags="capture,blender,recording,machinima,export,animation">
+                            <div class="icn">🎬</div>
+                            <h3 class="mt-3 font-semibold">Scene Capture to Blender <em class="status wip">In Progress</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Record a scene (every avatar&#39;s bones, blend shapes, eyes and jiggle, the world and props with their materials, lights, cameras and mic audio) and rebuild it in Blender 4.2+ with the bundled importer.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="inspector,hierarchy,debug,tools,read only">
+                            <div class="icn">🔍</div>
+                            <h3 class="mt-3 font-semibold">Basis Inspector <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                A built-in prop that shows the running scene like the Unity hierarchy and inspector. Browse every loaded scene and read component values live. It is read only.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="creator guide,editor,docs,onboarding,sdk">
+                            <div class="icn">📘</div>
+                            <h3 class="mt-3 font-semibold">Creator Guide <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                An in-editor guide that walks creators through setting up and building avatars, worlds and props.
+                            </p>
+                        </li>
+
                     </ul>
                 </section>
 
@@ -989,6 +1133,30 @@
                                 Hardware face/eye-tracking integrations supported by the avatar driver stack.
                             </p>
                         </li>
+                        <li class="card" data-status="available" data-tags="meta,quest,body tracking,full body,openxr,no trackers">
+                            <div class="icn">🧍</div>
+                            <h3 class="mt-3 font-semibold">Meta Body Tracking <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Quest headsets drive full body from Meta&#39;s OpenXR body tracking, with no physical trackers. Works on standalone and over Link.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="slimevr,solarxr,trackers,measurements,calibration">
+                            <div class="icn">🦴</div>
+                            <h3 class="mt-3 font-semibold">SlimeVR Integration <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Reads your body measurements from a running SlimeVR server, so eye height, arm span and proportions are applied with no manual height calibration. Tracker status and battery levels come along too.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="wip" data-tags="web,webxr,webgpu,browser,player">
+                            <div class="icn">🌍</div>
+                            <h3 class="mt-3 font-semibold">Web Player &amp; WebXR <em class="status wip">In Progress</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                A browser build of Basis, with immersive VR through WebXR and WebGPU.
+                            </p>
+                        </li>
+
                     </ul>
                 </section>
 
@@ -1038,11 +1206,51 @@
                                 We've optimized the renderer for VR.
                             </p>
                         </li>
-                        <li class="card" data-status="planned" data-tags="validation,upgrade guides,compatibility docs">
+                        <li class="card" data-status="available" data-tags="validation,upgrade guides,compatibility docs">
                             <div class="icn">📚</div>
-                            <h3 class="mt-3 font-semibold">Version Compatibility Guides <em class="status planned">Planned</em></h3>
-                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Clear docs on supported versions, upgrade paths, and caveats.</p>
+                            <h3 class="mt-3 font-semibold">Version Compatibility Guides <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300"><a href="https://github.com/BasisVR/Basis/blob/developer/UPGRADING.md" target="_blank" rel="noopener" class="underline hover:text-brand">UPGRADING.md</a> covers moving Basis between Unity versions, the URP fork merge, and the known traps.</p>
                         </li>
+                        <li class="card" data-status="available" data-tags="global illumination,gi,radiance cascades,ray tracing,path tracing,bounce light">
+                            <div class="icn">💡</div>
+                            <h3 class="mt-3 font-semibold">Real-Time Global Illumination <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Bounce light with no lightmap bake, in screen space, radiance cascades, or ray traced modes, sharing one denoiser. A path-traced mode runs in a separate process outside Unity.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="rtao,ambient occlusion,ray tracing,gtao,specular occlusion">
+                            <div class="icn">🌑</div>
+                            <h3 class="mt-3 font-semibold">Ray Traced Ambient Occlusion <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Ray traced AO against a scene acceleration structure, with temporal denoising and one dispatch for both VR eyes.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="reflections,ssr,ray traced reflections,specular">
+                            <div class="icn">🪞</div>
+                            <h3 class="mt-3 font-semibold">Screen-Space &amp; Ray Traced Reflections <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Screen-space and ray traced reflections that run through the same denoiser as global illumination.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="upscaling,dlss,fsr,fsr 2,fsr 3,fsr 4,temporal">
+                            <div class="icn">🔼</div>
+                            <h3 class="mt-3 font-semibold">DLSS &amp; FSR Upscaling <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Temporal upscaling with DLSS and FSR 2, 3 and 4.
+                            </p>
+                        </li>
+
+                        <li class="card" data-status="available" data-tags="vrs,variable rate shading,foveated rendering,dx11,dx12,vulkan">
+                            <div class="icn">🎯</div>
+                            <h3 class="mt-3 font-semibold">Foveated Rendering (VRS) <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Variable rate shading lowers shading cost in the edges of your view, on DX11 as well as newer APIs.
+                            </p>
+                        </li>
+
                     </ul>
                 </section>
 
@@ -1149,6 +1357,14 @@
                                 Basis Encrypted Extension with support for range requests.
                             </p>
                         </li>
+                        <li class="card" data-status="available" data-tags="packages,registry,shaders,transports,community,install">
+                            <div class="icn">📚</div>
+                            <h3 class="mt-3 font-semibold">Package Registry <em class="status available">Available</em></h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                                Optional and community packages (shaders, transports, lighting, converters) install from the Basis <a href="/packages" class="underline hover:text-brand">package registry</a>.
+                            </p>
+                        </li>
+
                     </ul>
                 </section>
 
@@ -1286,6 +1502,18 @@
                                 <li class="mini-card" data-status="available" data-tags="modules,packages,architecture">
                                     Modular packages <em class="status available">Shipped</em>
                                 </li>
+                                <li class="mini-card" data-status="available" data-tags="global illumination,gi,ray tracing,rendering">
+                                    Real-time global illumination <em class="status available">Shipped</em>
+                                </li>
+                                <li class="mini-card" data-status="available" data-tags="screen share,media,video">
+                                    Screen share &amp; new media engine <em class="status available">Shipped</em>
+                                </li>
+                                <li class="mini-card" data-status="available" data-tags="meta,slimevr,body tracking,webcam">
+                                    Meta body, SlimeVR &amp; webcam body tracking <em class="status available">Shipped</em>
+                                </li>
+                                <li class="mini-card" data-status="available" data-tags="docs,compatibility,guides,upgrade">
+                                    Unity upgrade &amp; compatibility guide <em class="status available">Shipped</em>
+                                </li>
                             </ul>
                         </details>
 
@@ -1293,8 +1521,17 @@
                         <details class="accordion" open>
                             <summary>In Progress</summary>
                             <ul class="mt-3 grid gap-3 sm:grid-cols-2">
-                                <li class="mini-card" data-status="wip" data-tags="mediapipe,webcam,arm,tracking">
-                                    Webcam arm tracking <em class="status wip">WIP</em>
+                                <li class="mini-card" data-status="wip" data-tags="web,webxr,webgpu,browser">
+                                    Web player &amp; WebXR <em class="status wip">WIP</em>
+                                </li>
+                                <li class="mini-card" data-status="wip" data-tags="vrm,gltf,avatars">
+                                    VRM &amp; glTF avatars <em class="status wip">WIP</em>
+                                </li>
+                                <li class="mini-card" data-status="wip" data-tags="capture,blender">
+                                    Scene capture to Blender <em class="status wip">WIP</em>
+                                </li>
+                                <li class="mini-card" data-status="wip" data-tags="fingers,grasp,hinge,pickups,one handed">
+                                    Finger grasping, pickup hinges &amp; one-handed mode <em class="status wip">WIP</em>
                                 </li>
                                 <li class="mini-card" data-status="wip" data-tags="locomotion,movement,walk,fly">
                                     Locomotion modes <em class="status wip">WIP</em>
@@ -1314,12 +1551,6 @@
                             <ul class="mt-3 grid gap-3 sm:grid-cols-2">
                                 <li class="mini-card" data-status="planned" data-tags="ik,animation,improvements">
                                     Further IK improvements <em class="status planned">Planned</em>
-                                </li>
-                                <li class="mini-card" data-status="planned" data-tags="docs,compatibility">
-                                    Version compatibility docs <em class="status planned">Planned</em>
-                                </li>
-                                <li class="mini-card" data-status="planned" data-tags="guides,upgrade">
-                                    Upgrade guides for Unity LTS <em class="status planned">Planned</em>
                                 </li>
                                 <li class="mini-card" data-status="planned" data-tags="samples,templates">
                                     Expanded avatar/world samples <em class="status planned">Planned</em>
