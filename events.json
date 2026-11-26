@@ -1,0 +1,24 @@
+[
+  {
+    "id": "european-basis-meetup",
+    "title": "European Basis Meetup",
+    "description": "Basis Is a Framework and i have been bullied into this time by Europeans",
+    "start": "2026-11-28T20:00:00Z",
+    "end": "2026-11-28T21:00:00Z",
+    "repeat": "weekly",
+    "location": "Basis European Meetup",
+    "url": "https://discord.com/events/1239242259392757822/1512177749106757862",
+    "linkText": "View on Discord"
+  },
+  {
+    "id": "main-basis-testing-meetup",
+    "title": "Main Basis Testing Meetup",
+    "description": "Testing the latest changes to the Basis framework using a demo build. Check the Discord for details.",
+    "start": "2026-11-29T22:00:00Z",
+    "end": "2026-11-30T00:00:00Z",
+    "repeat": "weekly",
+    "location": "On Basis, Check Announcements for more information",
+    "url": "https://discord.com/events/1239242259392757822/1394115337091289169",
+    "linkText": "View on Discord"
+  }
+]
