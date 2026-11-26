@@ -317,6 +317,67 @@
           "updated": "2026-11-02"
         }
       }
+    },
+    "com.poiyomi.thryeditor": {
+      "versions": {
+        "2.74.4": {
+          "name": "com.poiyomi.thryeditor",
+          "displayName": "ThryEditor",
+          "version": "2.74.4",
+          "description": "Shader inspector used by Poiyomi Toon, with locking, presets and texture tools.",
+          "unity": "2021.3",
+          "license": "MIT",
+          "url": "https://github.com/poiyomi/ThryEditor.git",
+          "author": {
+            "name": "Thryrallo",
+            "url": "https://github.com/Thryrallo"
+          },
+          "icon": "🧰",
+          "category": "Developer Tools",
+          "source": "community",
+          "tags": [
+            "shader",
+            "inspector",
+            "editor",
+            "material"
+          ],
+          "stars": 5,
+          "forks": 4,
+          "updated": "2026-11-26"
+        }
+      }
+    },
+    "com.poiyomi.toon": {
+      "versions": {
+        "10.0.30": {
+          "name": "com.poiyomi.toon",
+          "displayName": "Poiyomi Toon",
+          "version": "10.0.30",
+          "description": "Feature-rich toon shaders for avatars and worlds, with URP versions of the main, World, Grab Pass and Lil Fur shaders.",
+          "unity": "2021.3",
+          "license": "MIT",
+          "dependencies": {
+            "com.poiyomi.thryeditor": "2.74.4"
+          },
+          "url": "https://github.com/poiyomi/PoiyomiToonShader.git",
+          "author": {
+            "name": "Poiyomi",
+            "url": "https://github.com/poiyomi"
+          },
+          "icon": "🎨",
+          "category": "Shaders",
+          "source": "community",
+          "tags": [
+            "toon",
+            "shader",
+            "material",
+            "urp"
+          ],
+          "stars": 1686,
+          "forks": 207,
+          "updated": "2026-11-26"
+        }
+      }
     }
   }
 }
