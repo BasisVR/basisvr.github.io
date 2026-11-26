@@ -17,7 +17,7 @@
     "unity": "2022.3",
     "license": "MIT",
     "version": "2.3.4",
-    "stars": 1614,
+    "stars": 1616,
     "forks": 186,
     "icon": "🎨",
     "updated": "2026-10-20"
@@ -252,7 +252,7 @@
     "stars": 543,
     "forks": 37,
     "icon": "🔆",
-    "updated": "2026-10-17"
+    "updated": "2026-11-26"
   },
   {
     "id": "com.basis.integration.ltcgi",
